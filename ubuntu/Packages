@@ -1,0 +1,11 @@
+Package: git-excess
+Version: 1.0.1custom22.04
+Architecture: amd64
+Maintainer: dilec <dilec.padovani@gmail.com>
+Filename: ./git-excess_1.0.1custom22.04_amd64.deb
+Size: 1588214
+MD5sum: c1f5698fe7d978674088b37cb5263595
+SHA1: 71f3612a7b1f5aec3fcce1f383cde59b675ef858
+SHA256: e3b305e92b8ecd228fb9a54fa868d77760baef64238e9bd43903126cc1837a3b
+Description: AN AMAZING TOOL TO DOWNLOAD
+
