@@ -1,0 +1,3 @@
+[submodule "git-excess"]
+	path = git-excess
+	url = https://github.com/appcove/git-excess
