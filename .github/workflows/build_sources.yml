@@ -24,7 +24,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: save private key from github_secrets
-        run: cat ${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }} > private_gpg.key
+        run: echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
 
       - name: import saved private key
         run: gpg --import private_gpg.key
