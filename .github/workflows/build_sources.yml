@@ -31,10 +31,5 @@ jobs:
       - name: show key
         run: gpg --list-keys
 
-      - name: inspect folder
-        run: ls
-
-      - name: inspect folder workflow
-        run: |
-          cd $GITHUB_WORKSPACE
-          ls
+      - name: run python git-excess builder
+        run: python3 build_scripts/git-ecxess.py
