@@ -22,7 +22,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
       - name: save private key from github_secrets and import it
         run: |
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
@@ -32,8 +31,10 @@ jobs:
       - name: show key
         run: gpg --list-keys
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: inspect folder
+        run: ls
+
+      - name: inspect folder workflow
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          cd $GITHUB_WORKSPACE
+          ls
