@@ -18,7 +18,7 @@ DESCRIPTION = "AN AMAZING TOOL TO DOWNLOAD"
 UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 
 def install_rust():
-    subprocess.run("apt update && apt install -y curl", shell=True)
+    subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run("curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y", shell=True)
     print("rusty")
     subprocess.run("source $HOME/.cargo/env",shell=True)
