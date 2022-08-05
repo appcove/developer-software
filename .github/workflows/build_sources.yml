@@ -32,4 +32,4 @@ jobs:
         run: gpg --list-keys
 
       - name: run python git-excess builder
-        run: python3 build_scripts/git-ecxess.py
+        run: python3 build_scripts/git-excess.py
