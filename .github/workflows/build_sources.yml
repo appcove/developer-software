@@ -28,10 +28,11 @@ jobs:
       - name: run python git-excess builder
         run: python3 build_scripts/git-excess.py
 
-      - name: reinitialise the ubuntu folder
+      - name: initialize the ubuntu folder
         run: |
           shopt -s globstar
           sudo rm -rf ubuntu/*
+          mkdir ubuntu
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
           find temp -name '*.deb' -exec mv {} ubuntu \;
           cd ubuntu
