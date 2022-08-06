@@ -43,7 +43,7 @@ jobs:
 
       # temp folder is created in the Py scripts
       - name: remove non .deb files from temp folder
-        run: rm -i !(*.deb)
+        run: find . -type f -not -name '*.deb' -delete
 
       - name: ls 2
         run: ls temp/
