@@ -54,7 +54,7 @@ jobs:
           git commit -m "Updated debs" -a
           git checkout website
           git rebase master
-          git push origin website
+          git push
 
       # - name: Push changes
       #   uses: ad-m/github-push-action@master
