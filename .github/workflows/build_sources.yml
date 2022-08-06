@@ -46,19 +46,25 @@ jobs:
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key
 
-      - name: Commit files
-        run: |
-          git config --local user.email "42103905+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add -A
-          echo 1
-          git commit -m "Updated debs"
-          echo 2
+      # - name: Commit files
+      #   run: |
+      #     git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
+      #     git config --local user.name "github-actions[bot]"
+      #     git add -A
+      #     echo 1
+      #     git commit -m "Updated debs"
+      #     echo 2
 
-          echo 3
+      #     echo 3
 
-          echo 4
-          git push
+      #     echo 4
+      #     git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated debs
+          branch: website
+          commit_options: "--no-verify --signoff"
+          push_options: "--force"
 
       # - name: Push changes
       #   uses: ad-m/github-push-action@master
