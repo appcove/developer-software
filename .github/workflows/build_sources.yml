@@ -45,5 +45,14 @@ jobs:
       - name: remove all non .deb files from temp folder
         run: find temp -type f -not -name '*.deb' -delete
 
-      - name: ls 2
-        run: ls temp/
+      - name: reinitialise the ubuntu folder
+        run: |
+          sudo rm -rf ubunutu/*
+          ls ubuntu
+          echo sopra
+          gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
+          ls ubuntu
+          echo sopra
+          find temp -name '*.deb' -exec mv {} ubuntu \;
+          ls ubuntu 
+          echo 3
