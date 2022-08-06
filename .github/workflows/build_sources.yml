@@ -42,8 +42,8 @@ jobs:
         run: python3 build_scripts/git-excess.py
 
       # temp folder is created in the Py scripts
-      - name: remove non .deb files from temp folder
-        run: find . -type f -not -name '*.deb' -delete
+      - name: remove all non .deb files from temp folder
+        run: find temp -type f -not -name '*.deb' -delete
 
       - name: ls 2
         run: ls temp/
