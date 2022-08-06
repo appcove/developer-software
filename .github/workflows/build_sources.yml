@@ -41,9 +41,9 @@ jobs:
       - name: run python git-excess builder
         run: python3 build_scripts/git-excess.py
 
+      # temp folder is created in the Py scripts
+      - name: remove non .deb files from temp folder
+        run: rm -i !(*.deb)
+
       - name: ls 2
-        run: |
-          ls
-          echo eccomi
-          cd temp
-          ls
+        run: ls temp/
