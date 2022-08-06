@@ -58,7 +58,7 @@ jobs:
           echo 3
           git rebase master
           echo 4
-          git push
+          git push --set-upstream origin website
 
       # - name: Push changes
       #   uses: ad-m/github-push-action@master
