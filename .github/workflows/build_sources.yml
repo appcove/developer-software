@@ -61,6 +61,6 @@ jobs:
       - name: ls 3
         run: |
           ls 
-          cd ..
+          cd ubuntu
           echo "sono up"
           ls
