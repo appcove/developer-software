@@ -48,7 +48,7 @@ jobs:
       - name: reinitialise the ubuntu folder
         run: |
           shopt -s globstar
-          sudo rm -rf ubunutu/*
+          sudo rm -rf ubuntu/*
           ls ubuntu
           echo sopra
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
