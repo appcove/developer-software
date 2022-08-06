@@ -30,6 +30,8 @@ jobs:
       # TO REMOVE (TEST PORPUSES)
       - name: show key
         run: gpg --list-keys
+      - name: ls
+        run: ls sources/git-excess
 
       - name: run python git-excess builder
         run: python3 build_scripts/git-excess.py

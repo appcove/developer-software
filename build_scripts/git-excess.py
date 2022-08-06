@@ -21,7 +21,7 @@ def install_rust():
     subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run("curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y", shell=True)
     print("rusty")
-    subprocess.run("source $HOME/.cargo/env",shell=True)
+    subprocess.run(". $HOME/.cargo/env",shell=True)
 
 def cargo_build_project():
     subprocess.run("cargo build --release", shell=True)
