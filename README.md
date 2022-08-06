@@ -1,7 +1,7 @@
 ## Installation
 ``` bash
 curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo apt-key add -
-sudo curl -s --compressed -o /etc/apt/sources.list.d/my_list_file.list "https://appcove.github.io/developer-software/ubuntu/my_list_file.list"
+sudo curl -s --compressed -o /etc/apt/sources.list.d/apcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/apcove-developer-software.list"
 sudo apt update
 ```
 
