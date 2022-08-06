@@ -34,7 +34,13 @@ jobs:
         run: gpg --list-keys
 
       - name: ls
-        run: ls
+        run: |
+          cd ..
+          ls
+          cd ..
+          ls
+          cd ..
+          ls
 
       - name: ls sources
         run: ls sources/
