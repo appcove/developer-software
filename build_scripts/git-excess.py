@@ -49,17 +49,15 @@ if __name__ == '__main__':
     # separate folder where deb package is built
     BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     # os.mkdir(f'/usr/local/src/{PACKAGE}', exist_ok=True) 
-    Path(f'{BUILD_FOLDER}/opt/{PACKAGE}').mkdir( parents=True, exist_ok=True)
+    Path(f'{BUILD_FOLDER}/usr/bin').mkdir( parents=True, exist_ok=True)
     print("hey")
 
-    shutil.copy(f"./target/release/git-sdif", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
-    print("hey 2")
-    shutil.copy(f"./target/release/git-srep", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
-    shutil.copy(f"./target/release/git-embed", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
-    shutil.copy(f"./target/release/egit", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
+    shutil.copy(f"./target/release/git-sdif", Path(f'{BUILD_FOLDER}/usr/bin/'))
+    shutil.copy(f"./target/release/git-srep", Path(f'{BUILD_FOLDER}/usr/bin/'))
+    shutil.copy(f"./target/release/git-embed", Path(f'{BUILD_FOLDER}/usr/bin/'))
+    shutil.copy(f"./target/release/egit", Path(f'{BUILD_FOLDER}/usr/bin/'))
  
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir( parents=True, exist_ok=True)
-    print("hey 3")
     os.chdir(f'{BUILD_FOLDER}')
     write_control_file(f"{BUILD_FOLDER}")
     create_deb_package(f"{BUILD_FOLDER}")
