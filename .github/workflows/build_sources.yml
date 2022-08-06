@@ -52,7 +52,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add -A
           git commit -m "Updated debs" -a
-          git push origin master:website
+          git push origin website
 
       # - name: Push changes
       #   uses: ad-m/github-push-action@master
