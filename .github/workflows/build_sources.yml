@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: recursive
           ref: website
-          persist-credentials: false 
+          persist-credentials: false
 
       - name: save private key from github_secrets and import it
         run: |
@@ -50,10 +50,10 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "Add changes" -a
+          git commit -m "Updated debs" -a
+          git push origin master:website
 
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: ${{ github.ref }}
