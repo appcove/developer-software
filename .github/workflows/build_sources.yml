@@ -34,8 +34,10 @@ jobs:
       - name: ls
         run: ls
 
-      - name: ls ubuntu
-        run: ls ubuntu/
+      - name: ls sources
+        run: ls sources/
+      - name: ls git
+        run: ls sources/git-excess
 
       - name: run python git-excess builder
         run: python3 build_scripts/git-excess.py
