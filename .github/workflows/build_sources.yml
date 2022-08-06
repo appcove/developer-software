@@ -33,18 +33,6 @@ jobs:
       - name: show key
         run: gpg --list-keys
 
-      - name: ls
-        run: |
-          cd ..
-          ls
-          echo "ciao 1"
-          cd ..
-          ls
-          echo "ciao 1"
-          cd ..
-          ls
-          echo "ciao 3"
-
       - name: ls sources
         run: ls sources/
       - name: ls git
@@ -52,3 +40,10 @@ jobs:
 
       - name: run python git-excess builder
         run: python3 build_scripts/git-excess.py
+
+      - name: ls 2
+        run: |
+          ls
+          echo eccomi
+          cd temp
+          ls
