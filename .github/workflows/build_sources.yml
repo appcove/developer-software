@@ -56,7 +56,7 @@ jobs:
           echo "deb https://appcove.github.io/developer-software/ubuntu ./" > aapcove-developer-software.list
 
       - name: Remove `temp` dir
-        run: rm ../temp
+        run: rm temp
 
       - name: ls 3
         run: |
