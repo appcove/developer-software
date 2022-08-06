@@ -47,7 +47,7 @@ if __name__ == '__main__':
     cargo_build_project() 
 
     # separate folder where deb package is built
-    BUILD_FOLDER = f"/usr/local/src/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     # os.mkdir(f'/usr/local/src/{PACKAGE}', exist_ok=True) 
     Path(f'{BUILD_FOLDER}/opt/{PACKAGE}').mkdir( parents=True, exist_ok=True)
     print("hey")
