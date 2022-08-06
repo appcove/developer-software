@@ -20,7 +20,6 @@ UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 def install_rust():
     subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run("curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y", shell=True)
-    print("rusty")
     subprocess.run(". $HOME/.cargo/env",shell=True)
 
 def cargo_build_project():
@@ -50,15 +49,17 @@ if __name__ == '__main__':
     # separate folder where deb package is built
     BUILD_FOLDER = f"/usr/local/src/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     # os.mkdir(f'/usr/local/src/{PACKAGE}', exist_ok=True) 
-    print("hey")
     Path(f'{BUILD_FOLDER}/opt/{PACKAGE}').mkdir( parents=True, exist_ok=True)
+    print("hey")
 
     shutil.copy(f"./target/release/git-sdif", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
+    print("hey 2")
     shutil.copy(f"./target/release/git-srep", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
     shutil.copy(f"./target/release/git-embed", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
     shutil.copy(f"./target/release/egit", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
  
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir( parents=True, exist_ok=True)
+    print("hey 3")
     os.chdir(f'{BUILD_FOLDER}')
     write_control_file(f"{BUILD_FOLDER}")
     create_deb_package(f"{BUILD_FOLDER}")
