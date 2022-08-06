@@ -56,7 +56,7 @@ jobs:
           git checkout -b website
           ls
           echo "ls 1"
-          git rebase master
+          git merge master
           ls
           echo "ls 2" 
           ls
