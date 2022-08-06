@@ -48,6 +48,7 @@ jobs:
 
       - name: Commit files
         run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Updated debs
