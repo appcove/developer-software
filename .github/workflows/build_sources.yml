@@ -37,10 +37,13 @@ jobs:
         run: |
           cd ..
           ls
+          echo "ciao 1"
           cd ..
           ls
+          echo "ciao 1"
           cd ..
           ls
+          echo "ciao 3"
 
       - name: ls sources
         run: ls sources/
