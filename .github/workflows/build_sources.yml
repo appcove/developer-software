@@ -53,6 +53,7 @@ jobs:
         with:
           commit_message: Updated debs
           branch: website
+          push_options: "--force"
 
       # - name: Push changes
       #   uses: ad-m/github-push-action@master
