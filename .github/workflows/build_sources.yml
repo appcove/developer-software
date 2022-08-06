@@ -52,6 +52,8 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add -A
           git commit -m "Updated debs" -a
+          git checkout website
+          git rebase master
           git push origin website
 
       # - name: Push changes
