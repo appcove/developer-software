@@ -53,8 +53,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git add -A
           git commit -m "Updated debs"
-          git push origin --delete website
-          git checkout -B website
+          git checkout website
           ls
           echo "ls 1"
           git rebase master
