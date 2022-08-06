@@ -49,10 +49,10 @@ if __name__ == '__main__':
     # separate folder where deb package is built
     BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     # os.mkdir(f'/usr/local/src/{PACKAGE}', exist_ok=True) 
-    Path(f'{BUILD_FOLDER}/opt/{PACKAGE}').mkdir( parents=True, exist_ok=True)
+    Path(f'{BUILD_FOLDER}/usr/bin').mkdir( parents=True, exist_ok=True)
     print("hey")
 
-    shutil.copy(f"./target/release/pastel", Path(f'{BUILD_FOLDER}/opt/{PACKAGE}/'))
+    shutil.copy(f"./target/release/pastel", Path(f'{BUILD_FOLDER}/usr/bin'))
     
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir( parents=True, exist_ok=True)
     os.chdir(f'{BUILD_FOLDER}')
