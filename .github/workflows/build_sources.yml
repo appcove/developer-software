@@ -47,6 +47,7 @@ jobs:
 
       - name: reinitialise the ubuntu folder
         run: |
+          shopt -s globstar
           sudo rm -rf ubunutu/*
           ls ubuntu
           echo sopra
