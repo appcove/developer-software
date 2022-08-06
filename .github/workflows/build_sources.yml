@@ -49,11 +49,12 @@ jobs:
         run: |
           shopt -s globstar
           sudo rm -rf ubuntu/*
-          ls ubuntu
-          echo sopra
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
-          ls ubuntu
-          echo sopra
           find temp -name '*.deb' -exec mv {} ubuntu \;
-          ls ubuntu 
-          echo 3
+          cd ubuntu
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          apt-ftparchive release . > Release
+          gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
+          gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
+          echo "deb https://appcove.github.io/developer-software/ubuntu ./" > aapcove-developer-software.list
