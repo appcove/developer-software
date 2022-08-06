@@ -51,9 +51,13 @@ jobs:
           git config --local user.email "42103905+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -A
+          echo 1
           git commit -m "Updated debs"
+          echo 2
           git checkout website
+          echo 3
           git rebase master
+          echo 4
           git push
 
       # - name: Push changes
