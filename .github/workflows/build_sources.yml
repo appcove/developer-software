@@ -54,7 +54,7 @@ jobs:
           echo 1
           git commit -m "Updated debs"
           echo 2
-          git checkout website
+          git checkout -B website
           echo 3
           git rebase master
           echo 4
