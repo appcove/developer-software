@@ -9,7 +9,7 @@ ARCHITECTURE = "amd64"
 # package should be the same as the source project folder
 PACKAGE = "git-excess" 
 VERSION = "1.0.1"
-MAINTAINER = "dilec <dilec.padovani@gmail.com>"
+MAINTAINER = "AppCove <developer-software@appcove.com>"
 DEPENDS = ""
 HOMEPAGE = ""
 DESCRIPTION = "AN AMAZING TOOL TO DOWNLOAD" 

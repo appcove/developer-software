@@ -9,7 +9,7 @@ ARCHITECTURE = "amd64"
 # package should be the same as the source project folder
 PACKAGE = "pastel" 
 VERSION = "0.9.0"
-MAINTAINER = ""
+MAINTAINER = "AppCove <developer-software@appcove.com>"
 DEPENDS = ""
 HOMEPAGE = "https://github.com/sharkdp/pastel/tree/3719824a56fb9eb92eb960068e513b95486756a7"
 DESCRIPTION = "pastel is a command-line tool to generate, analyze, convert and manipulate colors. It supports many different color formats and color spaces like RGB (sRGB), HSL, CIELAB, CIELCh as well as ANSI 8-bit and 24-bit representations." 
