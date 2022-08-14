@@ -34,10 +34,10 @@ jobs:
         run: |
           shopt -s globstar
           sudo rm -rf ubuntu/*
-          mkdir -p ubuntu/jammy/main
+          mkdir -p ubuntu/jammy
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
-          find temp -name '*.deb' -exec mv {} ubuntu/jammy/main \;
-          cd ubuntu/jammy/main
+          find temp -name '*.deb' -exec mv {} ubuntu/jammy \;
+          cd ubuntu/jammy
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
