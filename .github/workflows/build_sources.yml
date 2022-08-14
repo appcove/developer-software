@@ -53,9 +53,9 @@ jobs:
           git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout -b website
           git add -A
           git commit -m "Updated debs"
-          git checkout -b website
           git push --set-upstream origin website
       #    echo copio
       #    git checkout master -- ubuntu
