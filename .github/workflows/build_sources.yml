@@ -30,20 +30,20 @@ jobs:
           python3 build_scripts/git-excess.py
           python3 build_scripts/pastel.py
 
-      - name: initialize the ubuntu folder
+      - name: initialize the ubuntu folder for Ubuntu 22.04 (Jammy)
         run: |
           shopt -s globstar
           sudo rm -rf ubuntu/*
-          mkdir ubuntu
+          mkdir -p ubuntu/jammy/main
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
-          find temp -name '*.deb' -exec mv {} ubuntu \;
-          cd ubuntu
+          find temp -name '*.deb' -exec mv {} ubuntu/jammy/main \;
+          cd ubuntu/jammy/main
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
-          echo "deb [signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu ./" > appcove-developer-software.list
+          echo "deb [signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main" > appcove-developer-software.list
 
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key
