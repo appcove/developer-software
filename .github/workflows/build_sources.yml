@@ -40,11 +40,11 @@ jobs:
           cd ubuntu/dists/jammy/main/binary-amd64
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
-          cd ../../
           apt-ftparchive release . > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
           echo "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main" > appcove-developer-software.list
+          mv Release Release.gpg InRelease appcove-developer-software.list ../../
 
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key
