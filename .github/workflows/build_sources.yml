@@ -57,6 +57,7 @@ jobs:
           git commit -m "Updated debs"
           git checkout -b website
           git rebase --no-ff master
+          git pull
           git push --set-upstream origin website
 
       # - uses: stefanzweifel/git-auto-commit-action@v4
