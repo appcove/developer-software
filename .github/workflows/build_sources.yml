@@ -56,10 +56,9 @@ jobs:
           git add -A
           git commit -m "Updated debs"
           git checkout -b website
-          echo copio
-          git checkout master -- ubuntu
-         
           git push --set-upstream origin website
+      #    echo copio
+      #    git checkout master -- ubuntu
           
       #    git rebase --no-ff master
       # echo a
