@@ -27,5 +27,6 @@ def write_control_file(path):
         f.write(f'Homepage: {HOMEPAGE}\n')
         f.write(f'Description: {DESCRIPTION}\n')
 
+        
 def create_deb_package(path): 
     subprocess.run(f"dpkg --build {path}", shell=True)
