@@ -34,15 +34,15 @@ jobs:
         run: |
           shopt -s globstar
           sudo rm -rf ubuntu/*
-          mkdir -p ubuntu/jammy
+          mkdir -p ubuntu/dists/jammy/main/binary-amd64
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
-          find temp -name '*.deb' -exec mv {} ubuntu/jammy \;
-          cd ubuntu/jammy
+          find temp -name '*.deb' -exec mv {} ubuntu/dists/jammy/main/binary-amd64 \;
+          cd ubuntu/dists/jammy/main/binary-amd64
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
-          apt-ftparchive release . > Release
-          gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
-          gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
+          apt-ftparchive release . > ../../Release
+          gpg --default-key "developer-software@appcove.com" -abs -o - Release > ../../Release.gpg
+          gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > ../../InRelease
           echo "deb [signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main" > appcove-developer-software.list
 
       - name: Remove `temp` dir and remove private key
