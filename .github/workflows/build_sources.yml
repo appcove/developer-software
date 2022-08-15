@@ -41,7 +41,8 @@ jobs:
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           cd ../../
-          apt-ftparchive release . > Release
+          echo "APT::FTPArchive::Release{Origin "ubuntu";Label "ubuntu";Suite "jammy";Codename "jammy";Architectures "amd64";Components "main";Description "Ubuntu Jammy 22.04";};" > ftp_release.conf
+          apt-ftparchive release -c=ftp_release.conf ./ > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
           echo "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu ./jammy main" > appcove-developer-software.list
