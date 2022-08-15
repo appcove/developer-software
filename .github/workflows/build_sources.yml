@@ -36,7 +36,7 @@ jobs:
           mkdir -p ubuntu/dists/jammy/main/binary-amd64
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
           find temp -name '*.deb' -exec mv {} ubuntu/dists/jammy/main/binary-amd64 \;
-          ar t ubuntu/dists/jammy/main/binary-amd64/git-excess
+          ar t ubuntu/dists/jammy/main/binary-amd64/git-excess.deb
           cd ubuntu/
           dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64/Packages
           cd dists/jammy
