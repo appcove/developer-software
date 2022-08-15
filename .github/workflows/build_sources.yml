@@ -38,7 +38,7 @@ jobs:
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
           find temp -name '*.deb' -exec mv {} ubuntu/dists/jammy/main/binary-amd64 \;
           cd ubuntu/dists/jammy
-          dpkg-scanpackages --multiversion . > ./main/binary-amd64/Packages
+          dpkg-scanpackages --arch arm64 . > ./main/binary-amd64/Packages
           gzip -k -f ./main/binary-amd64/Packages > ./main/binary-amd64/Packages.gz
           echo -e "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64" > ./main/binary-amd64/Release
           
@@ -47,7 +47,7 @@ jobs:
           apt-ftparchive release -c=ftp_release.conf . > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
-          echo "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu ./jammy main" > appcove-developer-software.list
+          echo "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main" > appcove-developer-software.list
 
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key
