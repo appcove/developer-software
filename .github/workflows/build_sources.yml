@@ -39,7 +39,7 @@ jobs:
           find temp -name '*.deb' -exec mv {} ubuntu/dists/jammy/main/binary-amd64 \;
           cd ubuntu/dists/jammy
           dpkg-scanpackages --multiversion . > ./main/binary-amd64/Packages
-          gzip -k -f Packages > ./main/binary-amd64/
+          gzip -k -f Packages > ./main/binary-amd64/Packages.gz
           
           echo -e "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};" > ftp_release.conf
           cat ftp_release.conf
