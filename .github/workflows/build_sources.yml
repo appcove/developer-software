@@ -40,6 +40,7 @@ jobs:
           cd ubuntu/dists/jammy
           dpkg-scanpackages --multiversion . > ./main/binary-amd64/Packages
           gzip -k -f ./main/binary-amd64/Packages > ./main/binary-amd64/Packages.gz
+          echo -e "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64" > ./main/binary-amd64/Release
           
           echo -e "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};" > ftp_release.conf
           cat ftp_release.conf
