@@ -27,21 +27,25 @@ jobs:
       - name: run python program builders
         run: |
           python3 build_scripts/git-excess.py
-          python3 build_scripts/pastel.py
-      - name: initialize the ubuntu folder
+      - name: initialize the ubuntu folder for Ubuntu 22.04 (Jammy)
         run: |
           shopt -s globstar
           sudo rm -rf ubuntu/*
-          mkdir ubuntu
+          mkdir -p ubuntu/dists/jammy/main/binary-amd64
           gpg --armor --export "developer-software@appcove.com" > ubuntu/KEY.gpg
-          find temp -name '*.deb' -exec mv {} ubuntu \;
-          cd ubuntu
-          dpkg-scanpackages --multiversion . > Packages
-          gzip -k -f Packages
-          apt-ftparchive release . > Release
+          find temp -name '*.deb' -exec mv {} ubuntu/dists/jammy/main/binary-amd64 \;
+          cd ubuntu/
+          dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64/Packages
+          cd dists/jammy
+          gzip -k -f ./main/binary-amd64/Packages > ./main/binary-amd64/Packages.gz
+          echo -e "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64" > ./main/binary-amd64/Release
+          
+          echo -e "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};" > ftp_release.conf
+          cat ftp_release.conf
+          apt-ftparchive release -c=ftp_release.conf . > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
-          echo "deb [signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu ./" > appcove-developer-software.list
+          echo "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main" > appcove-developer-software.list
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key
 
@@ -56,31 +60,3 @@ jobs:
           git add -A
           git commit -m "Updated debs"
           git push -f --set-upstream origin website
-      #    echo copio
-      #    git checkout master -- ubuntu
-          
-      #    git rebase --no-ff master
-      # echo a
-      #    git pull origin website --no-rebase
-      #    echo b
-      
-
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: Updated debs
-      #     branch: website
-      #     push_options: "--force"
-
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}
-
-# git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
-# git config --local user.name "github-actions[bot]"
-# git add -A
-# echo 1
-# git commit -m "Updated debs"
-# echo 2
-
-# echo 3
