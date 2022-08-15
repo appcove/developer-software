@@ -41,7 +41,8 @@ jobs:
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           cd ../../
-          echo "APT::FTPArchive::Release{Origin "ubuntu";Label "ubuntu";Suite "jammy";Codename "jammy";Architectures "amd64";Components "main";Description "Ubuntu Jammy 22.04";};" > ftp_release.conf
+          echo "APT::FTPArchive::Release{\nOrigin "ubuntu";\nLabel "ubuntu";\nSuite "jammy";\nCodename "jammy";\nArchitectures "amd64";\nComponents "main";\nDescription "Ubuntu Jammy 22.04";\n};" > ftp_release.conf
+          cat ftp_release.conf
           apt-ftparchive release -c=ftp_release.conf ./ > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
