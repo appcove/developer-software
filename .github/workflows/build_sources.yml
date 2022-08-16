@@ -27,7 +27,7 @@ jobs:
       - name: run python program builders
         run: |
           python3 build_scripts/git-excess.py
-          python3 build_script/pastel.py
+          python3 build_scripts/pastel.py
       - name: initialize the ubuntu folder for Ubuntu 22.04 (Jammy)
         run: |
           shopt -s globstar
