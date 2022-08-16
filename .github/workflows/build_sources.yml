@@ -58,6 +58,7 @@ jobs:
           git checkout --orphan website
           shopt -s extglob
           rm -r !(ubuntu|README.md)
+          rm -rf .*
           git add -A
           git commit -m "Updated debs"
           git push -f --set-upstream origin website
