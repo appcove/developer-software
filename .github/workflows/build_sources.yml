@@ -57,6 +57,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout --orphan website
           shopt -s extglob
+          shopt -s globstar
           rm -r !(ubuntu|README.md)
           rm -rf .*
           git add -A
