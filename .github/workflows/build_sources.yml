@@ -41,9 +41,8 @@ jobs:
           gzip -k -f ./main/binary-amd64/Packages > ./main/binary-amd64/Packages.gz
           echo -e "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64" > ./main/binary-amd64/Release
           
-          echo -e "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};" > ftp_release.conf
-          apt-ftparchive release -c=ftp_release.conf . > Release
-          rm ftp_release.conf
+         
+          apt-ftparchive release . > Release
           gpg --default-key "developer-software@appcove.com" -abs -o - Release > Release.gpg
           gpg --default-key "developer-software@appcove.com" --clearsign -o - Release > InRelease
           echo "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main" > appcove-developer-software.list
