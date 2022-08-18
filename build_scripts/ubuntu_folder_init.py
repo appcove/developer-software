@@ -40,4 +40,4 @@ ubuntu_folder_commands = [
 
 if __name__ == '__main__':
     for command in ubuntu_folder_commands:
-        subprocess.run(command, shell=True)
+        subprocess.run(command, check=True, shell=True)
