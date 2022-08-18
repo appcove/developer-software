@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 ubuntu_folder_commands = [
-    "shopt -s globstar",
+    # "shopt -s globstar",
 
     # initialise the PPA folder structure
     "mkdir -p ubuntu/dists/jammy/main/binary-amd64",
