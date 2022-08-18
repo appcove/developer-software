@@ -17,7 +17,7 @@ ubuntu_folder_commands = [
     "cd ubuntu/",
 
     # scans for the packages inside folder `binary-amd64`
-    "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64/Packages",
+    "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64",
     "cd dists/jammy",
 
     # compress the package file so apt can read it
