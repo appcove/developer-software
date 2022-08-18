@@ -17,14 +17,14 @@ ubuntu_folder_commands = [
     "cd ubuntu/",
 
     # scans for the packages inside folder `binary-amd64`
-    "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64/Packages",
+    "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > dists/jammy/main/binary-amd64/Packages",
     "cd dists/jammy",
 
     # compress the package file so apt can read it
-    "gzip -k -f ./main/binary-amd64/Packages > ./main/binary-amd64/Packages.gz",
+    "gzip -k -f ./main/binary-amd64/Packages > main/binary-amd64/Packages.gz",
 
     # help `apt-ftparchive` to understant how the folder are structured
-    "echo -e \"Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64\" > ./main/binary-amd64/Release",
+    "echo -e \"Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64\" > main/binary-amd64/Release",
     "echo -e \"APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};\" > ftp_release.conf",
     "apt-ftparchive release -c=ftp_release.conf . > Release",
     "rm ftp_release.conf",
