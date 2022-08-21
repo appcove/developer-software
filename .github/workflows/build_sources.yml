@@ -44,6 +44,6 @@ jobs:
           shopt -s extglob
           shopt -s globstar
           rm -r !(ubuntu|README.md)
-          git add ubuntu
+          git add -A
           git commit -m "Updated debs"
           git push -f --set-upstream origin website

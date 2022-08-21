@@ -42,8 +42,6 @@ ubuntu_folder_commands = [
 
 
 if __name__ == '__main__':
-    # for command in ubuntu_folder_commands:
-    #     subprocess.run(command, check=True, shell=True)
     Path(f'ubuntu/dists/jammy/main/binary-amd64').mkdir(parents=True, exist_ok=True)
 
     with open("ubuntu/KEY.gpg", 'wb') as key_file:
