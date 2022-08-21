@@ -1,6 +1,9 @@
 from imaplib import Commands
 import subprocess
 from pathlib import Path
+import shutil
+import glob
+import os
 
 
 ubuntu_folder_commands = [
@@ -17,7 +20,7 @@ ubuntu_folder_commands = [
     "cd ubuntu/",
 
     # scans for the packages inside folder `binary-amd64`
-    "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64",
+    "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64 > ./dists/jammy/main/binary-amd64/Packages",
     "cd dists/jammy",
 
     # compress the package file so apt can read it
@@ -39,5 +42,28 @@ ubuntu_folder_commands = [
 
 
 if __name__ == '__main__':
-    for command in ubuntu_folder_commands:
-        subprocess.run(command, check=True, shell=True, stderr=subprocess.STDOUT)
+    # for command in ubuntu_folder_commands:
+    #     subprocess.run(command, check=True, shell=True)
+    Path(f'ubuntu/dists/jammy/main/binary-amd64').mkdir(parents=True, exist_ok=True)
+
+    with open("ubuntu/KEY.gpg", 'wb') as key_file:
+        key = subprocess.check_output(
+            "gpg --armor --export \"developer-software@appcove.com\"", shell=True)
+        key_file.write(key)
+
+    for deb_file in glob.glob(r'temp/*.deb'):
+        shutil.move(deb_file, "ubuntu/dists/jammy/main/binary-amd64")
+
+    os.chdir("ubuntu")
+
+    with open("dists/jammy/main/binary-amd64/Packages", 'wb') as package_file:
+        packages = subprocess.check_output(
+            "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64", shell=True)
+        package_file.write(packages)
+
+    os.chdir("dists/jammy")
+
+    with open("main/binary-amd64/Packages.gz", 'wb') as file:
+        output = subprocess.check_output(
+            "gzip -k -f ./main/binary-amd64/Packages", shell=True)
+        file.write(output)
