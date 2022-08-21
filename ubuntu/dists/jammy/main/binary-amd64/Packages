@@ -1,0 +1,23 @@
+Package: git-excess
+Version: 1.0.1custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/git-excess_1.0.1custom22.04_amd64.deb
+Size: 1585772
+MD5sum: 0e31d5a772402ccb29adce8e7a344ee8
+SHA1: 959d99e4c0207bb5a525e3b038c026f4da96e67d
+SHA256: 8dd0d87f124cf4762a93fb79ffc38403de38f0fe6c289a65f3036335a9e8a397
+Description: AN AMAZING TOOL TO DOWNLOAD
+
+Package: pastel
+Version: 0.9.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/pastel_0.9.0custom22.04_amd64.deb
+Size: 1112432
+MD5sum: 699531997f0cc4e28d6eb02f9555beb4
+SHA1: 83f400e39c5367798ff44ba3c6c9074de5f2896a
+SHA256: 5834c876a2c64d665d706690d1c4c8d987be8fda6cda49b406702b3e3413baa5
+Homepage: https://github.com/sharkdp/pastel/tree/3719824a56fb9eb92eb960068e513b95486756a7
+Description: pastel is a command-line tool to generate, analyze, convert and manipulate colors. It supports many different color formats and color spaces like RGB (sRGB), HSL, CIELAB, CIELCh as well as ANSI 8-bit and 24-bit representations.
+
