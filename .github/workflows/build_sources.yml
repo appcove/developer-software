@@ -45,5 +45,6 @@ jobs:
           shopt -s globstar
           rm -r !(ubuntu|README.md)
           git add -A
+          git rm -rf .gitmodules .github .gitignore 
           git commit -m "Updated debs"
           git push -f --set-upstream origin website
