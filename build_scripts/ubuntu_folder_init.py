@@ -67,3 +67,31 @@ if __name__ == '__main__':
         output = subprocess.check_output(
             "gzip -k -f ./main/binary-amd64/Packages", shell=True)
         file.write(output)
+
+    with open("main/binary-amd64/Release", 'w') as file:
+        file.write(
+            "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64")
+
+    with open("ftp_release.conf", 'w') as file:
+        file.write(
+            "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};")
+
+    with open("Release", 'wb') as file:
+        output = subprocess.check_output(
+            "apt-ftparchive release -c=ftp_release.conf .", shell=True)
+        file.write(output)
+    os.remove("ftp_release.conf")
+
+    with open("Release.gpg", 'wb') as file:
+        output = subprocess.check_output(
+            "gpg --default-key \"developer-software@appcove.com\" -abs -o - Release", shell=True)
+        file.write(output)
+
+    with open("InRelease", 'wb') as file:
+        output = subprocess.check_output(
+            "gpg --default-key \"developer-software@appcove.com\" --clearsign -o - Release", shell=True)
+        file.write(output)
+
+    with open("appcove-developer-software.list", 'w') as file:
+        file.write(
+            "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main")
