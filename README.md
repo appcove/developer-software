@@ -23,4 +23,5 @@ cat /var/lib/apt/lists/appcove.github.io_developer-software_ubuntu_dists_jammy_m
 Should output
 - [git-excess](https://github.com/appcove/git-excess)
 - [pastel](https://github.com/sharkdp/pastel)
+- [fd](https://github.com/sharkdp/fd)
 
