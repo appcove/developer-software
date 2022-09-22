@@ -24,6 +24,10 @@ jobs:
         run: |
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
           gpg --import private_gpg.key
+
+      - name: ls scripts
+        run: ls build_scripts
+
       - name: run python program builders
         run: |
           python3 build_scripts/git-excess.py
