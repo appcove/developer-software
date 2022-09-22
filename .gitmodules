@@ -6,4 +6,4 @@
 	url = https://github.com/sharkdp/pastel
 [submodule "sources/fd"]
 	path = sources/fd
-	url = https://github.com/sharkdp/fd
+	url = https://github.com/sharkdp/fd.git
