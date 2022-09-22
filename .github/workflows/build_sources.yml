@@ -28,6 +28,7 @@ jobs:
         run: |
           python3 build_scripts/git-excess.py
           python3 build_scripts/pastel.py
+          python3 build_scripts/fd.py
 
       - name: initialize the ubuntu folder for Ubuntu 22.04 (Jammy)
         run: python3 build_scripts/ubuntu_folder_init.py

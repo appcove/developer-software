@@ -4,3 +4,6 @@
 [submodule "sources/pastel"]
 	path = sources/pastel
 	url = https://github.com/sharkdp/pastel
+[submodule "sources/fd"]
+	path = sources/fd
+	url = https://github.com/sharkdp/fd
