@@ -24,8 +24,8 @@ if __name__ == '__main__':
 
     BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     Path(f'{BUILD_FOLDER}/usr/bin').mkdir(parents=True, exist_ok=True)
-    shutil.copy(f"./target/release/fd-find",
-                Path(f'{BUILD_FOLDER}/usr/bin/fd'))
+    shutil.copy(f"./target/release/fd",
+                Path(f'{BUILD_FOLDER}/usr/bin'))
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     os.chdir(f'{BUILD_FOLDER}')
     write_control_file(BUILD_FOLDER, PACKAGE, VERSION, UBUNTU_VERSION,
