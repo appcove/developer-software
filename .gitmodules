@@ -7,3 +7,6 @@
 [submodule "sources/fd"]
 	path = sources/fd
 	url = https://github.com/sharkdp/fd.git
+[submodule "sources/bat"]
+	path = sources/bat
+	url = https://github.com/sharkdp/bat.git

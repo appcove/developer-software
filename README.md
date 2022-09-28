@@ -24,4 +24,4 @@ Should output
 - [git-excess](https://github.com/appcove/git-excess)
 - [pastel](https://github.com/sharkdp/pastel)
 - [fd](https://github.com/sharkdp/fd)
-
+- [bat](https://github.com/sharkdp/bat)
