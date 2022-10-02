@@ -41,10 +41,10 @@ if __name__ == "__main__":
 
     print(precompiled_tools_urls)
     # download precompiled tools' debs
-    BUILD_FOLDER = f"../../temp"
-    Path(f'{BUILD_FOLDER}/usr/bin').mkdir(parents=True, exist_ok=True)
+
+    Path(f'temp').mkdir(parents=True, exist_ok=True)
     for tool_url in precompiled_tools_urls:
         (package_name, deb_download_url) = get_latest_version_and_deb_file(tool_url)
         print((package_name, deb_download_url))
         response = requests.get(deb_download_url)
-        open(f"../../temp/{package_name}.deb", "wb+").write(response.content)
+        open(f"temp/{package_name}.deb", "wb+").write(response.content)
