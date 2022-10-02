@@ -32,6 +32,8 @@ jobs:
         run: |
           python3 build_scripts/git-excess.py
           python3 build_scripts/new.py
+      - name: print `temp` dir
+        run: ls temp
 
       - name: initialize the ubuntu folder for Ubuntu 22.04 (Jammy)
         run: python3 build_scripts/ubuntu_folder_init.py
