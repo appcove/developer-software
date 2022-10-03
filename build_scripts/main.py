@@ -2,6 +2,8 @@ import requests
 import json
 import re
 from pathlib import Path
+import subprocess
+import ubuntu_folder
 
 
 def get_latest_version_and_deb_file(git_repo_url: str):
@@ -38,6 +40,7 @@ if __name__ == "__main__":
     with open("included_tools.json", "r") as config_file:
         config_json = json.load(config_file)
         precompiled_tools_urls = config_json["precompiled_tools"]
+        to_compile_tools = config_json["to_be_compiled_tools"]
 
     print(precompiled_tools_urls)
     # download precompiled tools' debs
@@ -48,3 +51,8 @@ if __name__ == "__main__":
         print((package_name, deb_download_url))
         response = requests.get(deb_download_url)
         open(f"temp/{package_name}.deb", "wb+").write(response.content)
+
+    for tool_name in to_compile_tools:
+        subprocess.call(["python3", f"build_scripts/{tool_name}.py"])
+
+    ubuntu_folder.init_ubuntu_folder()

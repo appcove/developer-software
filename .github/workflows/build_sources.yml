@@ -25,18 +25,9 @@ jobs:
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
           gpg --import private_gpg.key
 
-      - name: ls scripts
-        run: ls build_scripts
-
       - name: run python program builders
         run: |
-          python3 build_scripts/git-excess.py
-          python3 build_scripts/new.py
-      - name: print `temp` dir
-        run: ls temp
-
-      - name: initialize the ubuntu folder for Ubuntu 22.04 (Jammy)
-        run: python3 build_scripts/ubuntu_folder_init.py
+          python3 build_scripts/main.py
 
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key

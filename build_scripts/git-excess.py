@@ -17,7 +17,7 @@ DESCRIPTION = "AN AMAZING TOOL TO DOWNLOAD"
 UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 
 
-if __name__ == '__main__':
+def install_git_excess():
     install_rust()
     os.chdir(f"sources/{PACKAGE}")
     cargo_build_project()
