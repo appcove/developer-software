@@ -53,6 +53,9 @@ if __name__ == "__main__":
         open(f"temp/{package_name}.deb", "wb+").write(response.content)
 
     for tool_name in to_compile_tools:
-        subprocess.call(["python3", f"build_scripts/{tool_name}.py"])
+        print(tool_name)
+        print("before")
+        subprocess.check_output(["python3", f"build_scripts/{tool_name}.py"])
+        print("after")
 
     ubuntu_folder.init_ubuntu_folder()
