@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import shutil
 from common import *
+import time
 
 # These are the equivalent of the control file attributes
 ARCHITECTURE = "amd64"
@@ -17,7 +18,7 @@ DESCRIPTION = "AN AMAZING TOOL TO DOWNLOAD"
 UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 
 
-def install_git_excess():
+if __name__ == "__main__":
     install_rust()
     os.chdir(f"sources/{PACKAGE}")
     cargo_build_project()
