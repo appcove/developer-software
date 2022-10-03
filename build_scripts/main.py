@@ -42,9 +42,7 @@ if __name__ == "__main__":
         precompiled_tools_urls = config_json["precompiled_tools"]
         to_compile_tools = config_json["to_be_compiled_tools"]
 
-    print(precompiled_tools_urls)
     # download precompiled tools' debs
-
     Path(f'temp').mkdir(parents=True, exist_ok=True)
     for tool_url in precompiled_tools_urls:
         (package_name, deb_download_url) = get_latest_version_and_deb_file(tool_url)
@@ -52,10 +50,8 @@ if __name__ == "__main__":
         response = requests.get(deb_download_url)
         open(f"temp/{package_name}.deb", "wb+").write(response.content)
 
+    # run custom scripts
     for tool_name in to_compile_tools:
-        print(tool_name)
-        print("before")
         subprocess.check_output(["python3", f"build_scripts/{tool_name}.py"])
-        print("after")
 
     ubuntu_folder.init_ubuntu_folder()
