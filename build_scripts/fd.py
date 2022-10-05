@@ -7,7 +7,7 @@ from common import *
 # These are the equivalent of the control file attributes
 ARCHITECTURE = "amd64"
 # package should be the same as the source project folder
-PACKAGE = "fd"
+PACKAGE = "ads-fd"
 VERSION = "8.4.0"
 MAINTAINER = "AppCove <developer-software@appcove.com>"
 DEPENDS = ""

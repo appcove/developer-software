@@ -7,7 +7,7 @@ from common import *
 # These are the equivalent of the control file attributes
 ARCHITECTURE = "amd64"
 # package should be the same as the source project folder
-PACKAGE = "bat"
+PACKAGE = "ads-bat"
 VERSION = "0.22.1"
 MAINTAINER = "AppCove <developer-software@appcove.com>"
 DEPENDS = ""

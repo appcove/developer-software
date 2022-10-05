@@ -7,7 +7,7 @@ from common import *
 # These are the equivalent of the control file attributes
 ARCHITECTURE = "amd64"
 # package should be the same as the source project folder
-PACKAGE = "pastel"
+PACKAGE = "ads-pastel"
 VERSION = "0.9.0"
 MAINTAINER = "AppCove <developer-software@appcove.com>"
 DEPENDS = ""
