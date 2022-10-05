@@ -32,4 +32,4 @@ def write_control_file(path, PACKAGE, VERSION, UBUNTU_VERSION, MAINTAINER, DEPEN
 
 
 def create_deb_package(path):
-    subprocess.run(f"dpkg --build {path}", shell=True)
+    subprocess.check_output(f"dpkg --build {path}", shell=True)
