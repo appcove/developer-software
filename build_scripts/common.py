@@ -21,7 +21,7 @@ def cargo_build_project():
 def write_control_file(path, PACKAGE, VERSION, UBUNTU_VERSION, MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION):
     print(f"{path}/DEBIAN/control")
 
-    with open(Path(f"{path}/DEBIAN/control"), 'w') as f:
+    with open(f"{path}/DEBIAN/control", 'w') as f:
         f.write(f'Package: {PACKAGE}\n')
         f.write(f'Version: {VERSION}custom{UBUNTU_VERSION}\n')
         f.write(f'Maintainer: {MAINTAINER}\n')
