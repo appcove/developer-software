@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 import subprocess
 import ubuntu_folder
+from common import install_rust
 
 
 # def get_latest_version_and_deb_file(git_repo_url: str):
@@ -37,6 +38,7 @@ import ubuntu_folder
 
 
 if __name__ == "__main__":
+    install_rust()
     with open("included_tools.json", "r") as config_file:
         config_json = json.load(config_file)
         # precompiled_tools_urls = config_json["precompiled_tools"]
