@@ -25,7 +25,7 @@ if __name__ == '__main__':
     with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
         release_file.write("export PATH=$PATH:/opt/ads/bin")
 
-    # add key and list file and create a new path
+    # add key and list file
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
         release_file.write("""
