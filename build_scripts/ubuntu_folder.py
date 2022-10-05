@@ -41,7 +41,10 @@ import os
 # ]
 
 
-def init_ubuntu_folder():
+# def init_ubuntu_folder():
+
+
+if __name__ == "__main__":
     Path(f'ubuntu/dists/jammy/main/binary-amd64').mkdir(parents=True, exist_ok=True)
 
     with open("ubuntu/KEY.gpg", 'wb') as key_file:
