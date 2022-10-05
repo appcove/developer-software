@@ -52,12 +52,19 @@ if __name__ == '__main__':
     curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
     sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
 
-    print(os.listdir(f'{BUILD_FOLDER}/DEBIAN'))
+    # print(os.listdir(f'{BUILD_FOLDER}/DEBIAN'))
+
     print("qui: " + str(os.listdir('.')))
-    os.chdir(f'{BUILD_FOLDER}')
-    print("qui2 " + str(os.listdir('.')))
+    print("temp: " + str(os.listdir('temp')))
+    print(
+        "pr: " + str(os.listdir(f'temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}')))
+
+    print(f'{BUILD_FOLDER}/DEBIAN/control' ==
+          f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}/DEBIAN/control")
+    open(f'{BUILD_FOLDER}/DEBIAN/control', 'a').close()
     with open(f'{BUILD_FOLDER}/DEBIAN/control', 'w') as f:
         f.write(f'Package: {PACKAGE}\n')
-    write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
+    write_control_file("BUILD_FOLDER", f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
+    os.chdir(f'{BUILD_FOLDER}')
     create_deb_package(f"{BUILD_FOLDER}")
