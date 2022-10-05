@@ -1,5 +1,7 @@
 from importlib.resources import Package
 import subprocess
+from subprocess import check_output, STDOUT, CalledProcessError
+
 import lsb_release
 import os
 from pathlib import Path
@@ -32,4 +34,8 @@ def write_control_file(path, PACKAGE, VERSION, UBUNTU_VERSION, MAINTAINER, DEPEN
 
 
 def create_deb_package(path):
-    subprocess.check_output(f"dpkg --build {path}", shell=True)
+    try:
+        subprocess.check_output(
+            f"dpkg --build {path}", shell=True, stderr=STDOUT)
+    except CalledProcessError as exc:
+        print(exc.output)
