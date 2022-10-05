@@ -53,9 +53,9 @@ if __name__ == '__main__':
     sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
 
     print(os.listdir(f'{BUILD_FOLDER}/DEBIAN'))
-    print("qui: " + os.listdir('.'))
+    print("qui: " + str(os.listdir('.')))
     os.chdir(f'{BUILD_FOLDER}')
-    print("qui2 " + os.listdir('.'))
+    print("qui2 " + str(os.listdir('.')))
     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
     create_deb_package(f"{BUILD_FOLDER}")
