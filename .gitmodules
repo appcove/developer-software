@@ -1,3 +1,12 @@
 [submodule "sources/git-excess"]
 	path = sources/git-excess
 	url = https://github.com/appcove/git-excess
+[submodule "sources/bat"]
+	path = sources/bat
+	url = https://github.com/sharkdp/bat.git
+[submodule "sources/fd"]
+	path = sources/fd
+	url = https://github.com/sharkdp/fd
+[submodule "sources/pastel"]
+	path = sources/pastel
+	url = https://github.com/sharkdp/pastel
