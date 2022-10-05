@@ -62,9 +62,9 @@ if __name__ == '__main__':
     print(f'{BUILD_FOLDER}/DEBIAN/control' ==
           f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}/DEBIAN/control")
     open(f'{BUILD_FOLDER}/DEBIAN/control', 'a').close()
-    with open(f'{BUILD_FOLDER}/DEBIAN/control', 'w') as f:
-        f.write(f'Package: {PACKAGE}\n')
+    os.chdir(f'{BUILD_FOLDER}')
     write_control_file(f"{BUILD_FOLDER}", f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
-    os.chdir(f'{BUILD_FOLDER}')
+    with open(f'{BUILD_FOLDER}/DEBIAN/control', 'r') as f:
+        print(f.read())
     create_deb_package(f"{BUILD_FOLDER}")
