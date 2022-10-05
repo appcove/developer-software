@@ -33,7 +33,7 @@ if __name__ == '__main__':
 curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
 sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
 
-    os.chdir(f'{BUILD_FOLDER}')
     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
+    os.chdir(f'{BUILD_FOLDER}')
     create_deb_package(f"{BUILD_FOLDER}")
