@@ -12,7 +12,7 @@ VERSION = "1.0.0"
 MAINTAINER = "AppCove <developer-software@appcove.com>"
 DEPENDS = ""
 HOMEPAGE = "https://github.com/appcove/developer-software"
-DESCRIPTION = "This package install the key inside the client and add files to path"
+DESCRIPTION = "This package install neccesary files for AppcoveDevSoftware"
 
 UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 
@@ -20,6 +20,7 @@ UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 if __name__ == '__main__':
 
     BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+
     # add path to bins
     Path(f'{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
     with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
