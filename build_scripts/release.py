@@ -22,7 +22,7 @@ if __name__ == '__main__':
     BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
 
     # add path to bins
-    Path(f'{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
+    Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
     with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
         release_file.write("export PATH=$PATH:/opt/ads/bin")
 
