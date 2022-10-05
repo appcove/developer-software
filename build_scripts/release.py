@@ -19,21 +19,22 @@ UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 
 if __name__ == '__main__':
 
-    BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    #     BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
 
-    # add path to bins
-    Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
-    with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
-        release_file.write("export PATH=$PATH:/opt/ads/bin")
+    #     # add path to bins
+    #     Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
+    #     with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
+    #         release_file.write("export PATH=$PATH:/opt/ads/bin")
 
-    # add key and list file
-    Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-    with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
-        release_file.write("""
-curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
+    #     # add key and list file
+    #     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
+    #     with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
+    #         release_file.write("""
+    # curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
+    # sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
 
-    os.chdir(f'{BUILD_FOLDER}')
-    write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
-                       MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
-    create_deb_package(f"{BUILD_FOLDER}")
+    #     os.chdir(f'{BUILD_FOLDER}')
+    #     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
+    #                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
+    #     create_deb_package(f"{BUILD_FOLDER}")
+    print("ciao")
