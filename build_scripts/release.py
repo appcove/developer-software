@@ -38,7 +38,7 @@ if __name__ == '__main__':
     #                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
     #     create_deb_package(f"{BUILD_FOLDER}")
 
-    BUILD_FOLDER = f"./temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
 
     # add path to bins
     Path(f'{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
@@ -56,6 +56,8 @@ if __name__ == '__main__':
     print("qui: " + str(os.listdir('.')))
     os.chdir(f'{BUILD_FOLDER}')
     print("qui2 " + str(os.listdir('.')))
+    with open(f"{BUILD_FOLDER}/DEBIAN/control", 'w') as f:
+        f.write(f'Package: {PACKAGE}\n')
     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
     create_deb_package(f"{BUILD_FOLDER}")
