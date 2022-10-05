@@ -39,3 +39,4 @@ def create_deb_package(path):
             f"dpkg --build {path}", shell=True, stderr=STDOUT)
     except CalledProcessError as exc:
         print(exc.output)
+        raise exc
