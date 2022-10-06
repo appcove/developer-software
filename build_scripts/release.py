@@ -19,52 +19,27 @@ UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 
 if __name__ == '__main__':
 
-    #     BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    os.chdir(f"sources/bat")
+    BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
 
-    #     # add path to bins
-    #     Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
-    #     with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
-    #         release_file.write("export PATH=$PATH:/opt/ads/bin")
-
-    #     # add key and list file
-    #     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-    #     with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
-    #         release_file.write("""
-    # curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-    # sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
-
-    #     os.chdir(f'{BUILD_FOLDER}')
-    #     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
-    #                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
-    #     create_deb_package(f"{BUILD_FOLDER}")
-
-    BUILD_FOLDER = f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    # Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
+    # shutil.copy(f"./target/release/bat",
+    #             Path(f'{BUILD_FOLDER}/opt/ads/bin'))
 
     # add path to bins
-    Path(f'{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
+    Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
     with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
         release_file.write("export PATH=$PATH:/opt/ads/bin")
 
-    # add key and list file
+        # add key and list file
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-    # with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
-    #     release_file.write("""
-    # curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-    # sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
+    with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
+        release_file.write("""
+curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
+sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list""")
 
-    # print(os.listdir(f'{BUILD_FOLDER}/DEBIAN'))
-
-    print("qui: " + str(os.listdir('.')))
-    print("temp: " + str(os.listdir('temp')))
-    print(
-        "pr: " + str(os.listdir(f'temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}')))
-
-    print(f'{BUILD_FOLDER}/DEBIAN/control' ==
-          f"temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}/DEBIAN/control")
-    open(f'{BUILD_FOLDER}/DEBIAN/control', 'a').close()
+    Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     os.chdir(f'{BUILD_FOLDER}')
-    write_control_file(f"{BUILD_FOLDER}", f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
+    write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
-    with open(f'{BUILD_FOLDER}/DEBIAN/control', 'r') as f:
-        print(f.read())
     create_deb_package(f"{BUILD_FOLDER}")
