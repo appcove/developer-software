@@ -36,7 +36,7 @@ if __name__ == '__main__':
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
         release_file.write("""
-curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
+curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg 
 sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list\"""")
 
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)

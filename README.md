@@ -10,9 +10,8 @@ sudo apt install -y curl gpg
 
 Download of the key and `source.list`
 ``` bash
-curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
 sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list"
-sudo apt update
+sudo apt update && sudo apt upgrade
 ```
 
 ### List of available Packages after installation
