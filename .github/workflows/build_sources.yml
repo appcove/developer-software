@@ -29,14 +29,6 @@ jobs:
         run: |
           python3 build_scripts/main.py
 
-      - name: release
-        run: |
-          python3 build_scripts/release.py
-
-      - name: ubunut dir
-        run: |
-          python3 build_scripts/ubuntu_folder.py
-
       - name: Remove `temp` dir and remove private key
         run: rm -rf temp private_gpg.key
 
