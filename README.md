@@ -11,7 +11,7 @@ sudo apt install -y curl gpg
 Download of the key and `source.list`
 ``` bash
 curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list"
+curl -sLO https://appcove.github.io/developer-software/ubuntu/dists/jammy/main/binary-amd64/release_1.0.0custom22.04_amd64.deb && sudo dpkg -i release_1.0.0custom22.04_amd64.deb
 sudo apt update
 ```
 
