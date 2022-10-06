@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import shutil
 from common import *
+import stat
 
 # These are the equivalent of the control file attributes
 ARCHITECTURE = "amd64"
@@ -43,4 +44,9 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
     os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 555)
+
+    st = os.stat(f'{BUILD_FOLDER}/DEBIAN/postinst')
+    oct_perm = oct(st.st_mode)
+    print(oct_perm)
+    print("***********************************************")
     create_deb_package(f"{BUILD_FOLDER}")
