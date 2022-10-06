@@ -42,4 +42,5 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
     os.chdir(f'{BUILD_FOLDER}')
     write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
+    os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 775)
     create_deb_package(f"{BUILD_FOLDER}")
