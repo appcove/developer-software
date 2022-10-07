@@ -16,12 +16,13 @@ Download of the key and `source.list`
 curl -sLO https://appcove.github.io/developer-software/ubuntu/dists/jammy/main/binary-amd64/ads-release_1.0.0custom22.04_amd64.deb && sudo dpkg -i ads-release_1.0.0custom22.04_amd64.deb
 sudo apt update
 ```
+❗**Log out and log back in for systemwide changes to be applied**, then try to install one of our tools: `sudo apt install git-excess`
+
 
 Install everything: 
 ```
 sudo apt install ads-git-excess ads-fd ads-pastel ads-bat
 ```
-log out and log back in for systemwide changes to be applied, then try to install one of our tools: `sudo apt install git-excess`
 ### List of available Packages after installation
 
 ``` bash
