@@ -13,7 +13,7 @@ Download of the key and `source.list`
 curl -sLO https://appcove.github.io/developer-software/ubuntu/dists/jammy/main/binary-amd64/release_1.0.0custom22.04_amd64.deb && sudo dpkg -i release_1.0.0custom22.04_amd64.deb
 sudo apt update && sudo apt upgrade
 ```
-
+log out and log back in for systemwide changes to be applied, then try to install one of our tools: `sudo apt install git-excess`
 ### List of available Packages after installation
 
 ``` bash
