@@ -23,7 +23,7 @@ if __name__ == "__main__":
     os.chdir(f"sources/{PACKAGE}")
     cargo_build_project()
 
-    BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    BUILD_FOLDER = f"../../temp/ads-{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     Path(f'{BUILD_FOLDER}/usr/bin').mkdir(parents=True, exist_ok=True)
 
     shutil.copy(f"./target/release/git-sdif", Path(f'{BUILD_FOLDER}/usr/bin/'))

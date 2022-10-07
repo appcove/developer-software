@@ -21,12 +21,12 @@ if __name__ == '__main__':
     os.chdir(f"sources/{PACKAGE}")
     cargo_build_project()
 
-    BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    BUILD_FOLDER = f"../../temp/ads-{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
     shutil.copy(f"./target/release/fd",
                 Path(f'{BUILD_FOLDER}/opt/ads/bin'))
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     os.chdir(f'{BUILD_FOLDER}')
-    write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
+    write_control_file(BUILD_FOLDER, PACKAGE, VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
     create_deb_package(f"{BUILD_FOLDER}")

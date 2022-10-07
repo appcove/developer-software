@@ -21,7 +21,7 @@ UBUNTU_VERSION = lsb_release.get_distro_information()["RELEASE"]
 if __name__ == '__main__':
 
     os.chdir(f"sources/bat")
-    BUILD_FOLDER = f"../../temp/{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
+    BUILD_FOLDER = f"../../temp/ads-{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
 
     # Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
     # shutil.copy(f"./target/release/bat",
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     # add path to bins
     Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
-    with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
+    with open(f'{BUILD_FOLDER}/etc/profile.d/10-release.sh', "w") as release_file:
         release_file.write("export PATH=$PATH:/opt/ads/bin")
 
         # add key and list file
@@ -41,12 +41,8 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
 
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     os.chdir(f'{BUILD_FOLDER}')
-    write_control_file(BUILD_FOLDER, f"asd-{PACKAGE}", VERSION, UBUNTU_VERSION,
+    write_control_file(BUILD_FOLDER, PACKAGE, VERSION, UBUNTU_VERSION,
                        MAINTAINER, DEPENDS, ARCHITECTURE, HOMEPAGE, DESCRIPTION)
     os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
-    st = os.stat(f'{BUILD_FOLDER}/DEBIAN/postinst')
-    oct_perm = oct(st.st_mode)
-    print(oct_perm)
-    print("***********************************************")
     create_deb_package(f"{BUILD_FOLDER}")

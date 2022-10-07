@@ -24,7 +24,7 @@ def write_control_file(path, PACKAGE, VERSION, UBUNTU_VERSION, MAINTAINER, DEPEN
     print(f"{path}/DEBIAN/control")
 
     with open(f"{path}/DEBIAN/control", 'w') as f:
-        f.write(f'Package: {PACKAGE}\n')
+        f.write(f'Package: ads-{PACKAGE}\n')
         f.write(f'Version: {VERSION}custom{UBUNTU_VERSION}\n')
         f.write(f'Maintainer: {MAINTAINER}\n')
         f.write(f'Depends: {DEPENDS}\n')
