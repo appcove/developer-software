@@ -19,7 +19,7 @@ sudo apt update
 
 Install everything: 
 ```
-sudo apt install git-excess ads-fd ads-pastel ads-bat
+sudo apt install ads-git-excess ads-fd ads-pastel ads-bat
 ```
 log out and log back in for systemwide changes to be applied, then try to install one of our tools: `sudo apt install git-excess`
 ### List of available Packages after installation
