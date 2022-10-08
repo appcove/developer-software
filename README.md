@@ -13,13 +13,14 @@ sudo apt install -y curl gpg
 
 Download of the key and `source.list`
 ``` bash
-curl -sLO https://appcove.github.io/developer-software/ubuntu/dists/jammy/main/binary-amd64/ads-release_1.0.0custom22.04_amd64.deb && sudo dpkg -i ads-release_1.0.0custom22.04_amd64.deb
+curl -sLO https://appcove.github.io/developer-software/ubuntu/dists/jammy/main/binary-amd64/ads-release_1.0.0custom22.04_amd64.deb
+sudo dpkg -i ads-release_1.0.0custom22.04_amd64.deb
 sudo apt update
 ```
 
 Install everything: 
 ```
-sudo apt install git-excess ads-fd ads-pastel ads-bat
+sudo apt install ads-git-excess ads-fd ads-pastel ads-bat
 ```
 log out and log back in for systemwide changes to be applied, then try to install one of our tools: `sudo apt install git-excess`
 ### List of available Packages after installation
@@ -28,7 +29,8 @@ log out and log back in for systemwide changes to be applied, then try to instal
 sudo apt list "ads-*"
 ```
 Should output
-- [git-excess](https://github.com/appcove/git-excess)
-- [pastel](https://github.com/sharkdp/pastel)
-- [fd](https://github.com/sharkdp/fd)
-- [bat](https://github.com/sharkdp/bat)
+- [ads-git-excess](https://github.com/appcove/git-excess)
+- [ads-pastel](https://github.com/sharkdp/pastel)
+- [ads-fd](https://github.com/sharkdp/fd)
+- [ads-bat](https://github.com/sharkdp/bat)
+- ads-release - This package installs the needed files for the PPA to work correctly

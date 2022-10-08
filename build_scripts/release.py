@@ -29,8 +29,8 @@ if __name__ == '__main__':
 
     # add path to bins
     Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
-    with open(f'{BUILD_FOLDER}/etc/profile.d/10-release.sh', "w") as release_file:
-        release_file.write("export PATH=$PATH:/opt/ads/bin")
+    with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
+        release_file.write("export PATH=\"$PATH:/opt/ads/bin\"")
 
         # add key and list file
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
