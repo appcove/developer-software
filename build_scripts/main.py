@@ -68,7 +68,7 @@ if __name__ == "__main__":
             ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True)
 
         print(current_submodule_hash)
-        print(cached_submodules_hashes[tool_name])
+        print(cached_submodules_hashes.get(tool_name))
 
         if cached_submodules_hashes.get(tool_name) in current_submodule_hash:
             # TODO: (check it) take deb from binary and insert into temp
