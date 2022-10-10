@@ -66,10 +66,11 @@ if __name__ == "__main__":
     for tool_name in to_compile_tools:
         current_submodule_hash = subprocess.run(
             ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True)
+
         print(current_submodule_hash)
         print(cached_submodules_hashes[tool_name])
 
-        if current_submodule_hash == cached_submodules_hashes[tool_name]:
+        if cached_submodules_hashes.get(tool_name) in current_submodule_hash:
             # TODO: (check it) take deb from binary and insert into temp
             cache_build_deb = subprocess.run(
                 f"git checkout website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*bat.*.deb$')", shell=True, capture_output=True)
