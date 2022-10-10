@@ -55,8 +55,11 @@ if __name__ == "__main__":
     subprocess.run(
         ["git", "checkout", "website", "--", "cache.yaml"], capture_output=True)
 
-    with open(r'cache.yaml') as cache_file:
-        cached_submodules_hashes = yaml.full_load(cache_file)
+    try:
+        with open(r'cache.yaml') as cache_file:
+            cached_submodules_hashes = yaml.full_load(cache_file)
+    except FileNotFoundError:
+        pass
 
     # run custom scripts
     for tool_name in to_compile_tools:
