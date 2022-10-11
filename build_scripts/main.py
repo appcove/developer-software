@@ -52,8 +52,8 @@ if __name__ == "__main__":
     Path(f'temp').mkdir(parents=True, exist_ok=True)
 
     # TODO: check it
-    subprocess.check_output(
-        ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
+    # subprocess.check_output(
+    #     ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
     try:
         with open(r'cache.yaml') as cache_file:
             cached_submodules_hashes = yaml.full_load(cache_file)
