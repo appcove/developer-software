@@ -19,3 +19,6 @@
 [submodule "sources/broot"]
 	path = sources/broot
 	url = https://github.com/Canop/broot.git
+[submodule "sources/exa"]
+	path = sources/exa
+	url = https://github.com/ogham/exa
