@@ -15,6 +15,7 @@
     "broot",
     "exa",
     "sd",
-    "dust"
+    "dust",
+    "ripgrep"
   ]
 }

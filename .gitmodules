@@ -28,3 +28,6 @@
 [submodule "sources/dust"]
 	path = sources/dust
 	url = https://github.com/bootandy/dust
+[submodule "sources/ripgrep"]
+	path = sources/ripgrep
+	url = https://github.com/BurntSushi/ripgrep
