@@ -69,8 +69,10 @@ if __name__ == "__main__":
 
         print(current_submodule_hash)
         print(cached_submodules_hashes.get(tool_name))
+        x = cached_submodules_hashes.get(tool_name)
+        a = str(current_submodule_hash).split()[0].removeprefix('-')
 
-        if cached_submodules_hashes.get(tool_name) == current_submodule_hash.split()[0].removeprefix('-'):
+        if x == a:
             # TODO: (check it) take deb from binary and insert into temp
             cache_build_deb = subprocess.run(
                 f"git checkout website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*bat.*.deb$')", shell=True, capture_output=True).stdout
