@@ -30,8 +30,11 @@ sudo apt install ads-git-excess ads-fd ads-pastel ads-bat
 sudo apt list "ads-*"
 ```
 Should output
+- ads-release - This package installs the needed files for the PPA to work correctly
 - [ads-git-excess](https://github.com/appcove/git-excess)
 - [ads-pastel](https://github.com/sharkdp/pastel)
 - [ads-fd](https://github.com/sharkdp/fd)
 - [ads-bat](https://github.com/sharkdp/bat)
-- ads-release - This package installs the needed files for the PPA to work correctly
+- [ads-procs](https://github.com/dalance/procs)
+- [ads-grex](https://github.com/pemistahl/grex)
+

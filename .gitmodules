@@ -10,3 +10,9 @@
 [submodule "sources/pastel"]
 	path = sources/pastel
 	url = https://github.com/sharkdp/pastel
+[submodule "sources/procs"]
+	path = sources/procs
+	url = https://github.com/dalance/procs.git
+[submodule "sources/grex"]
+	path = sources/grex
+	url = https://github.com/pemistahl/grex
