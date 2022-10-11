@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     # TODO: check it
     subprocess.check_output(
-        ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"], capture_output=True)
+        ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
     try:
         with open(r'cache.yaml') as cache_file:
             cached_submodules_hashes = yaml.full_load(cache_file)
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         current_submodule_hash = subprocess.run(
             ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout
         print(current_submodule_hash)
-        current_submodule_hash = str(current_submodule_hash).split()[
+        current_submodule_hash = str(current_submodule_hash.decode("utf-8")).split()[
             0]
         print(current_submodule_hash)
         print(cached_submodules_hashes.get(tool_name))
