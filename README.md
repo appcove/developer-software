@@ -37,4 +37,4 @@ Should output
 - [ads-bat](https://github.com/sharkdp/bat)
 - [ads-procs](https://github.com/dalance/procs) - Replacement for `ps` written in Rust.
 - [ads-grex](https://github.com/pemistahl/grex) - An intuitive regex generator meant to create expression based on user's input
-
+- [ads-broot](https://github.com/Canop/broot) - Navigate directories and list content in a tree, with a lot of additional features

@@ -16,3 +16,6 @@
 [submodule "sources/grex"]
 	path = sources/grex
 	url = https://github.com/pemistahl/grex
+[submodule "sources/broot"]
+	path = sources/broot
+	url = https://github.com/Canop/broot.git
