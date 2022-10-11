@@ -91,7 +91,7 @@ if __name__ == "__main__":
                 ["python3", f"build_scripts/{tool_name}.py"])
             cached_submodules_hashes[tool_name] = str(current_submodule_hash)
 
-    with open(r'cache.yaml', 'w+') as cache_file:
+    with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
         yaml.dump(cached_submodules_hashes, cache_file)
 
     ubuntu_folder.init_ubuntu_folder()
