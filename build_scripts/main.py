@@ -83,7 +83,7 @@ if __name__ == "__main__":
         else:
             subprocess.check_output(
                 ["python3", f"build_scripts/{tool_name}.py"])
-            cached_submodules_hashes[tool_name] == current_submodule_hash
+            cached_submodules_hashes[tool_name] = current_submodule_hash
 
     with open(r'cache.yaml', 'w+') as cache_file:
         yaml.dump(cached_submodules_hashes, cache_file)
