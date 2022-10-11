@@ -40,7 +40,7 @@ jobs:
           git checkout --orphan website
           shopt -s extglob
           shopt -s globstar
-          rm -r !(ubuntu|README.md)
+          rm -r !(ubuntu|README.md|cache.yaml)
           git add -A
           git rm -rf .gitmodules .github .gitignore 
           git commit -m "Updated debs"
