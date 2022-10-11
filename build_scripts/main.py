@@ -66,8 +66,11 @@ if __name__ == "__main__":
     for tool_name in to_compile_tools:
         current_submodule_hash = subprocess.run(
             ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout
-        current_submodule_hash = str(
-            current_submodule_hash.decode("utf-8")).split()[0]
+        try:
+            current_submodule_hash = str(
+                current_submodule_hash.decode("utf-8")).split()[0]
+        except IndexError:
+            current_submodule_hash = ""
 
         if cached_submodules_hashes.get(tool_name) == current_submodule_hash:
             print(f"{tool_name} ce lo abbiamo")
