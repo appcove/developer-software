@@ -51,7 +51,6 @@ if __name__ == "__main__":
 
     Path(f'temp').mkdir(parents=True, exist_ok=True)
 
-    # TODO: check it
     subprocess.run(
         ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
     try:
@@ -60,7 +59,6 @@ if __name__ == "__main__":
             print(cached_submodules_hashes)
     except FileNotFoundError:
         cached_submodules_hashes = {}
-        pass
 
     # run custom scripts
     for tool_name in to_compile_tools:
@@ -72,8 +70,8 @@ if __name__ == "__main__":
         except IndexError:
             current_submodule_hash = ""
 
-        if cached_submodules_hashes.get(tool_name) == current_submodule_hash:
-            print(f"{tool_name} ce lo abbiamo")
+        if cached_submodules_hashes.get(tool_name) == current_submodule_hash and current_submodule_hash != "":
+            print(f"{tool_name} from cache")
             cache_build_deb = subprocess.run(
                 f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool_name}.*.deb$')", shell=True, capture_output=True).stdout
             cache_build_deb = str(cache_build_deb)
