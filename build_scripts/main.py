@@ -52,7 +52,7 @@ if __name__ == "__main__":
     Path(f'temp').mkdir(parents=True, exist_ok=True)
 
     # TODO: check it
-    subprocess.run(
+    subprocess.check_output(
         ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"], capture_output=True)
     try:
         with open(r'cache.yaml') as cache_file:
@@ -65,14 +65,16 @@ if __name__ == "__main__":
 
     # run custom scripts
     for tool_name in to_compile_tools:
-        current_submodule_hash = str(subprocess.run(
-            ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout).split()[0].removeprefix('-')
-
+        current_submodule_hash = subprocess.run(
+            ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout
+        print(current_submodule_hash)
+        current_submodule_hash = str(current_submodule_hash).split()[
+            0]
         print(current_submodule_hash)
         print(cached_submodules_hashes.get(tool_name))
         x = cached_submodules_hashes.get(tool_name)
         a = current_submodule_hash
-        print("controllo dbg in {tool_name}")
+        print(f"controllo dbg in {tool_name}")
         print(x, a)
         print(x == a)
         if x == a:
