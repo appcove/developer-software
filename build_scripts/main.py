@@ -74,8 +74,9 @@ if __name__ == "__main__":
 
         if x == a:
             # TODO: (check it) take deb from binary and insert into temp
+            print(f"{tool_name} ce lo abbiamo")
             cache_build_deb = subprocess.run(
-                f"git checkout website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*bat.*.deb$')", shell=True, capture_output=True).stdout
+                f"git checkout website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool_name}.*.deb$')", shell=True, capture_output=True).stdout
             cache_build_deb = str(cache_build_deb)
             for deb_file in glob.glob(r'*.deb'):
                 shutil.move(deb_file, "temp")
