@@ -23,9 +23,6 @@ jobs:
 
       - name: get control
         run: |
-          git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git branch -a
           git checkout remotes/origin/website -- cache.yaml
 
