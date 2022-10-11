@@ -35,6 +35,6 @@ Should output
 - [ads-pastel](https://github.com/sharkdp/pastel)
 - [ads-fd](https://github.com/sharkdp/fd)
 - [ads-bat](https://github.com/sharkdp/bat)
-- [ads-procs](https://github.com/dalance/procs)
-- [ads-grex](https://github.com/pemistahl/grex)
+- [ads-procs](https://github.com/dalance/procs) - Replacement for `ps` written in Rust.
+- [ads-grex](https://github.com/pemistahl/grex) - An intuitive regex generator meant to create expression based on user's input
 
