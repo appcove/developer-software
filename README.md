@@ -40,3 +40,4 @@ Should output
 - [ads-broot](https://github.com/Canop/broot) - Navigate directories and list content in a tree, with a lot of additional features
 - [ads-exa](https://github.com/ogham/exa) - Modern replacement for the venerable file-listing command-line program ls
 - [ads-sd](https://github.com/chmln/sd) - An intuitive find & replace CLI.
+- [ads-sd](https://github.com/bootandy/dust) - Dust is a more intuitive version of `du`, used for displaying disk usage statistics.
