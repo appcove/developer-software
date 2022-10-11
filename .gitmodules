@@ -22,3 +22,6 @@
 [submodule "sources/exa"]
 	path = sources/exa
 	url = https://github.com/ogham/exa
+[submodule "sources/sd"]
+	path = sources/sd
+	url = https://github.com/chmln/sd

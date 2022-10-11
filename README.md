@@ -39,3 +39,4 @@ Should output
 - [ads-grex](https://github.com/pemistahl/grex) - An intuitive regex generator meant to create expression based on user's input
 - [ads-broot](https://github.com/Canop/broot) - Navigate directories and list content in a tree, with a lot of additional features
 - [ads-exa](https://github.com/ogham/exa) - Modern replacement for the venerable file-listing command-line program ls
+- [ads-sd](https://github.com/chmln/sd) - An intuitive find & replace CLI.
