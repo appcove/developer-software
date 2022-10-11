@@ -52,15 +52,14 @@ if __name__ == "__main__":
     Path(f'temp').mkdir(parents=True, exist_ok=True)
 
     # TODO: check it
-    # subprocess.check_output(
-    #     ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
+    subprocess.run(
+        ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
     try:
         with open(r'cache.yaml') as cache_file:
             cached_submodules_hashes = yaml.full_load(cache_file)
             print(cached_submodules_hashes)
     except FileNotFoundError:
         cached_submodules_hashes = {}
-        print("non ce nulla da vedere")
         pass
 
     # run custom scripts
@@ -74,9 +73,8 @@ if __name__ == "__main__":
         print(cached_submodules_hashes.get(tool_name))
         x = cached_submodules_hashes.get(tool_name)
         a = current_submodule_hash
-        print(f"controllo dbg in {tool_name}")
+        print(f"{tool_name}")
         print(x, a)
-        print(x == a)
         if x == a:
             # TODO: (check it) take deb from binary and insert into temp
             print(f"{tool_name} ce lo abbiamo")

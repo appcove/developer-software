@@ -28,8 +28,6 @@ jobs:
 
       - name: run python program builders
         run: |
-          git checkout remotes/origin/website -- cache.yaml
-          ls -a
           python3 build_scripts/main.py
 
       - name: Remove `temp` dir and remove private key
