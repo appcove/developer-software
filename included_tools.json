@@ -4,5 +4,5 @@
     "https://github.com/sharkdp/fd",
     "https://github.com/sharkdp/pastel"
   ],
-  "to_be_compiled_tools": ["bat", "fd", "pastel", "git-excess", "release"]
+  "to_be_compiled_tools": ["bat"]
 }

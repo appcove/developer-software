@@ -58,8 +58,10 @@ if __name__ == "__main__":
     try:
         with open(r'cache.yaml') as cache_file:
             cached_submodules_hashes = yaml.full_load(cache_file)
+            print(cached_submodules_hashes)
     except FileNotFoundError:
         cached_submodules_hashes = {}
+        print("non ce nulla da vedere")
         pass
 
     # run custom scripts
