@@ -66,24 +66,16 @@ if __name__ == "__main__":
     for tool_name in to_compile_tools:
         current_submodule_hash = subprocess.run(
             ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout
-        print(current_submodule_hash)
-        current_submodule_hash = str(current_submodule_hash.decode("utf-8")).split()[
-            0]
-        print(current_submodule_hash)
-        print(cached_submodules_hashes.get(tool_name))
-        x = cached_submodules_hashes.get(tool_name)
-        a = current_submodule_hash
-        print(f"{tool_name}")
-        print(x, a)
-        if x == a:
-            # TODO: (check it) take deb from binary and insert into temp
+        current_submodule_hash = str(
+            current_submodule_hash.decode("utf-8")).split()[0]
+
+        if cached_submodules_hashes.get(tool_name) == current_submodule_hash:
             print(f"{tool_name} ce lo abbiamo")
             cache_build_deb = subprocess.run(
                 f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool_name}.*.deb$')", shell=True, capture_output=True).stdout
             cache_build_deb = str(cache_build_deb)
             for deb_file in glob.glob(r'*.deb'):
                 shutil.move(deb_file, "temp")
-
         else:
             subprocess.check_output(
                 ["python3", f"build_scripts/{tool_name}.py"])
