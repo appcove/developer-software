@@ -65,7 +65,7 @@ if __name__ == "__main__":
     # run custom scripts
     for tool_name in to_compile_tools:
         current_submodule_hash = subprocess.run(
-            ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True)
+            ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout
 
         print(current_submodule_hash)
         print(cached_submodules_hashes.get(tool_name))
