@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     BUILD_FOLDER = f"../../temp/ads-{PACKAGE}_{VERSION}custom{UBUNTU_VERSION}_{ARCHITECTURE}"
     Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
-    shutil.copy(f"./target/release/ripgrep",
+    shutil.copy(f"./target/release/rg",
                 Path(f'{BUILD_FOLDER}/opt/ads/bin'))
     Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
     os.chdir(f'{BUILD_FOLDER}')
