@@ -31,3 +31,6 @@
 [submodule "sources/ripgrep"]
 	path = sources/ripgrep
 	url = https://github.com/BurntSushi/ripgrep
+[submodule "sources/bottom"]
+	path = sources/bottom
+	url = https://github.com/ClementTsang/bottom
