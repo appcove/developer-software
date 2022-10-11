@@ -71,7 +71,8 @@ if __name__ == "__main__":
         print(cached_submodules_hashes.get(tool_name))
         x = cached_submodules_hashes.get(tool_name)
         a = str(current_submodule_hash).split()[0].removeprefix('-')
-
+        print(x, a)
+        print(x == a)
         if x == a:
             # TODO: (check it) take deb from binary and insert into temp
             print(f"{tool_name} ce lo abbiamo")
