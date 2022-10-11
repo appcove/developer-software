@@ -27,9 +27,9 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git branch -a
-          git fetch origin website --depth 1
-          git branch -a
-          git checkout website -- cache.yaml
+          git checkout remotes/origin/website -- cache.yaml
+
+          echo "siamo qua"
           ls -a
           cat cache.yaml
 
