@@ -17,41 +17,31 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           submodules: recursive
           persist-credentials: false
 
-      - name: get control
+      - name: save private key from github_secrets and import it
         run: |
-          git branch -a
-          git checkout remotes/origin/website -- cache.yaml
+          echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
+          gpg --import private_gpg.key
 
-          echo "siamo qua"
-          ls -a
-          cat cache.yaml
+      - name: run python program builders
+        run: |
+          python3 build_scripts/main.py
 
-      # - name: save private key from github_secrets and import it
-      #   run: |
-      #     echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
-      #     gpg --import private_gpg.key
+      - name: Remove `temp` dir and remove private key
+        run: rm -rf temp private_gpg.key
 
-      # - name: run python program builders
-      #   run: |
-      #     python3 build_scripts/main.py
-
-      # - name: Remove `temp` dir and remove private key
-      #   run: rm -rf temp private_gpg.key
-
-      # - name: Commit files
-      #   run: |
-      #     git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
-      #     git config --local user.name "github-actions[bot]"
-      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-      #     git checkout --orphan website
-      #     shopt -s extglob
-      #     shopt -s globstar
-      #     rm -r !(ubuntu|README.md|cache.yaml)
-      #     git add -A
-      #     git rm -rf .gitmodules .github .gitignore
-      #     git commit -m "Updated debs"
-      #     git push -f --set-upstream origin website
+      - name: Commit files
+        run: |
+          git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout --orphan website
+          shopt -s extglob
+          shopt -s globstar
+          rm -r !(ubuntu|README.md|cache.yaml)
+          git add -A
+          git rm -rf .gitmodules .github .gitignore 
+          git commit -m "Updated debs"
+          git push -f --set-upstream origin website

@@ -53,8 +53,7 @@ if __name__ == "__main__":
 
     # TODO: check it
     subprocess.run(
-        ["git", "checkout", "website", "--", "cache.yaml"], capture_output=True)
-
+        ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"], capture_output=True)
     try:
         with open(r'cache.yaml') as cache_file:
             cached_submodules_hashes = yaml.full_load(cache_file)
@@ -66,20 +65,21 @@ if __name__ == "__main__":
 
     # run custom scripts
     for tool_name in to_compile_tools:
-        current_submodule_hash = subprocess.run(
-            ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout
+        current_submodule_hash = str(subprocess.run(
+            ["git", "submodule", "status", f"sources/{tool_name}"], capture_output=True).stdout).split()[0].removeprefix('-')
 
         print(current_submodule_hash)
         print(cached_submodules_hashes.get(tool_name))
         x = cached_submodules_hashes.get(tool_name)
-        a = str(current_submodule_hash).split()[0].removeprefix('-')
+        a = current_submodule_hash
+        print("controllo dbg in {tool_name}")
         print(x, a)
         print(x == a)
         if x == a:
             # TODO: (check it) take deb from binary and insert into temp
             print(f"{tool_name} ce lo abbiamo")
             cache_build_deb = subprocess.run(
-                f"git checkout website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool_name}.*.deb$')", shell=True, capture_output=True).stdout
+                f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool_name}.*.deb$')", shell=True, capture_output=True).stdout
             cache_build_deb = str(cache_build_deb)
             for deb_file in glob.glob(r'*.deb'):
                 shutil.move(deb_file, "temp")
@@ -101,3 +101,7 @@ if __name__ == "__main__":
     #     print((package_name, deb_download_url))
     #     response = requests.get(deb_download_url)
     #     open(f"temp/{package_name}.deb", "wb+").write(response.content)
+
+
+# https://raw.githubusercontent.com/appcove/developer-software/website/cache.yaml
+# https://raw.githubusercontent.com/appcove/developer-software/website/ubuntu/dists/jammy/main/binary-amd64/
