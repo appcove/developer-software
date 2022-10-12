@@ -32,6 +32,7 @@ class SimpleRust(AdsPackage):
 
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
+
         os.chdir(f"sources/{self.package_name}")
         cargo_build_project()
 
@@ -44,6 +45,7 @@ class SimpleRust(AdsPackage):
         os.chdir(f'{BUILD_FOLDER}')
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         create_deb_package(f"{BUILD_FOLDER}")
+        os.chdir('../../')
 
 
 @dataclass(order=True, kw_only=True)
@@ -72,6 +74,7 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
         create_deb_package(f"{BUILD_FOLDER}")
+        os.chdir('../../')
 
 
 def install_rust():
