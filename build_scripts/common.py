@@ -42,7 +42,7 @@ class SimpleRust(AdsPackage):
                         Path(f'{BUILD_FOLDER}/opt/ads/bin'))
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
-        write_control_file(BUILD_FOLDER, super(),  ubuntu_version)
+        write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         create_deb_package(f"{BUILD_FOLDER}")
 
 
@@ -68,7 +68,7 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
-        write_control_file(BUILD_FOLDER, super(),  ubuntu_version)
+        write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
         create_deb_package(f"{BUILD_FOLDER}")
