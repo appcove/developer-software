@@ -1,7 +1,7 @@
 from pathlib import Path
 import subprocess
 import ubuntu_folder
-from common import install_rust, AdsPackage, SimpleRust
+from common import install_rust, AdsPackage, SimpleRust, AdsRelease
 import yaml
 import shutil
 import glob
@@ -81,6 +81,12 @@ packages = [
         version="1.16.0",
         homepage="https://github.com/Canop/broot",
         description="A better way to navigate directories",
+    ),
+    AdsRelease(
+        package_name="release",
+        version="1.0.0",
+        homepage="https://github.com/appcove/developer-software",
+        description="This package install neccesary files for AppcoveDevSoftware",
     )
 ]
 
