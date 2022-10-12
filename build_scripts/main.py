@@ -122,7 +122,7 @@ for tool in packages:
         for deb_file in glob.glob(r'*.deb'):
             shutil.move(deb_file, "temp")
     else:
-        tool.simple_rust_build()
+        tool.build()
         cached_submodules_hashes[tool.package_name] = str(
             current_submodule_hash)
 
