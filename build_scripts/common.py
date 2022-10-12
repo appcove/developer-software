@@ -1,7 +1,5 @@
 import subprocess
 from subprocess import check_output, STDOUT, CalledProcessError
-from tkinter.messagebox import NO
-
 import lsb_release
 import os
 from pathlib import Path

@@ -1,7 +1,3 @@
-from functools import cache
-import requests
-import json
-import re
 from pathlib import Path
 import subprocess
 import ubuntu_folder
@@ -86,7 +82,6 @@ packages = [
         homepage="https://github.com/Canop/broot",
         description="A better way to navigate directories",
     )
-
 ]
 
 
