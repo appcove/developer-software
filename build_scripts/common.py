@@ -10,6 +10,14 @@ import yaml
 # frozen set the class to be read_only
 
 
+class AdsPackagefieldError(Exception):
+    """Raise if a class inheriting AdsPackage don' have build() defined"""
+
+    def __init__(self, message: str):
+        self.message = message
+        super().__init__(message)
+
+
 @dataclass(order=True, kw_only=True)
 class AdsPackager:
 
@@ -52,6 +60,11 @@ class AdsPackage(AdsPackager):
 
         return cached_submodules_hashes.get(
             self.package_name) == current_submodule_hash and current_submodule_hash != ""
+
+    def __init_subclass__(cls) -> None:
+        if not hasattr(cls, 'build'):
+            raise AdsPackagefieldError(
+                message=f"{cls.__name__} does not have a function named build defined")
 
 
 @dataclass(order=True, kw_only=True)
@@ -113,6 +126,11 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
 
         create_deb_package(f"{BUILD_FOLDER}")
         os.chdir('../../')
+
+
+@dataclass(order=True, kw_only=True)
+class TestError(AdsPackage):
+    """This class should be wrong becouse it doesn't have build()"""
 
 
 def install_rust():
