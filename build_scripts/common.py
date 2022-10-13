@@ -65,7 +65,8 @@ class SimpleRust(AdsPackage):
 
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-        print("dentro simple rust [start]" + str(os.getcwd()))
+        print(
+            f"dentro simple rust {self.package_name}[start]" + str(os.getcwd()))
         os.chdir(f"sources/{self.package_name}")
         cargo_build_project()
 
@@ -78,9 +79,11 @@ class SimpleRust(AdsPackage):
         os.chdir(f'{BUILD_FOLDER}')
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         create_deb_package(f"{BUILD_FOLDER}")
-        print("dentro simple rust [before exit]" + str(os.getcwd()))
+        print(
+            f"dentro simple rust {self.package_name}[before exit]" + str(os.getcwd()))
         os.chdir('../../')
-        print("dentro simple rust [after exit]" + str(os.getcwd()))
+        print(
+            f"dentro simple rust {self.package_name}[after exit]" + str(os.getcwd()))
 
 
 @dataclass(order=True, kw_only=True)
