@@ -35,9 +35,9 @@ class AdsPackage(AdsPackager):
     arch: str = field(init=False, default="amd64")
     current_submodule_hash: str = field(init=False, default="")
 
-    def _get_current_submodule_hash(self):
+    def _get_current_submodule_hash(package_name):
         current_submodule_hash = subprocess.run(
-            ["git", "submodule", "status", f"sources/{self.package_name}"], capture_output=True).stdout
+            ["git", "submodule", "status", f"sources/{package_name}"], capture_output=True).stdout
         try:
             current_submodule_hash = str(
                 current_submodule_hash.decode("utf-8")).split()[0]
@@ -47,7 +47,8 @@ class AdsPackage(AdsPackager):
 
     def __init_subclass__(cls):
         print(cls)
-        cls.current_submodule_hash = cls._get_current_submodule_hash()
+        cls.current_submodule_hash = cls._get_current_submodule_hash(
+            cls.package_name)
 
     def is_cached(self, cached_submodules_hashes: Dict[str, str]) -> bool:
         current_submodule_hash = self._get_current_submodule_hash()
