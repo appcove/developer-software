@@ -117,4 +117,4 @@ for tool in packages:
     with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
         yaml.dump(cached_submodules_hashes, cache_file)
 
-    ubuntu_folder.init_ubuntu_folder()
+ubuntu_folder.init_ubuntu_folder()
