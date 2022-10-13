@@ -128,11 +128,6 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
         os.chdir('../../')
 
 
-@dataclass(order=True, kw_only=True)
-class TestError(AdsPackage):
-    """This class should be wrong becouse it doesn't have build()"""
-
-
 def install_rust():
     subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run(
