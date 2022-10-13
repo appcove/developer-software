@@ -98,6 +98,7 @@ install_rust()
 Path(f'temp').mkdir(parents=True, exist_ok=True)
 
 cached_submodules_hashes = AdsPackager.get_cached_tools()
+print(cached_submodules_hashes)
 
 for tool in packages:
     if tool.is_cached(cached_submodules_hashes) and not (tool.package_name == "bat"):

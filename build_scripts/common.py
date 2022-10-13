@@ -65,7 +65,8 @@ class SimpleRust(AdsPackage):
 
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-
+        print("dentro simple rust")
+        print(os.getcwd())
         os.chdir(f"sources/{self.package_name}")
         cargo_build_project()
 
