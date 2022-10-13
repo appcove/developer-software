@@ -108,7 +108,8 @@ for tool in packages:
             shutil.move(deb_file, "temp")
     else:
         tool.build()
-        cached_submodules_hashes[tool.package_name] = tool.current_submodule_hash
+        cached_submodules_hashes[tool.package_name] = AdsPackage.get_current_submodule_hash(
+            tool.package_name)
 
     with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
         yaml.dump(cached_submodules_hashes, cache_file)
