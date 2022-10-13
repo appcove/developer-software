@@ -47,7 +47,7 @@ class AdsPackage(AdsPackager):
         return current_submodule_hash
 
     def is_cached(self, cached_submodules_hashes: Dict[str, str]) -> bool:
-        current_submodule_hash = AdsPackage._get_current_submodule_hash(
+        current_submodule_hash = AdsPackage.get_current_submodule_hash(
             self.package_name)
 
         return cached_submodules_hashes.get(
