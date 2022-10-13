@@ -1,10 +1,11 @@
 from pathlib import Path
 import subprocess
 import ubuntu_folder
-from common import install_rust, AdsPackage, SimpleRust, AdsRelease
+from common import install_rust, AdsPackage, SimpleRust, AdsRelease, AdsPackager
 import yaml
 import shutil
 import glob
+
 
 packages = [
     SimpleRust(
@@ -96,38 +97,20 @@ install_rust()
 
 Path(f'temp').mkdir(parents=True, exist_ok=True)
 
-subprocess.run(
-    ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
-try:
-    with open(r'cache.yaml') as cache_file:
-        cached_submodules_hashes = yaml.full_load(cache_file)
-        print(cached_submodules_hashes)
-except FileNotFoundError:
-    cached_submodules_hashes = {}
+cached_submodules_hashes = AdsPackager.get_cached_tools()
 
-# run custom scripts
 for tool in packages:
-    current_submodule_hash = subprocess.run(
-        ["git", "submodule", "status", f"sources/{tool.package_name}"], capture_output=True).stdout
-    try:
-        current_submodule_hash = str(
-            current_submodule_hash.decode("utf-8")).split()[0]
-    except IndexError:
-        current_submodule_hash = ""
-
-    if cached_submodules_hashes.get(tool.package_name) == current_submodule_hash and current_submodule_hash != "":
+    if tool.is_cached(cached_submodules_hashes) and not (tool.package_name == "bat"):
         print(f"{tool.package_name} from cache")
-        cache_build_deb = subprocess.run(
-            f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool.package_name}.*.deb$')", shell=True, capture_output=True).stdout
-        cache_build_deb = str(cache_build_deb)
+        subprocess.run(
+            f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool.package_name}.*.deb$')", shell=True)
         for deb_file in glob.glob(r'*.deb'):
             shutil.move(deb_file, "temp")
     else:
         tool.build()
-        cached_submodules_hashes[tool.package_name] = str(
-            current_submodule_hash)
+        cached_submodules_hashes[tool.package_name] = tool.current_submodule_hash
 
-with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
-    yaml.dump(cached_submodules_hashes, cache_file)
+    with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
+        yaml.dump(cached_submodules_hashes, cache_file)
 
-ubuntu_folder.init_ubuntu_folder()
+    ubuntu_folder.init_ubuntu_folder()

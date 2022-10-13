@@ -1,16 +1,30 @@
 import subprocess
 from subprocess import check_output, STDOUT, CalledProcessError
+from typing import Dict
 import lsb_release
 import os
 from pathlib import Path
 import shutil
 from dataclasses import dataclass, field
-
+import yaml
 # frozen set the class to be read_only
 
 
 @dataclass(order=True, kw_only=True)
-class AdsPackage:
+class AdsPackager:
+
+    def get_cached_tools():
+        subprocess.run(
+            ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
+        try:
+            with open(r'cache.yaml') as cache_file:
+                return yaml.full_load(cache_file)
+        except FileNotFoundError:
+            return {}
+
+
+@dataclass(order=True, kw_only=True)
+class AdsPackage(AdsPackager):
     package_name: str
     version: str
     maintainer: str = field(
@@ -19,6 +33,26 @@ class AdsPackage:
     homepage: str
     description: str
     arch: str = field(init=False, default="amd64")
+    current_submodule_hash: str = field(init=False, default="")
+
+    def _get_current_submodule_hash(self):
+        current_submodule_hash = subprocess.run(
+            ["git", "submodule", "status", f"sources/{self.package_name}"], capture_output=True).stdout
+        try:
+            current_submodule_hash = str(
+                current_submodule_hash.decode("utf-8")).split()[0]
+        except IndexError:
+            current_submodule_hash = ""
+        return current_submodule_hash
+
+    def __init_subclass__(cls):
+        cls.current_submodule_hash = cls._get_current_submodule_hash()
+
+    def is_cached(self, cached_submodules_hashes: Dict[str, str]) -> bool:
+        current_submodule_hash = self._get_current_submodule_hash()
+
+        return cached_submodules_hashes.get(
+            self.package_name) == current_submodule_hash and current_submodule_hash != ""
 
 
 @dataclass(order=True, kw_only=True)
@@ -80,7 +114,7 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
 def install_rust():
     subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run(
-        "curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y", shell=True)
+        "curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y > /dev/null", shell=True)
     subprocess.run(". $HOME/.cargo/env", shell=True)
 
 
