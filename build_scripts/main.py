@@ -101,7 +101,9 @@ cached_submodules_hashes = AdsPackager.get_cached_tools()
 print(cached_submodules_hashes)
 
 for tool in packages:
-    if tool.is_cached(cached_submodules_hashes) and not (tool.package_name == "bat"):
+    is_cached = tool.is_cached(cached_submodules_hashes)
+    print(f"{tool.package_name } chached {str(is_cached)}")
+    if is_cached:
         print(f"{tool.package_name} from cache")
         subprocess.run(
             f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{tool.package_name}.*.deb$')", shell=True)
