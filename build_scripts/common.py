@@ -7,41 +7,74 @@ from pathlib import Path
 import shutil
 from dataclasses import dataclass, field
 import yaml
+import glob
 # frozen set the class to be read_only
+from packages import *
 
 
-class AdsPackagefieldError(Exception):
-    """Raise if a class inheriting AdsPackage don' have build() defined"""
-
-    def __init__(self, message: str):
-        self.message = message
-        super().__init__(message)
+class Tool():
+    pass
 
 
-@dataclass(order=True, kw_only=True)
-class AdsPackager:
-
-    def get_cached_tools():
-        subprocess.run(
-            ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
-        try:
-            with open(r'cache.yaml') as cache_file:
-                return yaml.full_load(cache_file)
-        except FileNotFoundError:
-            return {}
+PackageMap = {}
 
 
-@dataclass(order=True, kw_only=True)
-class AdsPackage(AdsPackager):
-    package_name: str
-    version: str
-    maintainer: str = field(
-        init=False, default="AppCove <developer-software@appcove.com>")
-    depends: str = ""
-    homepage: str
-    description: str
-    arch: str = field(init=False, default="amd64")
-    current_submodule_hash: str = field(init=False, default="")
+class Package(object):
+
+    def __init_subclass__(cls):
+
+        if issubclass(cls, Tool):
+            if not hasattr(cls, 'build'):
+                raise NotImplementedError(
+                    f"{cls.__name__} does not have a function named `build` defined")
+
+            # infer the package name from the class name
+            print(f"Subclass class name : {cls.__name__}")
+
+            if not hasattr(cls, 'package_name'):
+                cls.package_name = cls.__name__
+
+            if cls.package_name in PackageMap:
+                raise KeyError(
+                    f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
+
+            # validate incoming data
+            if not hasattr(cls, 'version'):
+                raise TypeError(
+                    f'`version` attribute missing from {cls.__name__}')
+
+            if not hasattr(cls, 'homepage'):
+                raise TypeError(
+                    f'`homepage` attribute missing from {cls.__name__}')
+            if not hasattr(cls, 'description'):
+                raise TypeError(
+                    f'`description` attribute missing from {cls.__name__}')
+
+            # set default values
+            if not hasattr(cls, 'arch'):
+                cls.arch = "amd64"
+            if not hasattr(cls, 'maintainer'):
+                cls.maintainer = "AppCove <developer-software@appcove.com>"
+            if not hasattr(cls, 'depends'):
+                cls.depends = ""
+
+            # Example of one with a typecheck
+            if not hasattr(cls, 'binary_names') and not "-" in cls.package_name and not "_" in cls.package_name:
+                cls.binary_names = [cls.package_name]
+            else:
+                raise TypeError(
+                    f"{cls.package_name} is not a valid name and binaries can\'t have this name. Please use binary_names: [\"<bin>\"]")
+            if not isinstance(cls.binary_names, list):
+                raise TypeError(
+                    f'`binary_names` attribute must be a list, not: {type(cls.binary_names)}')
+
+            # Example of one with a default
+            # if not isinstance(cls.depends_on, set):
+            #     raise TypeError(
+            #         f'`depends_on` attribute must be a set, not: {type(cls.depends_on)}')
+
+            # Add this class to the class map
+            PackageMap[cls.package_name] = cls
 
     @staticmethod
     def get_current_submodule_hash(package_name):
@@ -54,27 +87,25 @@ class AdsPackage(AdsPackager):
             current_submodule_hash = ""
         return current_submodule_hash
 
+    @staticmethod
+    def get_cached_tools():
+        subprocess.run(
+            ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
+        try:
+            with open(r'cache.yaml') as cache_file:
+                return yaml.full_load(cache_file)
+        except FileNotFoundError:
+            return {}
+
     def is_cached(self, cached_submodules_hashes: Dict[str, str]) -> bool:
-        current_submodule_hash = AdsPackage.get_current_submodule_hash(
+        current_submodule_hash = Package.get_current_submodule_hash(
             self.package_name)
 
         return cached_submodules_hashes.get(
             self.package_name) == current_submodule_hash and current_submodule_hash != ""
 
-    def __init_subclass__(cls) -> None:
-        if not hasattr(cls, 'build'):
-            raise AdsPackagefieldError(
-                message=f"{cls.__name__} does not have a function named build defined")
 
-
-@dataclass(order=True, kw_only=True)
-class SimpleRust(AdsPackage):
-    # binaries names can be different then package name. Default = package_name
-    binaries_name: list[str] = None
-
-    def __post_init__(self):
-        if self.binaries_name is None:
-            self.binaries_name = [self.package_name]
+class SimpleRustPackage(Package):
 
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
@@ -99,8 +130,7 @@ class SimpleRust(AdsPackage):
             f"dentro simple rust {self.package_name}[after exit]" + str(os.getcwd()))
 
 
-@dataclass(order=True, kw_only=True)
-class AdsRelease(AdsPackage):
+class Release(Package):
 
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
@@ -139,7 +169,7 @@ def cargo_build_project():
     subprocess.run("cargo build --release", shell=True)
 
 
-def write_control_file(path, package_info: AdsPackage, UBUNTU_VERSION):
+def write_control_file(path, package_info: Package, UBUNTU_VERSION):
     print(f"{path}/DEBIAN/control")
 
     with open(f"{path}/DEBIAN/control", 'w') as f:
@@ -159,3 +189,26 @@ def create_deb_package(path):
     except CalledProcessError as exc:
         print(exc.output)
         raise exc
+
+
+def BuildAll():
+    Path(f'temp').mkdir(parents=True, exist_ok=True)
+    cached_submodules_hashes = Package.get_cached_tools()
+    for package_class in PackageMap.values():
+        # Create instance
+        package = package_class()
+
+        if package.is_cached(cached_submodules_hashes):
+            print(f"########## {package.package_name} from cache")
+            subprocess.run(
+                f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
+            for deb_file in glob.glob(r'*.deb'):
+                shutil.move(deb_file, "temp")
+        else:
+            print(f"########## {package.package_name} Building...")
+            cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
+                package.package_name)
+            package.build()
+
+    with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
+        yaml.dump(cached_submodules_hashes, cache_file)
