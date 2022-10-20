@@ -1,5 +1,5 @@
 from common import *
-
+from ubuntu_folder import init_ubuntu_folder
 # if all(isinstance(n, AdsPackage) for n in packages):
 #     install_rust()
 #     Path(f'temp').mkdir(parents=True, exist_ok=True)
@@ -27,3 +27,4 @@ from common import *
 
 install_rust()
 BuildAll()
+init_ubuntu_folder()
