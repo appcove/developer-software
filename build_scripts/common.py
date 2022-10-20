@@ -30,6 +30,7 @@ class Package(object):
             # infer the package name from the class name
             if not hasattr(cls, 'package_name'):
                 cls.package_name = cls.__name__
+            print(f'after change {cls.package_name}')
 
             if cls.package_name in PackageMap:
                 raise KeyError(
@@ -276,7 +277,7 @@ def BuildAll():
     cached_submodules_hashes = Package.get_cached_tools()
     for package_class in PackageMap.values():
         # Create instance
-        print(package_class.__name__)
+        print(package_class.package_name)
         package = package_class()
         if package.is_cached(cached_submodules_hashes):
             print(f"########## {package.package_name} from cache")
