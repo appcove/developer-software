@@ -277,8 +277,9 @@ def BuildAll():
     cached_submodules_hashes = Package.get_cached_tools()
     for package_class in PackageMap.values():
         # Create instance
-        print(package_class.package_name)
+        print(f"***** before init {package_class.package_name}")
         package = package_class()
+        print(f"***** after init {package_class.package_name}")
         if package.is_cached(cached_submodules_hashes):
             print(f"########## {package.package_name} from cache")
             subprocess.run(
