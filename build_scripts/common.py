@@ -125,11 +125,7 @@ class SimpleRustPackage(Package):
         os.chdir(f'{BUILD_FOLDER}')
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         create_deb_package(f"{BUILD_FOLDER}")
-        print(
-            f"dentro simple rust {self.package_name}[before exit]" + str(os.getcwd()))
         os.chdir('../../')
-        print(
-            f"dentro simple rust {self.package_name}[after exit]" + str(os.getcwd()))
 
 
 class Release(Package):
@@ -168,7 +164,7 @@ def install_rust():
 
 
 def cargo_build_project():
-    subprocess.check_output(["cargo", "build", "--release"])
+    subprocess.check_output(["cargo", "build", "--release", "--quiet"])
 
 
 def write_control_file(path, package_info: Package, UBUNTU_VERSION):
@@ -263,7 +259,7 @@ class ripgrep(SimpleRustPackage, Tool):
 
 
 class bottom(SimpleRustPackage, Tool):
-    binaries_name = ["btm"]
+    binaries_names = ["btm"]
     version = "1.16.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
