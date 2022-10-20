@@ -33,7 +33,7 @@ class Package(object):
 
             if len(cls.package_name.split()) != 1:
                 raise KeyError(
-                    f'Package `{cls.package_name}` has a non valide package_name : \'{cls.package_name}\'')
+                    f'Package `{cls.package_name}` has a non valid package_name : \'{cls.package_name}\'')
 
             if cls.package_name in PackageMap:
                 raise KeyError(
@@ -62,9 +62,9 @@ class Package(object):
             # Example of one with a typecheck
             if not hasattr(cls, 'binaries_names'):
                 cls.binaries_names = [cls.package_name]
-            else:
-                raise TypeError(
-                    f"{cls.package_name} is not a valid name and binaries can\'t have this name. Please use binary_names: [\"<bin>\"]")
+            # else:
+            #     raise TypeError(
+            #         f"{cls.package_name} is not a valid name and binaries can\'t have this name. Please use binary_names: [\"<bin>\"]")
             if not isinstance(cls.binaries_names, list):
                 raise TypeError(
                     f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
