@@ -60,7 +60,7 @@ class Package(object):
                 cls.depends = ""
 
             # Example of one with a typecheck
-            if not hasattr(cls, 'binary_names') and not "-" in cls.package_name or not "_" in cls.package_name:
+            if not hasattr(cls, 'binary_names'):
                 cls.binary_names = [cls.package_name]
             else:
                 raise TypeError(
@@ -117,7 +117,7 @@ class SimpleRustPackage(Package):
 
         BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
         Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
-        for bin in self.binaries_name:
+        for bin in self.binaries_names:
             shutil.copy(f"./target/release/{bin}",
                         Path(f'{BUILD_FOLDER}/opt/ads/bin'))
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
