@@ -167,7 +167,8 @@ def install_rust():
 
 
 def cargo_build_project():
-    subprocess.run("cargo build --release", shell=True)
+    subprocess.check_output(["cargo", "build", "--release"], stdout=subprocess.DEVNULL,
+                            stderr=subprocess.STDOUT)
 
 
 def write_control_file(path, package_info: Package, UBUNTU_VERSION):
