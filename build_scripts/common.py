@@ -280,17 +280,15 @@ def BuildAll():
     cached_submodules_hashes = Package.get_cached_tools()
     for package_class in PackageMap.values():
         # Create instance
-        print(f"***** before init {package_class.package_name}")
         package = package_class()
-        print(f"***** after init {package_class.package_name}")
         if package.is_cached(cached_submodules_hashes):
-            print(f"########## {package.package_name} from cache")
-            subprocess.run(
+            print(f"########## [✅] - {package.package_name} from cache")
+            subprocess.check_output(
                 f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
             for deb_file in glob.glob(r'*.deb'):
                 shutil.move(deb_file, "temp")
         else:
-            print(f"########## {package.package_name} Building...")
+            print(f"########## [🔨] - {package.package_name} Building...")
             cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
                 package.package_name)
             package.build()
