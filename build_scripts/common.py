@@ -110,8 +110,6 @@ class SimpleRustPackage(Package):
 
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-        print(
-            f"dentro simple rust {self.package_name}[start]" + str(os.getcwd()))
         os.chdir(f"sources/{self.package_name}")
         cargo_build_project()
 
