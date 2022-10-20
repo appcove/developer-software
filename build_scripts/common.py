@@ -118,6 +118,7 @@ class SimpleRustPackage(Package):
         BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
         Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
         for bin in self.binaries_names:
+            print(f"Getting binary ⏩ [{bin}]")
             shutil.copy(f"./target/release/{bin}",
                         Path(f'{BUILD_FOLDER}/opt/ads/bin'))
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
@@ -255,7 +256,7 @@ class dust(SimpleRustPackage, Tool):
 
 
 class ripgrep(SimpleRustPackage, Tool):
-    binaries_name = ["rg"]
+    binaries_names = ["rg"]
     version = "13.0.0"
     homepage = "https://github.com/BurntSushi/ripgrep"
     description = "ripgrep is a line-oriented search Tool that recursively searches the current directory for a regex pattern."
