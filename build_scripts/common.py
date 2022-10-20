@@ -60,14 +60,14 @@ class Package(object):
                 cls.depends = ""
 
             # Example of one with a typecheck
-            if not hasattr(cls, 'binary_names'):
-                cls.binary_names = [cls.package_name]
+            if not hasattr(cls, 'binaries_names'):
+                cls.binaries_names = [cls.package_name]
             else:
                 raise TypeError(
                     f"{cls.package_name} is not a valid name and binaries can\'t have this name. Please use binary_names: [\"<bin>\"]")
-            if not isinstance(cls.binary_names, list):
+            if not isinstance(cls.binaries_names, list):
                 raise TypeError(
-                    f'`binary_names` attribute must be a list, not: {type(cls.binary_names)}')
+                    f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
 
             # Example of one with a default
             # if not isinstance(cls.depends_on, set):
@@ -200,7 +200,7 @@ class bat(SimpleRustPackage, Tool):
 
 class git_excess(SimpleRustPackage, Tool):
     package_name = "git-excess"
-    binaries_name = ["git-sdif", "git-srep", "git-embed", "egit"]
+    binaries_names = ["git-sdif", "git-srep", "git-embed", "egit"]
     version = "1.0.1"
     homepage = "https://github.com/appcove/git-excess"
     description = "AppCove's internal git Tool"
