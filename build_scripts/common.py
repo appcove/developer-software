@@ -30,7 +30,10 @@ class Package(object):
             # infer the package name from the class name
             if not hasattr(cls, 'package_name'):
                 cls.package_name = cls.__name__
-            print(f'after change {cls.package_name}')
+
+            if len(cls.package_name.split()) != 1:
+                raise KeyError(
+                    f'Package `{cls.package_name}` has a non valide package_name : \'{cls.package_name}\'')
 
             if cls.package_name in PackageMap:
                 raise KeyError(
@@ -266,7 +269,7 @@ class bottom(SimpleRustPackage, Tool):
 
 
 class release(Release, Tool):
-    package_name = 'release io sono'
+    package_name = 'release'
     version = "1.0.0"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install neccesary files for AppcoveDevSoftware"
