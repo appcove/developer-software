@@ -21,7 +21,7 @@ PackageMap = {}
 class Package(object):
 
     package_name = None
-    binaries_names = None
+    binary_names = None
     version = None
     homepage = None
     description = None
@@ -34,13 +34,14 @@ class Package(object):
         if issubclass(cls, Tool):
             if not hasattr(cls, 'build'):
                 raise NotImplementedError(
-                    f"{cls.__name__} does not have a function named `build` defined")
+                    f"The build system of {cls.__name__} does not have a function named `build` defined.")
 
             for field in cls.__dict__:
                 if field.startswith('__'):
                     continue
                 if not hasattr(super(cls, cls), field) and field != "build":
-                    raise TypeError(f'Attribute is not recognized: `{field}`')
+                    raise TypeError(
+                        f'Attribute is not recognized: `{field}`, valid fields are : `package_name`,`binary_names`,`version`,`homepage`,`description`,`arch`,`maintainer`,`depends`.')
 
             if cls.package_name in PackageMap:
                 raise KeyError(
@@ -63,12 +64,12 @@ class Package(object):
                 raise TypeError(
                     f'`description` attribute missing from {cls.__name__}')
 
-            if not cls.binaries_names:
-                cls.binaries_names = [cls.package_name]
+            if not cls.binary_names:
+                cls.binary_names = [cls.package_name]
 
-            if not isinstance(cls.binaries_names, list):
+            if not isinstance(cls.binary_names, list):
                 raise TypeError(
-                    f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
+                    f'`binary_names` attribute must be a list, not: {type(cls.binary_names)}')
 
             PackageMap[cls.package_name] = cls
 
@@ -110,7 +111,7 @@ class SimpleRustPackage(Package):
 
         BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
         Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
-        for bin in self.binaries_names:
+        for bin in self.binary_names:
             print(f"Getting binary ⏩ [{bin}]")
             shutil.copy(f"./target/release/{bin}",
                         Path(f'{BUILD_FOLDER}/opt/ads/bin'))
@@ -182,87 +183,60 @@ def create_deb_package(path):
         raise exc
 
 
-class bat(SimpleRustPackage, Tool):
-    version = "0.22.1"
-    homepage = "https://github.com/sharkdp/bat"
-    description = "A cat clone with syntax highlighting and Git integration"
+def init_ubuntu_folder():
 
+    # if __name__ == "__main__":
+    Path(f'ubuntu/dists/jammy/main/binary-amd64').mkdir(parents=True, exist_ok=True)
 
-class git_excess(SimpleRustPackage, Tool):
-    package_name = "git-excess"
-    binaries_names = ["git-sdif", "git-srep", "git-embed", "egit"]
-    version = "1.0.1"
-    homepage = "https://github.com/appcove/git-excess"
-    description = "AppCove's internal git Tool"
+    with open("ubuntu/KEY.gpg", 'wb') as key_file:
+        key = subprocess.check_output(
+            "gpg --armor --export \"developer-software@appcove.com\"", shell=True)
+        key_file.write(key)
 
+    for deb_file in glob.glob(r'temp/*.deb'):
+        shutil.move(deb_file, "ubuntu/dists/jammy/main/binary-amd64")
 
-class pastel(SimpleRustPackage, Tool):
-    version = "0.9.0"
-    homepage = "https://github.com/sharkdp/pastel/tree/3719824a56fb9eb92eb960068e513b95486756a7"
-    description = "pastel is a command-line Tool to generate, analyze, convert and manipulate colors. It supports many different color formats and color spaces like RGB (sRGB HSL, CIELAB, CIELCh) as well as ANSI 8-bit and 24-bit representations."
+    os.chdir("ubuntu")
 
+    with open("dists/jammy/main/binary-amd64/Packages", 'wb') as package_file:
+        packages = subprocess.check_output(
+            "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64", shell=True)
+        package_file.write(packages)
 
-class fd(SimpleRustPackage, Tool):
-    version = "8.4.0"
-    homepage = "https://github.com/sharkdp/fd"
-    description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
+    os.chdir("dists/jammy")
 
+    with open("main/binary-amd64/Packages.gz", 'wb') as file:
+        output = subprocess.check_output(
+            "gzip -k -f ./main/binary-amd64/Packages", shell=True)
+        file.write(output)
 
-class procs(SimpleRustPackage, Tool):
-    version = "0.13.2"
-    homepage = "https://github.com/dalance/procs"
-    description = "modern replacement for ps"
+    with open("main/binary-amd64/Release", 'w') as file:
+        file.write(
+            "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64")
 
+    with open("ftp_release.conf", 'w') as file:
+        file.write(
+            "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};")
 
-class grex(SimpleRustPackage, Tool):
-    version = "1.4.0"
-    homepage = "https://github.com/pemistahl/grex"
-    description = "grex is meant to simplify the tedious task of creating regular expressions. It does so by automatically generating a single regular expression from user-provided test cases."
+    with open("Release", 'wb') as file:
+        output = subprocess.check_output(
+            "apt-ftparchive release -c=ftp_release.conf .", shell=True)
+        file.write(output)
+    os.remove("ftp_release.conf")
 
+    with open("Release.gpg", 'wb') as file:
+        output = subprocess.check_output(
+            "gpg --default-key \"developer-software@appcove.com\" -abs -o - Release", shell=True)
+        file.write(output)
 
-class broot(SimpleRustPackage, Tool):
-    version = "1.16.0"
-    homepage = "https://github.com/Canop/broot"
-    description = "A better way to navigate directories"
+    with open("InRelease", 'wb') as file:
+        output = subprocess.check_output(
+            "gpg --default-key \"developer-software@appcove.com\" --clearsign -o - Release", shell=True)
+        file.write(output)
 
-
-class exa(SimpleRustPackage, Tool):
-    version = "0.10.1"
-    homepage = "https://github.com/ogham/exa"
-    description = "exa is a modern replacement for the venerable file-listing command-line program ls"
-
-
-class sd(SimpleRustPackage, Tool):
-    version = "0.7.6"
-    homepage = "https://github.com/chmln/sd"
-    description = "sd is an intuitive find & replace CLI."
-
-
-class dust(SimpleRustPackage, Tool):
-    version = "0.8.3"
-    homepage = "https://github.com/bootandy/dust"
-    description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
-
-
-class ripgrep(SimpleRustPackage, Tool):
-    binaries_names = ["rg"]
-    version = "13.0.0"
-    homepage = "https://github.com/BurntSushi/ripgrep"
-    description = "ripgrep is a line-oriented search Tool that recursively searches the current directory for a regex pattern."
-
-
-class bottom(SimpleRustPackage, Tool):
-    binaries_names = ["btm"]
-    version = "1.16.0"
-    homepage = "https://github.com/Canop/broot"
-    description = "A better way to navigate directories"
-
-
-class release(Release, Tool):
-    package_name = 'release'
-    version = "1.0.0"
-    homepage = "https://github.com/appcove/developer-software"
-    description = "This package install neccesary files for AppcoveDevSoftware"
+    with open("appcove-developer-software.list", 'w') as file:
+        file.write(
+            "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main")
 
 
 def BuildAll():
