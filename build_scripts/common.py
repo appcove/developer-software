@@ -20,6 +20,15 @@ PackageMap = {}
 
 class Package(object):
 
+    package_name = None
+    binaries_names = None
+    version = None
+    homepage = None
+    description = None
+    arch = "amd64"
+    maintainer = "AppCove <developer-software@appcove.com>"
+    depends = ""
+
     def __init_subclass__(cls):
 
         if issubclass(cls, Tool):
@@ -27,55 +36,41 @@ class Package(object):
                 raise NotImplementedError(
                     f"{cls.__name__} does not have a function named `build` defined")
 
-            # infer the package name from the class name
-            if not hasattr(cls, 'package_name'):
-                cls.package_name = cls.__name__
+        for field in cls.__dict__:
+            if field.startswith('__'):
+                continue
+            if not hasattr(super(cls, cls), field):
+                raise TypeError(f'Attribute is not recognized: `{field}`')
 
-            if len(cls.package_name.split()) != 1:
-                raise KeyError(
-                    f'Package `{cls.package_name}` has a non valid package_name : \'{cls.package_name}\'')
+        if cls.package_name in PackageMap:
+            raise KeyError(
+                f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
 
-            if cls.package_name in PackageMap:
-                raise KeyError(
-                    f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
+        if not cls.package_name:
+            cls.package_name = cls.__name__
+        if len(cls.package_name.split()) != 1:
+            raise KeyError(
+                f'Package `{cls.package_name}` has a non valid package_name : \'{cls.package_name}\'')
 
-            # validate incoming data
-            if not hasattr(cls, 'version'):
-                raise TypeError(
-                    f'`version` attribute missing from {cls.__name__}')
+        if not cls.version:
+            raise TypeError(
+                f'`version` attribute missing from {cls.__name__}')
 
-            if not hasattr(cls, 'homepage'):
-                raise TypeError(
-                    f'`homepage` attribute missing from {cls.__name__}')
-            if not hasattr(cls, 'description'):
-                raise TypeError(
-                    f'`description` attribute missing from {cls.__name__}')
+        if not cls.homepage:
+            raise TypeError(
+                f'`homepage` attribute missing from {cls.__name__}')
+        if not cls.description:
+            raise TypeError(
+                f'`description` attribute missing from {cls.__name__}')
 
-            # set default values
-            if not hasattr(cls, 'arch'):
-                cls.arch = "amd64"
-            if not hasattr(cls, 'maintainer'):
-                cls.maintainer = "AppCove <developer-software@appcove.com>"
-            if not hasattr(cls, 'depends'):
-                cls.depends = ""
+        if not cls.binaries_names:
+            cls.binaries_names = [cls.package_name]
 
-            # Example of one with a typecheck
-            if not hasattr(cls, 'binaries_names'):
-                cls.binaries_names = [cls.package_name]
-            # else:
-            #     raise TypeError(
-            #         f"{cls.package_name} is not a valid name and binaries can\'t have this name. Please use binary_names: [\"<bin>\"]")
-            if not isinstance(cls.binaries_names, list):
-                raise TypeError(
-                    f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
+        if not isinstance(cls.binaries_names, list):
+            raise TypeError(
+                f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
 
-            # Example of one with a default
-            # if not isinstance(cls.depends_on, set):
-            #     raise TypeError(
-            #         f'`depends_on` attribute must be a set, not: {type(cls.depends_on)}')
-
-            # Add this class to the class map
-            PackageMap[cls.package_name] = cls
+        PackageMap[cls.package_name] = cls
 
     @staticmethod
     def get_current_submodule_hash(package_name):
@@ -271,22 +266,26 @@ class release(Release, Tool):
 
 
 def BuildAll():
-    Path(f'temp').mkdir(parents=True, exist_ok=True)
-    cached_submodules_hashes = Package.get_cached_tools()
+    # Path(f'temp').mkdir(parents=True, exist_ok=True)
+    # cached_submodules_hashes = Package.get_cached_tools()
+    # for package_class in PackageMap.values():
+    #     # Create instance
+    #     package = package_class()
+    #     if package.is_cached(cached_submodules_hashes):
+    #         print(f"########## [✅] - {package.package_name} from cache")
+    #         subprocess.check_output(
+    #             f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
+    #         for deb_file in glob.glob(r'*.deb'):
+    #             shutil.move(deb_file, "temp")
+    #     else:
+    #         print(f"########## [🔨] - {package.package_name} Building...")
+    #         cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
+    #             package.package_name)
+    #         package.build()
+
+    # with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
+    #     yaml.dump(cached_submodules_hashes, cache_file)
+
     for package_class in PackageMap.values():
         # Create instance
         package = package_class()
-        if package.is_cached(cached_submodules_hashes):
-            print(f"########## [✅] - {package.package_name} from cache")
-            subprocess.check_output(
-                f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
-            for deb_file in glob.glob(r'*.deb'):
-                shutil.move(deb_file, "temp")
-        else:
-            print(f"########## [🔨] - {package.package_name} Building...")
-            cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
-                package.package_name)
-            package.build()
-
-    with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
-        yaml.dump(cached_submodules_hashes, cache_file)
