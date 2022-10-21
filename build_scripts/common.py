@@ -39,7 +39,7 @@ class Package(object):
         for field in cls.__dict__:
             if field.startswith('__'):
                 continue
-            if not hasattr(super(cls, cls), field):
+            if not hasattr(super(cls, cls), field) and field != "build":
                 raise TypeError(f'Attribute is not recognized: `{field}`')
 
         if cls.package_name in PackageMap:
