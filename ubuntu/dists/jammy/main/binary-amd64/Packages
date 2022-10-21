@@ -1,0 +1,156 @@
+Package: ads-bat
+Version: 0.22.1custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-bat_0.22.1custom22.04_amd64.deb
+Size: 2807514
+MD5sum: ea4440029a1de94409ce4c10d44bebf3
+SHA1: fe2d0abc01b4c87beed9892b069f742699bcc8dc
+SHA256: 2810310b95961359b67ca5c05214dad82848891b34802d07dc2fc2ea9c574a5d
+Homepage: https://github.com/sharkdp/bat
+Description: A cat clone with syntax highlighting and Git integration
+
+Package: ads-bottom
+Version: 1.16.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-bottom_1.16.0custom22.04_amd64.deb
+Size: 1270190
+MD5sum: 8ff5f4ba74acef6126879ebc31363e0a
+SHA1: d258e380285a292e1a5d34ef268816c42a5ca105
+SHA256: b855f18218e0212668954d0551e5a6734a309b998f4b8011571c5af6a20a10e7
+Homepage: https://github.com/Canop/broot
+Description: A better way to navigate directories
+
+Package: ads-broot
+Version: 1.16.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-broot_1.16.0custom22.04_amd64.deb
+Size: 3112466
+MD5sum: 9a242bb2b0f005ccedf65d0dc8b8d5d4
+SHA1: b60d5d42286385138a671c6239c423f736f7a6b3
+SHA256: f1083496a063ba6f63a09418aa1bd54f301cd445a923f1a92a120dcb6d6f4f5a
+Homepage: https://github.com/Canop/broot
+Description: A better way to navigate directories
+
+Package: ads-dust
+Version: 0.8.3custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-dust_0.8.3custom22.04_amd64.deb
+Size: 720676
+MD5sum: 50ee4d0b74f4ddae5f7d4bc24a07eea0
+SHA1: 87904ff49d52b9a62c38b857d9655dabb4e07141
+SHA256: ff15f3f92eeea84d96f0470287dd318bf792da5e17b962ff04b27d8af15d247c
+Homepage: https://github.com/bootandy/dust
+Description: Dust is a more intuitive version of `du`, used for displaying disk usage statistics.
+
+Package: ads-exa
+Version: 0.10.1custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-exa_0.10.1custom22.04_amd64.deb
+Size: 947000
+MD5sum: 3391dec0f060cb0eb7c368d161f03910
+SHA1: 7df2e96a253a6df2a916a7a89bb7e06c3b18a357
+SHA256: 3d5b10bd898d7b06dc0269272eb6ac378715ce067eca651d878cd097065ec64f
+Homepage: https://github.com/ogham/exa
+Description: exa is a modern replacement for the venerable file-listing command-line program ls
+
+Package: ads-fd
+Version: 8.4.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-fd_8.4.0custom22.04_amd64.deb
+Size: 2857156
+MD5sum: 5cf2d8ca319eda312f979b6f5d27796e
+SHA1: c0453554772df1454877ca095aa4c70cd0aa23a2
+SHA256: 94adc8e49d146c221fb655071805a991ce3155aefe8550eb6ad6923d8ea7c6ef
+Homepage: https://github.com/sharkdp/fd
+Description: fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find
+
+Package: ads-git-excess
+Version: 1.0.1custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-git-excess_1.0.1custom22.04_amd64.deb
+Size: 1598434
+MD5sum: ccb027c7685cd9974c4b7ee3a66f973d
+SHA1: a2c0ee88f0772451bc95080e35d75a3e6344f4f7
+SHA256: 0acd4f0e0a0e5689d76fbfae298b4d71758b1117c84b7e8c706c2f2960d3d75d
+Homepage: https://github.com/appcove/git-excess
+Description: AppCove's internal git Tool
+
+Package: ads-grex
+Version: 1.4.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-grex_1.4.0custom22.04_amd64.deb
+Size: 1493566
+MD5sum: cdcf4dcf60564df45d705e37982f8686
+SHA1: 4719dc16f9c9c42a79b564fa983d7f1cfe3f9286
+SHA256: f3b085d852aaf52e5aa1645f737fd1964a4d757f60de69b4e3a5078d363dfbe8
+Homepage: https://github.com/pemistahl/grex
+Description: grex is meant to simplify the tedious task of creating regular expressions. It does so by automatically generating a single regular expression from user-provided test cases.
+
+Package: ads-pastel
+Version: 0.9.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-pastel_0.9.0custom22.04_amd64.deb
+Size: 1121792
+MD5sum: 392777eb5123b1750386db99a3713c84
+SHA1: 23435f57672ec4182860dc816181fd37a8bb13d0
+SHA256: b867f387b6bd3b4fc2a649fba2a10148a52a3a2e49e07afc89547bb53ddde136
+Homepage: https://github.com/sharkdp/pastel/tree/3719824a56fb9eb92eb960068e513b95486756a7
+Description: pastel is a command-line Tool to generate, analyze, convert and manipulate colors. It supports many different color formats and color spaces like RGB (sRGB HSL, CIELAB, CIELCh) as well as ANSI 8-bit and 24-bit representations.
+
+Package: ads-procs
+Version: 0.13.2custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-procs_0.13.2custom22.04_amd64.deb
+Size: 1610936
+MD5sum: 286e7fea65e9a98d7004604392f76183
+SHA1: e470db731a5c9d51ec1d26fe793e546a684b609b
+SHA256: 15c266de19e21fbbadbfe276a88b64da03d485e0134b5a64485c78f6be1a4d8f
+Homepage: https://github.com/dalance/procs
+Description: modern replacement for ps
+
+Package: ads-release
+Version: 1.0.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-release_1.0.0custom22.04_amd64.deb
+Size: 806
+MD5sum: cd6c6b6f268368b76de6c107f0dc6e3e
+SHA1: f33647cdc8e55240016b02908093933f0efa9156
+SHA256: 031885101a78e32798fc77dc4fe2fe212c1dca2b84e50ceb71749893804cb082
+Homepage: https://github.com/appcove/developer-software
+Description: This package install neccesary files for AppcoveDevSoftware
+
+Package: ads-ripgrep
+Version: 13.0.0custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-ripgrep_13.0.0custom22.04_amd64.deb
+Size: 5282722
+MD5sum: b1102e0153bb705ecf7c85bc4406d54e
+SHA1: 082533331401194ac4c197248707b5bcaf584688
+SHA256: 6b58bb5d839db4d3c9940f12319d9a902237a79fea4cab24b952a0efc390952d
+Homepage: https://github.com/BurntSushi/ripgrep
+Description: ripgrep is a line-oriented search Tool that recursively searches the current directory for a regex pattern.
+
+Package: ads-sd
+Version: 0.7.6custom22.04
+Architecture: amd64
+Maintainer: AppCove <developer-software@appcove.com>
+Filename: dists/jammy/main/binary-amd64/ads-sd_0.7.6custom22.04_amd64.deb
+Size: 1078406
+MD5sum: 986efe943d7815eb90083402415a6fd5
+SHA1: 9f863e65ab8662f27064390cec1e1c13262b5fd1
+SHA256: d63ee18b2bc23ef24dbb73a930176dfaf696298503408c620d924052db22e371
+Homepage: https://github.com/chmln/sd
+Description: sd is an intuitive find & replace CLI.
+
