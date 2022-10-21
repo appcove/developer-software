@@ -36,41 +36,41 @@ class Package(object):
                 raise NotImplementedError(
                     f"{cls.__name__} does not have a function named `build` defined")
 
-        for field in cls.__dict__:
-            if field.startswith('__'):
-                continue
-            if not hasattr(super(cls, cls), field) and field != "build":
-                raise TypeError(f'Attribute is not recognized: `{field}`')
+            for field in cls.__dict__:
+                if field.startswith('__'):
+                    continue
+                if not hasattr(super(cls, cls), field) and field != "build":
+                    raise TypeError(f'Attribute is not recognized: `{field}`')
 
-        if cls.package_name in PackageMap:
-            raise KeyError(
-                f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
+            if cls.package_name in PackageMap:
+                raise KeyError(
+                    f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
 
-        if not cls.package_name:
-            cls.package_name = cls.__name__
-        if len(cls.package_name.split()) != 1:
-            raise KeyError(
-                f'Package `{cls.package_name}` has a non valid package_name : \'{cls.package_name}\'')
+            if not cls.package_name:
+                cls.package_name = cls.__name__
+            if len(cls.package_name.split()) != 1:
+                raise KeyError(
+                    f'Package `{cls.package_name}` has a non valid package_name : \'{cls.package_name}\'')
 
-        if not cls.version:
-            raise TypeError(
-                f'`version` attribute missing from {cls.__name__}')
+            if not cls.version:
+                raise TypeError(
+                    f'`version` attribute missing from {cls.__name__}')
 
-        if not cls.homepage:
-            raise TypeError(
-                f'`homepage` attribute missing from {cls.__name__}')
-        if not cls.description:
-            raise TypeError(
-                f'`description` attribute missing from {cls.__name__}')
+            if not cls.homepage:
+                raise TypeError(
+                    f'`homepage` attribute missing from {cls.__name__}')
+            if not cls.description:
+                raise TypeError(
+                    f'`description` attribute missing from {cls.__name__}')
 
-        if not cls.binaries_names:
-            cls.binaries_names = [cls.package_name]
+            if not cls.binaries_names:
+                cls.binaries_names = [cls.package_name]
 
-        if not isinstance(cls.binaries_names, list):
-            raise TypeError(
-                f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
+            if not isinstance(cls.binaries_names, list):
+                raise TypeError(
+                    f'`binary_names` attribute must be a list, not: {type(cls.binaries_names)}')
 
-        PackageMap[cls.package_name] = cls
+            PackageMap[cls.package_name] = cls
 
     @staticmethod
     def get_current_submodule_hash(package_name):
