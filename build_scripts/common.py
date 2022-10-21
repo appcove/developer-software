@@ -266,26 +266,22 @@ class release(Release, Tool):
 
 
 def BuildAll():
-    # Path(f'temp').mkdir(parents=True, exist_ok=True)
-    # cached_submodules_hashes = Package.get_cached_tools()
-    # for package_class in PackageMap.values():
-    #     # Create instance
-    #     package = package_class()
-    #     if package.is_cached(cached_submodules_hashes):
-    #         print(f"########## [✅] - {package.package_name} from cache")
-    #         subprocess.check_output(
-    #             f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
-    #         for deb_file in glob.glob(r'*.deb'):
-    #             shutil.move(deb_file, "temp")
-    #     else:
-    #         print(f"########## [🔨] - {package.package_name} Building...")
-    #         cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
-    #             package.package_name)
-    #         package.build()
-
-    # with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
-    #     yaml.dump(cached_submodules_hashes, cache_file)
-
+    Path(f'temp').mkdir(parents=True, exist_ok=True)
+    cached_submodules_hashes = Package.get_cached_tools()
     for package_class in PackageMap.values():
         # Create instance
         package = package_class()
+        if package.is_cached(cached_submodules_hashes):
+            print(f"########## [✅] - {package.package_name} from cache")
+            subprocess.check_output(
+                f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
+            for deb_file in glob.glob(r'*.deb'):
+                shutil.move(deb_file, "temp")
+        else:
+            print(f"########## [🔨] - {package.package_name} Building...")
+            cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
+                package.package_name)
+            package.build()
+
+    with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
+        yaml.dump(cached_submodules_hashes, cache_file)
