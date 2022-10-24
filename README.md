@@ -40,6 +40,6 @@ Should output
 - [ads-broot](https://github.com/Canop/broot) - Navigate directories and list content in a tree, with a lot of additional features.
 - [ads-exa](https://github.com/ogham/exa) - Modern replacement for the venerable file-listing command-line program `ls`.
 - [ads-sd](https://github.com/chmln/sd) - An intuitive find & replace CLI.
-- [ads-sd](https://github.com/bootandy/dust) - Dust is a more intuitive version of `du`, used for displaying disk usage statistics.
+- [ads-dust](https://github.com/bootandy/dust) - Dust is a more intuitive version of `du`, used for displaying disk usage statistics.
 - [ads-ripgrep](https://github.com/BurntSushi/ripgrep) - ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern.
 - [ads-bottom](https://github.com/ClementTsang/bottom) - A customizable cross-platform graphical process/system monitor for the terminal.
