@@ -1,3 +1,4 @@
+from json import tool
 import subprocess
 from subprocess import check_output, STDOUT, CalledProcessError
 from typing import Dict
@@ -160,11 +161,14 @@ class InstallAll(Package):
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
             release_file.write("""
-apt install "ads-*" -y
+echo ciao
 """)
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
+
+        self.depends = ", ".join(
+            [package.package_name for package in PackageMap])
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
