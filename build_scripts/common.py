@@ -167,7 +167,8 @@ echo ciao
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
 
-        self.depends = ", ".join(PackageMap.keys())
+        self.depends = ", ".join(
+            [f"ads-{package_name}" for package_name in PackageMap.keys()])
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
