@@ -161,7 +161,7 @@ class InstallAll(Package):
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
             release_file.write("""
-echo ciao
+echo "HI there, all AppCove Inc. tools have been installed :)"
 """)
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
