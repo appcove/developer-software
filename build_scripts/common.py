@@ -168,7 +168,7 @@ echo ciao
         os.chdir(f'{BUILD_FOLDER}')
 
         self.depends = ", ".join(
-            [package.package_name for package in PackageMap])
+            [package.package_name for package in PackageMap.keys()])
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
