@@ -160,7 +160,7 @@ class InstallAll(Package):
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
             release_file.write("""
-sudo apt install "ads-*" -y
+apt install "ads-*" -y
 """)
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
