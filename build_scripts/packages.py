@@ -77,6 +77,13 @@ class bottom(SimpleRustPackage, Tool):
     description = "A better way to navigate directories"
 
 
+class release(Release, Tool):
+    package_name = 'release'
+    version = "1.0.0"
+    homepage = "https://github.com/appcove/developer-software"
+    description = "This package install neccesary files for AppcoveDevSoftware"
+
+
 class install_everything(InstallAll, Tool):
     package_name = 'everything'
     version = "1.0.0"
