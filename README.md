@@ -84,25 +84,22 @@ procs --tree
 
 </details>
 
-<details><summary>sed</summary>
-<style>
-green { color: green }
-</style>
+<details><summary>sd</summary>
 
 - Simpler syntax for replacing all occurrences:
-  - <green>sd:</green> `sd before after`
+  - sd: `sd before after`
   - sed: `sed s/before/after/g`
 - Replace newlines with commas:
-  - <green>sd:</green> `sd '\n' ','`
+  - sd: `sd '\n' ','`
   - sed: `sed ':a;N;$!ba;s/\n/,/g'`
 - Extracting stuff out of strings containing slashes:
-  - <green>sd:</green> `echo "sample with /path/" | sd '.*(/.*/)' '$1'`
+  - sd: `echo "sample with /path/" | sd '.*(/.*/)' '$1'`
   - sed: use different delimiters every time depending on expression so that the command is not completely unreadable
     - `echo "sample with /path/" | sed -E 's/.*(\\/.*\\/)/\1/g'`
     - `echo "sample with /path/" | sed -E 's|.*(/.*/)|\1|g'`
 - In place modification of files:
-  - <green>sd:</green> `sd before after file.txt`
-  - <green>sd:</green>: you need to remember to use `-e` or else some platforms will consider the next argument to be a backup suffix
+  - sd: `sd before after file.txt`
+  - sd:: you need to remember to use `-e` or else some platforms will consider the next argument to be a backup suffix
     - `sed -i -e 's/before/after/g' file.txt`
 </details>
 
