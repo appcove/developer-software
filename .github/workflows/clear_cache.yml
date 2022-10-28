@@ -1,0 +1,27 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Clear cache
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: website
+          persist-credentials: false
+
+      - name: Remove cache file
+        run: |
+          git config --local user.email "appcove+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git rm cache.yaml
+          git commit -m "Cleared Cache manually"
+          git push -f --set-upstream origin website
