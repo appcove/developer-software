@@ -1,4 +1,4 @@
-from common import SimpleRustPackage, Release, Tool
+from common import SimpleRustPackage, InstallAll, Release, Tool
 
 
 class bat(SimpleRustPackage, Tool):
@@ -77,8 +77,8 @@ class bottom(SimpleRustPackage, Tool):
     description = "A better way to navigate directories"
 
 
-class release(Release, Tool):
-    package_name = 'release'
+class install_everything(InstallAll, Tool):
+    package_name = 'everything'
     version = "1.0.0"
     homepage = "https://github.com/appcove/developer-software"
-    description = "This package install neccesary files for AppcoveDevSoftware"
+    description = "This package install all the available tools in AppcoveDevSoftware"

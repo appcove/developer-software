@@ -150,6 +150,28 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
         os.chdir('../../')
 
 
+class InstallAll(Package):
+
+    def build(self):
+        ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
+        os.chdir(f"sources/bat")
+        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
+
+        Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
+        with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
+            release_file.write("""
+sudo apt install "ads-*"
+""")
+
+        Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
+        os.chdir(f'{BUILD_FOLDER}')
+        write_control_file(BUILD_FOLDER, self,  ubuntu_version)
+        os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
+
+        create_deb_package(f"{BUILD_FOLDER}")
+        os.chdir('../../')
+
+
 def install_rust():
     subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run(
