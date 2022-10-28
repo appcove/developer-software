@@ -43,3 +43,101 @@ Should output
 - [ads-dust](https://github.com/bootandy/dust) - Dust is a more intuitive version of `du`, used for displaying disk usage statistics.
 - [ads-ripgrep](https://github.com/BurntSushi/ripgrep) - ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern.
 - [ads-bottom](https://github.com/ClementTsang/bottom) - A customizable cross-platform graphical process/system monitor for the terminal.
+
+# Examples 
+<details><summary>fd</summary>
+
+![fd-example](doc/fd-example.svg)
+
+</details>
+
+<details><summary>bat</summary>
+
+![bat-example](doc/bat-example.png)
+
+``` bash 
+bat src/*.rs # show multiple files at once
+bat header.md content.md footer.md > document.md
+bat -n main.rs  # show line numbers (only)
+
+```
+
+</details>
+
+<details><summary>procs</summary>
+
+
+``` bash 
+procs # list all processes
+procs <executable>  # `procs chrome` list all processes of application
+procs --tree
+```
+[Other examples of procs](https://github.com/dalance/procs#usage)
+
+</details>
+
+
+
+<details><summary>broot</summary>
+
+[broot examples](https://github.com/Canop/broot#get-an-overview-of-a-directory-even-a-big-one)
+
+</details>
+
+<details><summary>sed</summary>
+<style>
+green { color: green }
+</style>
+
+- Simpler syntax for replacing all occurrences:
+  - <green>sd:</green> `sd before after`
+  - sed: `sed s/before/after/g`
+- Replace newlines with commas:
+  - <green>sd:</green> `sd '\n' ','`
+  - sed: `sed ':a;N;$!ba;s/\n/,/g'`
+- Extracting stuff out of strings containing slashes:
+  - <green>sd:</green> `echo "sample with /path/" | sd '.*(/.*/)' '$1'`
+  - sed: use different delimiters every time depending on expression so that the command is not completely unreadable
+    - `echo "sample with /path/" | sed -E 's/.*(\\/.*\\/)/\1/g'`
+    - `echo "sample with /path/" | sed -E 's|.*(/.*/)|\1|g'`
+- In place modification of files:
+  - <green>sd:</green> `sd before after file.txt`
+  - <green>sd:</green>: you need to remember to use `-e` or else some platforms will consider the next argument to be a backup suffix
+    - `sed -i -e 's/before/after/g' file.txt`
+</details>
+
+<details><summary>dust</summary>
+
+![dust example](doc/dust-example.png)
+
+``` shell 
+Usage: dust
+Usage: dust <dir>
+Usage: dust <dir>  <another_dir> <and_more>
+Usage: dust -p (full-path - Show fullpath of the subdirectories)
+Usage: dust -s (apparent-size - shows the length of the file as opposed to the amount of disk space it uses)
+Usage: dust -n 30  (Shows 30 directories instead of the default [default is terminal height])
+Usage: dust -d 3  (Shows 3 levels of subdirectories)
+Usage: dust -D (Show only directories (eg dust -D))
+Usage: dust -r (reverse order of output)
+Usage: dust -H (si print sizes in powers of 1000 instead of 1024)
+Usage: dust -X ignore  (ignore all files and directories with the name 'ignore')
+Usage: dust -x (Only show directories on the same filesystem)
+Usage: dust -b (Do not show percentages or draw ASCII bars)
+Usage: dust -i (Do not show hidden files)
+Usage: dust -c (No colors [monochrome])
+Usage: dust -f (Count files instead of diskspace)
+Usage: dust -t (Group by filetype)
+Usage: dust -z 10M (min-size, Only include files larger than 10M)
+Usage: dust -e regex (Only include files matching this regex (eg dust -e "\.png$" would match png files))
+Usage: dust -v regex (Exclude files matching this regex (eg dust -v "\.png$" would ignore png files))
+```
+
+</details>
+
+
+
+
+
+
+
