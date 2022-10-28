@@ -169,6 +169,8 @@ echo ciao
 
         self.depends = ", ".join(
             [f"ads-{package_name}" for package_name in PackageMap.keys()])
+
+        print(self.depends)
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
