@@ -34,3 +34,6 @@
 [submodule "sources/bottom"]
 	path = sources/bottom
 	url = https://github.com/ClementTsang/bottom
+[submodule "sources/erdtree"]
+	path = sources/erdtree
+	url = https://github.com/solidiquis/erdtree
