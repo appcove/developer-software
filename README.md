@@ -138,8 +138,7 @@ Usage: dust -v regex (Exclude files matching this regex (eg dust -v "\.png$" wou
 
 
 <details><summary>delta</summary>
-
-[Install it](https://dandavison.github.io/delta/installation.html) (the package is called "git-delta" in most package managers, but the executable is just `delta`) and add this to your `~/.gitconfig`:
+Install it and then add this to your `~/.gitconfig`:
 
 ```gitconfig
 [core]
