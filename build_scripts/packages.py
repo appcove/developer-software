@@ -92,6 +92,13 @@ class release(Release, Tool):
     description = "This package install neccesary files for AppcoveDevSoftware"
 
 
+class delta(SimpleRustPackage, Tool):
+    package_name = "delta"
+    version = "0.15.1"
+    homepage = "https://github.com/dandavison/delta"
+    description = "Modern CLI git diff analizer (requires manual setup)"
+
+
 class install_everything(InstallAll, Tool):
     package_name = 'everything'
     version = "1.0.0"

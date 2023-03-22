@@ -44,6 +44,7 @@ Should output
 - [ads-ripgrep](https://github.com/BurntSushi/ripgrep) - ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern.
 - [ads-bottom](https://github.com/ClementTsang/bottom) - A customizable cross-platform graphical process/system monitor for the terminal.
 - [ads-et](https://github.com/solidiquis/erdtree) - A modern, vibrant, and multi-threaded file-tree visualizer and disk usage analyzer
+- [ads-git-delta](https://github.com/solidiquis/erdtree) - Modern CLI git diff analizer (requires manual setup LOOK BELOW)
 
 # Examples 
 <details><summary>fd</summary>
@@ -136,6 +137,30 @@ Usage: dust -v regex (Exclude files matching this regex (eg dust -v "\.png$" wou
 
 
 
+<details><summary>delta</summary>
 
+[Install it](https://dandavison.github.io/delta/installation.html) (the package is called "git-delta" in most package managers, but the executable is just `delta`) and add this to your `~/.gitconfig`:
+
+```gitconfig
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+```
+
+</details>
+   
+   
 
 

@@ -37,3 +37,6 @@
 [submodule "sources/erdtree"]
 	path = sources/erdtree
 	url = https://github.com/solidiquis/erdtree
+[submodule "sources/delta"]
+	path = sources/delta
+	url = https://github.com/dandavison/delta
