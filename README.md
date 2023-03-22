@@ -44,7 +44,7 @@ Should output
 - [ads-ripgrep](https://github.com/BurntSushi/ripgrep) - ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern.
 - [ads-bottom](https://github.com/ClementTsang/bottom) - A customizable cross-platform graphical process/system monitor for the terminal.
 - [ads-et](https://github.com/solidiquis/erdtree) - A modern, vibrant, and multi-threaded file-tree visualizer and disk usage analyzer
-- [ads-git-delta](https://github.com/solidiquis/erdtree) - Modern CLI git diff analizer (requires manual setup LOOK BELOW)
+- [ads-delta](https://github.com/dandavison/delta) - Modern CLI git diff analizer (requires manual setup LOOK BELOW)
 
 # Examples 
 <details><summary>fd</summary>
