@@ -202,6 +202,7 @@ def write_control_file(path, package_info: Package, UBUNTU_VERSION):
         f.write(f'Description: {package_info.description}\n')
 
 
+# after creating all the neccessary folder stucture this command build a deb package from the path
 def create_deb_package(path):
     try:
         subprocess.check_output(
@@ -211,6 +212,7 @@ def create_deb_package(path):
         raise exc
 
 
+# creates the structure used by APT to work
 def init_ubuntu_folder():
 
     # if __name__ == "__main__":
@@ -267,6 +269,9 @@ def init_ubuntu_folder():
             "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main")
 
 
+# creates a temp folder in which to be built dep packages are compiled and built
+# a package is built only if it is not cached, and the cache is a file in
+# the website branch with the already built packages and their related SHA.
 def BuildAll():
     Path(f'temp').mkdir(parents=True, exist_ok=True)
     cached_submodules_hashes = Package.get_cached_tools()
