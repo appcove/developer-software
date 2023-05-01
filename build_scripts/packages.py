@@ -88,7 +88,6 @@ class erdtree(SimpleRustPackage, Tool):
 class release(Release, Tool):
     package_name = 'release'
     version = "1.0.0"
-    depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install neccesary files for AppcoveDevSoftware"
 
