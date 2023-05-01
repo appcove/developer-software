@@ -166,6 +166,7 @@ echo "HI there, all AppCove Inc. tools have been installed :)"
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
+        print("()()()()()()()()()()()//////////////" + self.depends)
         if len(self.depends) != 0:
             self.depends += ", "
 
