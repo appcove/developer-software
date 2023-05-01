@@ -166,8 +166,10 @@ echo "HI there, all AppCove Inc. tools have been installed :)"
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
+        if len(self.depends) != 0:
+            self.depends += ", "
 
-        self.depends = ", ".join(
+        self.depends += ", ".join(
             [f"ads-{package_name}" for package_name in PackageMap.keys()])
 
         print(self.depends)
