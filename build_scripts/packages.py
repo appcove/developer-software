@@ -88,7 +88,7 @@ class erdtree(SimpleRustPackage, Tool):
 class release(Release, Tool):
     package_name = 'release'
     version = "1.0.0"
-    depends: "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
+    depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install neccesary files for AppcoveDevSoftware"
 
@@ -103,6 +103,6 @@ class delta(SimpleRustPackage, Tool):
 class install_everything(InstallAll, Tool):
     package_name = 'everything'
     version = "1.0.0"
-    depends: "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
+    depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install all the available tools in AppcoveDevSoftware"
