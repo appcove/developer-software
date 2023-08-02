@@ -79,7 +79,7 @@ class bottom(SimpleRustPackage, Tool):
 
 class erdtree(SimpleRustPackage, Tool):
     package_name = "erdtree"
-    binary_names = ["et"]
+    binary_names = ["erd"]
     version = "3.1.2"
     homepage = "https://github.com/solidiquis/erdtree"
     description = "A modern, vibrant, and multi-threaded file-tree visualizer and disk usage analyzer that respects hidden files and .gitignore rules by default - basically if tree and du had a baby."
