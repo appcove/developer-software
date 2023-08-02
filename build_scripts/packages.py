@@ -2,7 +2,7 @@ from common import SimpleRustPackage, InstallAll, Release, Tool
 
 
 class bat(SimpleRustPackage, Tool):
-    version = "0.22.1"
+    version = "0.23.0"
     homepage = "https://github.com/sharkdp/bat"
     description = "A cat clone with syntax highlighting and Git integration"
 
@@ -17,30 +17,30 @@ class git_excess(SimpleRustPackage, Tool):
 
 class pastel(SimpleRustPackage, Tool):
     version = "0.9.0"
-    homepage = "https://github.com/sharkdp/pastel/tree/3719824a56fb9eb92eb960068e513b95486756a7"
+    homepage = "https://github.com/sharkdp/pastel"
     description = "pastel is a command-line Tool to generate, analyze, convert and manipulate colors. It supports many different color formats and color spaces like RGB (sRGB HSL, CIELAB, CIELCh) as well as ANSI 8-bit and 24-bit representations."
 
 
 class fd(SimpleRustPackage, Tool):
-    version = "8.4.0"
+    version = "8.7.0"
     homepage = "https://github.com/sharkdp/fd"
     description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
 
 
 class procs(SimpleRustPackage, Tool):
-    version = "0.13.2"
+    version = "0.14.0"
     homepage = "https://github.com/dalance/procs"
     description = "modern replacement for ps"
 
 
 class grex(SimpleRustPackage, Tool):
-    version = "1.4.0"
+    version = "1.4.2"
     homepage = "https://github.com/pemistahl/grex"
     description = "grex is meant to simplify the tedious task of creating regular expressions. It does so by automatically generating a single regular expression from user-provided test cases."
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.16.0"
+    version = "1.24.2"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -58,7 +58,7 @@ class sd(SimpleRustPackage, Tool):
 
 
 class dust(SimpleRustPackage, Tool):
-    version = "0.8.3"
+    version = "0.8.6"
     homepage = "https://github.com/bootandy/dust"
     description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
 
@@ -72,7 +72,7 @@ class ripgrep(SimpleRustPackage, Tool):
 
 class bottom(SimpleRustPackage, Tool):
     binary_names = ["btm"]
-    version = "1.16.0"
+    version = "1.24.2"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -80,7 +80,7 @@ class bottom(SimpleRustPackage, Tool):
 class erdtree(SimpleRustPackage, Tool):
     package_name = "erdtree"
     binary_names = ["et"]
-    version = "1.0.3"
+    version = "3.1.2"
     homepage = "https://github.com/solidiquis/erdtree"
     description = "A modern, vibrant, and multi-threaded file-tree visualizer and disk usage analyzer that respects hidden files and .gitignore rules by default - basically if tree and du had a baby."
 
@@ -94,7 +94,7 @@ class release(Release, Tool):
 
 class delta(SimpleRustPackage, Tool):
     package_name = "delta"
-    version = "0.15.1"
+    version = "0.16.5"
     homepage = "https://github.com/dandavison/delta"
     description = "Modern CLI git diff analizer (requires manual setup)"
 
