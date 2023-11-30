@@ -2,7 +2,7 @@ from common import SimpleRustPackage, InstallAll, Release, Tool
 
 
 class bat(SimpleRustPackage, Tool):
-    version = "0.23.0"
+    version = "0.24.0"
     homepage = "https://github.com/sharkdp/bat"
     description = "A cat clone with syntax highlighting and Git integration"
 
@@ -22,25 +22,25 @@ class pastel(SimpleRustPackage, Tool):
 
 
 class fd(SimpleRustPackage, Tool):
-    version = "8.7.0"
+    version = "8.7.1"
     homepage = "https://github.com/sharkdp/fd"
     description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
 
 
 class procs(SimpleRustPackage, Tool):
-    version = "0.14.0"
+    version = "0.14.4"
     homepage = "https://github.com/dalance/procs"
     description = "modern replacement for ps"
 
 
 class grex(SimpleRustPackage, Tool):
-    version = "1.4.2"
+    version = "1.4.4"
     homepage = "https://github.com/pemistahl/grex"
     description = "grex is meant to simplify the tedious task of creating regular expressions. It does so by automatically generating a single regular expression from user-provided test cases."
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.24.2"
+    version = "1.29.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -52,7 +52,7 @@ class exa(SimpleRustPackage, Tool):
 
 
 class sd(SimpleRustPackage, Tool):
-    version = "0.7.6"
+    version = "1.0.0"
     homepage = "https://github.com/chmln/sd"
     description = "sd is an intuitive find & replace CLI."
 
@@ -65,14 +65,14 @@ class dust(SimpleRustPackage, Tool):
 
 class ripgrep(SimpleRustPackage, Tool):
     binary_names = ["rg"]
-    version = "13.0.0"
+    version = "14.0.3"
     homepage = "https://github.com/BurntSushi/ripgrep"
     description = "ripgrep is a line-oriented search Tool that recursively searches the current directory for a regex pattern."
 
 
 class bottom(SimpleRustPackage, Tool):
     binary_names = ["btm"]
-    version = "1.24.2"
+    version = "1.29.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -101,7 +101,7 @@ class delta(SimpleRustPackage, Tool):
 
 class install_everything(InstallAll, Tool):
     package_name = 'everything'
-    version = "1.0.0"
+    version = "1.0.1"
     depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install all the available tools in AppcoveDevSoftware"
