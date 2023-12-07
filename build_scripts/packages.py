@@ -99,6 +99,13 @@ class delta(SimpleRustPackage, Tool):
     description = "Modern CLI git diff analizer (requires manual setup)"
 
 
+class jaq(SimpleRustPackage, Tool):
+    package_name = "jaq"
+    version = "1.2.0"
+    homepage = "https://github.com/01mf02/jaq"
+    description = "A jq clone focussed on correctness, speed, and simplicity"
+
+
 class install_everything(InstallAll, Tool):
     package_name = 'everything'
     version = "1.0.1"

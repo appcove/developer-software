@@ -16,6 +16,9 @@
 [submodule "sources/grex"]
 	path = sources/grex
 	url = https://github.com/pemistahl/grex
+[submodule "sources/jaq"]
+	path = sources/jaq
+	url = https://github.com/01mf02/jaq
 [submodule "sources/broot"]
 	path = sources/broot
 	url = https://github.com/Canop/broot.git
@@ -40,3 +43,6 @@
 [submodule "sources/delta"]
 	path = sources/delta
 	url = https://github.com/dandavison/delta
+[submodule "/home/carlo/code/appcove/developer-software/sources/jaq"]
+	path = /home/carlo/code/appcove/developer-software/sources/jaq
+	url = https://github.com/01mf02/jaq
