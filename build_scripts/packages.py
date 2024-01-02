@@ -22,7 +22,7 @@ class pastel(SimpleRustPackage, Tool):
 
 
 class fd(SimpleRustPackage, Tool):
-    version = "8.7.1"
+    version = "9.0.0"
     homepage = "https://github.com/sharkdp/fd"
     description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
 
@@ -40,7 +40,7 @@ class grex(SimpleRustPackage, Tool):
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.29.0"
+    version = "1.32.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
