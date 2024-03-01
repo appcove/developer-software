@@ -40,7 +40,7 @@ class grex(SimpleRustPackage, Tool):
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.32.0"
+    version = "1.34.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -72,7 +72,7 @@ class ripgrep(SimpleRustPackage, Tool):
 
 class bottom(SimpleRustPackage, Tool):
     binary_names = ["btm"]
-    version = "1.32.0"
+    version = "1.34.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
