@@ -22,7 +22,7 @@ class pastel(SimpleRustPackage, Tool):
 
 
 class fd(SimpleRustPackage, Tool):
-    version = "8.7.1"
+    version = "9.0.0"
     homepage = "https://github.com/sharkdp/fd"
     description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
 
@@ -40,7 +40,7 @@ class grex(SimpleRustPackage, Tool):
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.29.0"
+    version = "1.34.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -58,21 +58,21 @@ class sd(SimpleRustPackage, Tool):
 
 
 class dust(SimpleRustPackage, Tool):
-    version = "0.8.6"
+    version = "0.9.0"
     homepage = "https://github.com/bootandy/dust"
     description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
 
 
 class ripgrep(SimpleRustPackage, Tool):
     binary_names = ["rg"]
-    version = "14.0.3"
+    version = "14.1.0"
     homepage = "https://github.com/BurntSushi/ripgrep"
     description = "ripgrep is a line-oriented search Tool that recursively searches the current directory for a regex pattern."
 
 
 class bottom(SimpleRustPackage, Tool):
     binary_names = ["btm"]
-    version = "1.29.0"
+    version = "1.34.0"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -101,7 +101,7 @@ class delta(SimpleRustPackage, Tool):
 
 class jaq(SimpleRustPackage, Tool):
     package_name = "jaq"
-    version = "1.2.0"
+    version = "1.3.0"
     homepage = "https://github.com/01mf02/jaq"
     description = "A jq clone focussed on correctness, speed, and simplicity"
 
