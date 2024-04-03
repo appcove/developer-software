@@ -28,19 +28,19 @@ class fd(SimpleRustPackage, Tool):
 
 
 class procs(SimpleRustPackage, Tool):
-    version = "0.14.4"
+    version = "0.14.5"
     homepage = "https://github.com/dalance/procs"
     description = "modern replacement for ps"
 
 
 class grex(SimpleRustPackage, Tool):
-    version = "1.4.4"
+    version = "1.4.5"
     homepage = "https://github.com/pemistahl/grex"
     description = "grex is meant to simplify the tedious task of creating regular expressions. It does so by automatically generating a single regular expression from user-provided test cases."
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.34.0"
+    version = "1.36.1"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -58,7 +58,7 @@ class sd(SimpleRustPackage, Tool):
 
 
 class dust(SimpleRustPackage, Tool):
-    version = "0.9.0"
+    version = "1.0.0"
     homepage = "https://github.com/bootandy/dust"
     description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
 
@@ -72,7 +72,7 @@ class ripgrep(SimpleRustPackage, Tool):
 
 class bottom(SimpleRustPackage, Tool):
     binary_names = ["btm"]
-    version = "1.34.0"
+    version = "1.36.1"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -94,7 +94,7 @@ class release(Release, Tool):
 
 class delta(SimpleRustPackage, Tool):
     package_name = "delta"
-    version = "0.16.5"
+    version = "0.17.0"
     homepage = "https://github.com/dandavison/delta"
     description = "Modern CLI git diff analizer (requires manual setup)"
 
