@@ -22,13 +22,13 @@ class pastel(SimpleRustPackage, Tool):
 
 
 class fd(SimpleRustPackage, Tool):
-    version = "9.0.0"
+    version = "10.1.0"
     homepage = "https://github.com/sharkdp/fd"
     description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
 
 
 class procs(SimpleRustPackage, Tool):
-    version = "0.14.5"
+    version = "0.14.6"
     homepage = "https://github.com/dalance/procs"
     description = "modern replacement for ps"
 
@@ -40,7 +40,7 @@ class grex(SimpleRustPackage, Tool):
 
 
 class broot(SimpleRustPackage, Tool):
-    version = "1.36.1"
+    version = "1.41.1"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -58,7 +58,7 @@ class sd(SimpleRustPackage, Tool):
 
 
 class dust(SimpleRustPackage, Tool):
-    version = "1.0.0"
+    version = "1.1.1"
     homepage = "https://github.com/bootandy/dust"
     description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
 
@@ -72,7 +72,7 @@ class ripgrep(SimpleRustPackage, Tool):
 
 class bottom(SimpleRustPackage, Tool):
     binary_names = ["btm"]
-    version = "1.36.1"
+    version = "1.41.1"
     homepage = "https://github.com/Canop/broot"
     description = "A better way to navigate directories"
 
@@ -101,14 +101,14 @@ class delta(SimpleRustPackage, Tool):
 
 class jaq(SimpleRustPackage, Tool):
     package_name = "jaq"
-    version = "1.3.0"
+    version = "1.6.0"
     homepage = "https://github.com/01mf02/jaq"
     description = "A jq clone focussed on correctness, speed, and simplicity"
 
 
 class install_everything(InstallAll, Tool):
     package_name = 'everything'
-    version = "1.0.1"
+    version = "1.0.2"
     depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install all the available tools in AppcoveDevSoftware"
