@@ -26,6 +26,9 @@ jobs:
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
           gpg --import private_gpg.key
 
+      - name: Rust setup
+        run: rustup toolchain install stable --profile minimal
+
       - name: run python program builders
         run: |
           python3 build_scripts/main.py
@@ -43,6 +46,6 @@ jobs:
           shopt -s globstar
           rm -r !(ubuntu|README.md|cache.yaml)
           git add -A
-          git rm -rf .gitmodules .github .gitignore 
+          git rm -rf .gitmodules .github .gitignore
           git commit -m "Updated debs"
           git push -f --set-upstream origin website

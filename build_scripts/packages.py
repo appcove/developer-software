@@ -8,7 +8,7 @@ class bat(RustPackage, Tool):
 
 class git_excess(RustPackage, Tool):
     package_name = "git-excess"
-    binary_names = ["git-sdif", "git-srep", "git-embed", "egit"]
+    binaries = ["git-sdif", "git-srep", "git-embed", "egit"]
     version = "1.1.0"
     git = "https://github.com/appcove/git-excess"
     homepage = "https://github.com/appcove/git-excess"
@@ -58,20 +58,20 @@ class dust(RustPackage, Tool):
     description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
 
 class ripgrep(RustPackage, Tool):
-    binary_names = ["rg"]
+    binaries = ["rg"]
     version = "14.1.1"
     homepage = "https://github.com/BurntSushi/ripgrep"
     description = "ripgrep is a line-oriented search Tool that recursively searches the current directory for a regex pattern."
 
 class bottom(RustPackage, Tool):
-    binary_names = ["btm"]
+    binaries = ["btm"]
     version = "0.10.2"
     homepage = "https://github.com/ClementTsang/bottom"
     description = "A better way to navigate directories"
 
 class erdtree(RustPackage, Tool):
     package_name = "erdtree"
-    binary_names = ["erd"]
+    binaries = ["erd"]
     version = "3.1.2"
     homepage = "https://github.com/solidiquis/erdtree"
     description = "A modern, vibrant, and multi-threaded file-tree visualizer and disk usage analyzer that respects hidden files and .gitignore rules by default - basically if tree and du had a baby."
