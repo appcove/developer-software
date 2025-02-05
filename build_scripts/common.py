@@ -6,18 +6,15 @@ import lsb_release
 import os
 from pathlib import Path
 import shutil
-from dataclasses import dataclass, field
 import yaml
 import glob
-# frozen set the class to be read_only
 
-
+# Uh, what?
 class Tool():
     pass
 
-
-PackageMap = {}
-
+# Dictionary containins metadata for packages in the ads-* packages
+Packages = {}
 
 class Package(object):
 
@@ -44,9 +41,9 @@ class Package(object):
                     raise TypeError(
                         f'Attribute is not recognized: `{field}`, valid fields are : `package_name`,`binary_names`,`version`,`homepage`,`description`,`arch`,`maintainer`,`depends`.')
 
-            if cls.package_name in PackageMap:
+            if cls.package_name in Packages:
                 raise KeyError(
-                    f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
+                    f'Package `{cls.package_name}` already defined as {Packages[cls.package_name]}')
 
             if not cls.package_name:
                 cls.package_name = cls.__name__
@@ -72,7 +69,7 @@ class Package(object):
                 raise TypeError(
                     f'`binary_names` attribute must be a list, not: {type(cls.binary_names)}')
 
-            PackageMap[cls.package_name] = cls
+            Packages[cls.package_name] = cls
 
     @staticmethod
     def get_current_submodule_hash(package_name):
@@ -85,16 +82,6 @@ class Package(object):
             current_submodule_hash = ""
         return current_submodule_hash
 
-    @staticmethod
-    def get_cached_tools():
-        subprocess.run(
-            ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
-        try:
-            with open(r'cache.yaml') as cache_file:
-                return yaml.full_load(cache_file)
-        except FileNotFoundError:
-            return {}
-
     def is_cached(self, cached_submodules_hashes: Dict[str, str]) -> bool:
         current_submodule_hash = Package.get_current_submodule_hash(
             self.package_name)
@@ -102,29 +89,37 @@ class Package(object):
         return cached_submodules_hashes.get(
             self.package_name) == current_submodule_hash and current_submodule_hash != ""
 
-
-class SimpleRustPackage(Package):
-
+# Rust Packages insalled from crates.io using the `cargo install` command
+class RustPackage(Package):
     def build(self):
-        ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-        os.chdir(f"sources/{self.package_name}")
-        cargo_build_project()
-
         BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
-        Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
+        ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
+
+        # cargo-install
+        commands = ["cargo", "install", "--force", f"{self.package_name}@{self.version}", "--root", "../../temp/cargo-install"]
+
+        # sources from a git repository
+        if self.git:
+            commands = ["cargo", "install", "--force", "--git", self.git, "--root", "../../temp/cargo-install", *self.binary_names]
+            pass
+
+        subprocess.run(commands)
+
+        # Create Target Directories
+        target_path = Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
+
         for bin in self.binary_names:
             print(f"Getting binary ⏩ [{bin}]")
-            shutil.copy(f"./target/release/{bin}",
-                        Path(f'{BUILD_FOLDER}/opt/ads/bin'))
+            path = f"../../temp/cargo-install/bin/{bin}"
+            shutil.copy(path, target_path)
+
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
         create_deb_package(f"{BUILD_FOLDER}")
         os.chdir('../../')
 
-
 class Release(Package):
-
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
         os.chdir(f"sources/bat")
@@ -150,9 +145,7 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
         create_deb_package(f"{BUILD_FOLDER}")
         os.chdir('../../')
 
-
 class InstallAll(Package):
-
     def build(self):
         ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
         os.chdir(f"sources/bat")
@@ -170,7 +163,7 @@ echo "HI there, all AppCove Inc. tools have been installed :)"
             self.depends += ", "
 
         self.depends += ", ".join(
-            [f"ads-{package_name}" for package_name in PackageMap.keys()])
+            [f"ads-{package_name}" for package_name in Packages.keys()])
 
         print(self.depends)
         write_control_file(BUILD_FOLDER, self,  ubuntu_version)
@@ -179,16 +172,12 @@ echo "HI there, all AppCove Inc. tools have been installed :)"
         create_deb_package(f"{BUILD_FOLDER}")
         os.chdir('../../')
 
-
 def install_rust():
     subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
     subprocess.run(
         "curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y > /dev/null", shell=True)
     subprocess.run(". $HOME/.cargo/env", shell=True)
 
-
-def cargo_build_project():
-    subprocess.check_output(["cargo", "build", "--release", "--quiet"])
 
 
 def write_control_file(path, package_info: Package, UBUNTU_VERSION):
@@ -270,14 +259,25 @@ def init_ubuntu_folder():
         file.write(
             "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main")
 
+# Downloads `cache.yaml` from git remote
+def get_cache_config():
+    subprocess.run(
+        ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
+    try:
+        with open(r'cache.yaml') as cache_file:
+            return yaml.full_load(cache_file)
+    except FileNotFoundError:
+        return {}
 
 # creates a temp folder in which to be built dep packages are compiled and built
 # a package is built only if it is not cached, and the cache is a file in
 # the website branch with the already built packages and their related SHA.
 def BuildAll():
+    # Create `temp` directory
     Path(f'temp').mkdir(parents=True, exist_ok=True)
-    cached_submodules_hashes = Package.get_cached_tools()
-    for package_class in PackageMap.values():
+
+    cached_submodules_hashes = get_cache_config()
+    for package_class in Packages.values():
         # Create instance
         package = package_class()
         if package.is_cached(cached_submodules_hashes):
