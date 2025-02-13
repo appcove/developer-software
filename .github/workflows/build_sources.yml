@@ -25,7 +25,7 @@ jobs:
       - name: save private key from github_secrets and import it
         run: |
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
-          gpg --batch --import private_gpg.key --passphrase ${{ secrets.GPG_PASSPHRASE }}
+          gpg --batch --passphrase ${{ secrets.GPG_PASSPHRASE }} --import private_gpg.key
 
       - name: run python program builders
         run: |
