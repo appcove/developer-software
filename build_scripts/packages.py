@@ -54,6 +54,7 @@ class sd(RustPackage, Tool):
 class dust(RustPackage, Tool):
     version = "1.1.1"
     package_name = "du-dust"
+    binaries = ["dust"]
     homepage = "https://github.com/bootandy/dust"
     description = "Dust is a more intuitive version of `du`, used for displaying disk usage statistics."
 
@@ -91,15 +92,14 @@ class jaq(RustPackage, Tool):
 
 
 # Meta-Pacakges
-class install_everything(InstallAll, Tool):
-    package_name = 'everything'
-    version = "1.0.1"
+class everything(InstallAll, Tool):
+    version = "1.1.0"
     depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install all the available tools in AppcoveDevSoftware"
 
 class release(Release, Tool):
     package_name = 'release'
-    version = "1.0.0"
+    version = "1.1.0"
     homepage = "https://github.com/appcove/developer-software"
     description = "This package install neccesary files for AppcoveDevSoftware"

@@ -78,40 +78,37 @@ class Package(object):
 # Rust Packages insalled from crates.io using the `cargo install` command
 class RustPackage(Package):
     def build(self):
-        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
+        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # cargo-install
-        commands = ["cargo", "install", "--quiet", "--force", f"{self.package_name}@{self.version}", "--root", "../../temp/cargo-install"]
+        commands = ["cargo", "install", "--quiet", f"{self.package_name}@{self.version}", "--root", "temp/cargo-install"]
 
         # sources from a git repository
         if self.git:
-            commands = ["cargo", "install", "--quiet", "--force", "--git", self.git, "--root", "../../temp/cargo-install", *self.binaries]
+            commands = ["cargo", "install", "--quiet", "--git", self.git, "--root", "temp/cargo-install", *self.binaries]
             pass
 
         # let's gooo
-        print("[🛠️] Installing Package: ", self.package_name)
         subprocess.run(commands)
 
         # Create Target Directories
-        target_path = Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
+        target_folder = Path(f'{BUILD_FOLDER}/opt/ads/bin')
+        target_folder.mkdir(parents=True, exist_ok=True)
 
         # Write out binaries
-        print(f"Getting binaries ⏩ [{", ".join(self.binaries)}]")
+        print(f"[*] Copying binaries - [{", ".join(self.binaries)}]")
         for bin in self.binaries:
-            path = f"../../temp/cargo-install/bin/{bin}"
-            print(path)
-            shutil.copy(path, target_path)
+            path = f"temp/cargo-install/bin/{bin}"
+            shutil.copy(path, target_folder)
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
-        write_control_file(BUILD_FOLDER, self,  UBUNTU_VERSION)
+        write_control_file(BUILD_FOLDER, self)
         create_deb_package(f"{BUILD_FOLDER}")
-        os.chdir('../../')
 
 class Release(Package):
     def build(self):
-        os.chdir(f"sources/bat")
-        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
+        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # add path to bins
         Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
@@ -122,21 +119,19 @@ class Release(Package):
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
             release_file.write("""
-curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://appcove.github.io/developer-software/ubuntu/dists/noble/appcove-developer-software.list\"""")
+curl -s --compressed "https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
+sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/dists/jammy/appcove-developer-software.list\"""")
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
-        write_control_file(BUILD_FOLDER, self,  UBUNTU_VERSION)
+        write_control_file(BUILD_FOLDER, self)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
         create_deb_package(f"{BUILD_FOLDER}")
-        os.chdir('../../')
 
 class InstallAll(Package):
     def build(self):
-        os.chdir(f"sources/bat")
-        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
+        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
@@ -144,7 +139,6 @@ class InstallAll(Package):
 echo "HI there, all AppCove Inc. tools have been installed :)"
 """)
 
-        Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
         if len(self.depends) != 0:
             self.depends += ", "
@@ -152,17 +146,16 @@ echo "HI there, all AppCove Inc. tools have been installed :)"
         self.depends += ", ".join(
             [f"ads-{package_name}" for package_name in Packages.keys()])
 
-        print(self.depends)
-        write_control_file(BUILD_FOLDER, self,  UBUNTU_VERSION)
+        write_control_file(BUILD_FOLDER, self)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
         create_deb_package(f"{BUILD_FOLDER}")
-        os.chdir('../../')
 
 def write_control_file(path, package_info: Package):
-    print(f"{path}/DEBIAN/control")
+    Path(f"{path}/DEBIAN").mkdir(parents=True, exist_ok=True)
 
-    with open(f"{path}/DEBIAN/control", 'w') as f:
+    print(f"[*] Writing Control File - {path}/DEBIAN/control")
+    with open(f"{path}/DEBIAN/control", 'x') as f:
         f.write(f'Package: ads-{package_info.package_name}\n')
         f.write(f'Version: {package_info.version}custom{UBUNTU_VERSION}\n')
         f.write(f'Maintainer: {package_info.maintainer}\n')
@@ -185,16 +178,23 @@ def create_deb_package(path):
 # creates a temp folder in which to be built Debian packages are compiled and build
 def build_packages():
     # Create `temp` directory
-    Path(f'temp').mkdir(parents=True, exist_ok=True)
+    temp = Path(f'temp')
+    temp.mkdir(parents=True, exist_ok=True)
 
     # Build All
     for package_class in Packages.values():
         # Create instance
         package = package_class()
 
+        if package.package_name != "pastel":
+            continue
+
         # Build
-        print(f"########## [🔨] - {package.package_name} Building...")
+        print(f"[🔨] Building Package: {package.package_name}")
         package.build()
+
+    # Delete Temp Folder
+    shutil.rmtree(temp)
 
 
 # creates the structure used by APT to work
