@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v3
@@ -20,14 +20,12 @@ jobs:
           fetch-depth: 0
           submodules: recursive
           persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
 
       - name: save private key from github_secrets and import it
         run: |
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
           gpg --import private_gpg.key
-
-      - name: Rust setup
-        run: rustup toolchain install stable --profile minimal
 
       - name: run python program builders
         run: |
