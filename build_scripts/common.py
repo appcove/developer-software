@@ -81,14 +81,15 @@ class RustPackage(Package):
         BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # cargo-install
-        commands = ["cargo", "install", "--force", f"{self.package_name}@{self.version}", "--root", "../../temp/cargo-install"]
+        commands = ["cargo", "install", "--quiet", "--force", f"{self.package_name}@{self.version}", "--root", "../../temp/cargo-install"]
 
         # sources from a git repository
         if self.git:
-            commands = ["cargo", "install", "--force", "--git", self.git, "--root", "../../temp/cargo-install", *self.binaries]
+            commands = ["cargo", "install", "--quiet", "--force", "--git", self.git, "--root", "../../temp/cargo-install", *self.binaries]
             pass
 
-        # print(f"[🛠️] Mock Build: {" ".join(commands)}")
+        # let's gooo
+        print("[🛠️] Installing Package: ", self.package_name)
         subprocess.run(commands)
 
         # Create Target Directories
