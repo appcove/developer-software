@@ -186,9 +186,6 @@ def build_packages():
         # Create instance
         package = package_class()
 
-        if package.package_name != "pastel":
-            continue
-
         # Build
         print(f"[🔨] Building Package: {package.package_name}")
         package.build()
