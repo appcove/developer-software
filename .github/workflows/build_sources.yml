@@ -28,7 +28,9 @@ jobs:
           rm private_gpg.key
 
       - name: Execute Python Package Builder
-        run: python3 build_scripts/main.py
+        run: |
+          python3 -u build_scripts/main.py
+          tree .
 
       - name: Commit files
         run: |
