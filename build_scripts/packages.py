@@ -20,14 +20,14 @@ class pastel(RustPackage, Tool):
     description = "pastel is a command-line Tool to generate, analyze, convert and manipulate colors. It supports many different color formats and color spaces like RGB (sRGB HSL, CIELAB, CIELCh) as well as ANSI 8-bit and 24-bit representations."
 
 class fd_find(RustPackage, Tool):
-    version = "10.2.0"
+    version = "10.3.0"
     package_name = "fd-find"
     binaries = ["fd"]
     homepage = "https://github.com/sharkdp/fd"
     description = "fd is a program to find entries in your filesystem. It is a simple, fast and user-friendly alternative to find"
 
 class procs(RustPackage, Tool):
-    version = "0.14.9"
+    version = "0.14.10"
     homepage = "https://github.com/dalance/procs"
     description = "modern replacement for ps"
 
@@ -37,7 +37,7 @@ class grex(RustPackage, Tool):
     description = "grex is meant to simplify the tedious task of creating regular expressions. It does so by automatically generating a single regular expression from user-provided test cases."
 
 class broot(RustPackage, Tool):
-    version = "1.44.6"
+    version = "1.49.1"
     homepage = "https://github.com/Canop/broot"
     description = " A new file manager "
 
@@ -52,7 +52,7 @@ class sd(RustPackage, Tool):
     description = "sd is an intuitive find & replace CLI."
 
 class dust(RustPackage, Tool):
-    version = "1.1.1"
+    version = "1.2.3"
     package_name = "du-dust"
     binaries = ["dust"]
     homepage = "https://github.com/bootandy/dust"
@@ -66,9 +66,9 @@ class ripgrep(RustPackage, Tool):
 
 class bottom(RustPackage, Tool):
     binaries = ["btm"]
-    version = "0.10.2"
+    version = "0.11.1"
     homepage = "https://github.com/ClementTsang/bottom"
-    description = "A better way to navigate directories"
+    description = " A customizable cross-platform graphical process/system monitor for the terminal. Supports Linux, macOS, and Windows"
 
 class erdtree(RustPackage, Tool):
     package_name = "erdtree"
@@ -86,7 +86,7 @@ class git_delta(RustPackage, Tool):
 
 class jaq(RustPackage, Tool):
     package_name = "jaq"
-    version = "2.1.0"
+    version = "2.3.0"
     homepage = "https://github.com/01mf02/jaq"
     description = "Just another JSON query tool "
 

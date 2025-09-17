@@ -12,13 +12,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-25.04
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          submodules: recursive
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@stable
 
@@ -26,13 +25,10 @@ jobs:
         run: |
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
           gpg --batch --passphrase ${{ secrets.GPG_PASSPHRASE }} --import private_gpg.key
+          rm private_gpg.key
 
-      - name: run python program builders
-        run: |
-          python3 build_scripts/main.py
-
-      - name: Remove remove private key
-        run: rm -rf private_gpg.key
+      - name: Execute Python Package Builder
+        run: python3 build_scripts/main.py
 
       - name: Commit files
         run: |

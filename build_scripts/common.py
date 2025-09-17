@@ -14,9 +14,9 @@ class Tool():
 # Dictionary containins metadata for packages in the ads-* packages
 Packages = {}
 
-# Constants For Ubuntu Package (don't know how to replace lsb_release)
-UBUNTU_VERSION = "24.04"
-UBUNTU_CODENAME = "noble"
+# Ubuntu Version Constants
+UBUNTU_VERSION = "25.04"
+UBUNTU_CODENAME = "plucky"
 
 class Package(object):
 
@@ -81,11 +81,11 @@ class RustPackage(Package):
         BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # cargo-install
-        commands = ["cargo", "install", "--quiet", f"{self.package_name}@{self.version}", "--root", "temp/cargo-install"]
+        commands = ["cargo", "install", "--locked", "--quiet", f"{self.package_name}@{self.version}", "--root", "temp/cargo-install"]
 
         # sources from a git repository
         if self.git:
-            commands = ["cargo", "install", "--quiet", "--git", self.git, "--root", "temp/cargo-install", *self.binaries]
+            commands = ["cargo", "install", "--locked", "--quiet", "--git", self.git, "--root", "temp/cargo-install", *self.binaries]
             pass
 
         # let's gooo
