@@ -15,11 +15,10 @@ class Tool():
 Packages = {}
 
 # Ubuntu Version Constants
-UBUNTU_VERSION = "25.04"
-UBUNTU_CODENAME = "plucky"
+UBUNTU_VERSION = "24.04"
+UBUNTU_CODENAME = "noble"
 
 class Package(object):
-
     package_name = None
     binaries = None
     version = None
