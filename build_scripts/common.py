@@ -101,7 +101,6 @@ class RustPackage(Package):
             shutil.copy(path, target_folder)
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-        os.chdir(f'{BUILD_FOLDER}')
         write_control_file(BUILD_FOLDER, self)
         create_deb_package(f"{BUILD_FOLDER}")
 
@@ -122,7 +121,6 @@ curl -s --compressed "https://raw.githubusercontent.com/appcove/developer-softwa
 sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/dists/jammy/appcove-developer-software.list\"""")
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-        os.chdir(f'{BUILD_FOLDER}')
         write_control_file(BUILD_FOLDER, self)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
@@ -134,11 +132,8 @@ class InstallAll(Package):
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
-            release_file.write("""
-echo "HI there, all AppCove Inc. tools have been installed :)"
-""")
+            release_file.write('echo "HI there, all AppCove Inc. tools have been installed :)"')
 
-        os.chdir(f'{BUILD_FOLDER}')
         if len(self.depends) != 0:
             self.depends += ", "
 
