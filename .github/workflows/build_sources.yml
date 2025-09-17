@@ -42,6 +42,6 @@ jobs:
           shopt -s globstar
           rm -r !(ubuntu|README.md|cache.yaml)
           git add -A
-          git rm -rf .gitmodules .github .gitignore
+          git rm -rf --ignore-unmatch .gitmodules .github .gitignore
           git commit -m "Updated debs"
           git push -f --set-upstream origin website
