@@ -12,26 +12,23 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          submodules: recursive
           persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
 
       - name: save private key from github_secrets and import it
         run: |
           echo "${{ secrets.DEVELOPER_SOFTWARE_GPG_PRIVATE_KEY }}" > private_gpg.key
-          gpg --import private_gpg.key
+          gpg --batch --passphrase ${{ secrets.GPG_PASSPHRASE }} --import private_gpg.key
+          rm private_gpg.key
 
-      - name: run python program builders
-        run: |
-          python3 build_scripts/main.py
-
-      - name: Remove `temp` dir and remove private key
-        run: rm -rf temp private_gpg.key
+      - name: Execute Python Package Builder
+        run: python3 build_scripts/main.py
 
       - name: Commit files
         run: |
@@ -43,6 +40,6 @@ jobs:
           shopt -s globstar
           rm -r !(ubuntu|README.md|cache.yaml)
           git add -A
-          git rm -rf .gitmodules .github .gitignore 
+          git rm -rf .gitmodules .github .gitignore
           git commit -m "Updated debs"
           git push -f --set-upstream origin website

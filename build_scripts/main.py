@@ -1,7 +1,5 @@
 from common import *
 from packages import *
 
-
-install_rust()
-BuildAll()
+build_packages()
 init_ubuntu_folder()

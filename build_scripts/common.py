@@ -2,28 +2,27 @@ from json import tool
 import subprocess
 from subprocess import check_output, STDOUT, CalledProcessError
 from typing import Dict
-import lsb_release
 import os
 from pathlib import Path
 import shutil
-from dataclasses import dataclass, field
-import yaml
 import glob
-# frozen set the class to be read_only
 
-
+# Uh, what?
 class Tool():
     pass
 
+# Dictionary containins metadata for packages in the ads-* packages
+Packages = {}
 
-PackageMap = {}
-
+# Ubuntu Version Constants
+UBUNTU_VERSION = "24.04"
+UBUNTU_CODENAME = "noble"
 
 class Package(object):
-
     package_name = None
-    binary_names = None
+    binaries = None
     version = None
+    git = None
     homepage = None
     description = None
     arch = "amd64"
@@ -44,9 +43,9 @@ class Package(object):
                     raise TypeError(
                         f'Attribute is not recognized: `{field}`, valid fields are : `package_name`,`binary_names`,`version`,`homepage`,`description`,`arch`,`maintainer`,`depends`.')
 
-            if cls.package_name in PackageMap:
+            if cls.package_name in Packages:
                 raise KeyError(
-                    f'Package `{cls.package_name}` already defined as {PackageMap[cls.package_name]}')
+                    f'Package `{cls.package_name}` already defined as {Packages[cls.package_name]}')
 
             if not cls.package_name:
                 cls.package_name = cls.__name__
@@ -65,70 +64,50 @@ class Package(object):
                 raise TypeError(
                     f'`description` attribute missing from {cls.__name__}')
 
-            if not cls.binary_names:
-                cls.binary_names = [cls.package_name]
+            if not cls.binaries:
+                cls.binaries = [cls.package_name]
 
-            if not isinstance(cls.binary_names, list):
+            if not isinstance(cls.binaries, list):
                 raise TypeError(
-                    f'`binary_names` attribute must be a list, not: {type(cls.binary_names)}')
+                    f'`binary_names` attribute must be a list, not: {type(cls.binaries)}')
 
-            PackageMap[cls.package_name] = cls
-
-    @staticmethod
-    def get_current_submodule_hash(package_name):
-        current_submodule_hash = subprocess.run(
-            ["git", "submodule", "status", f"sources/{package_name}"], capture_output=True).stdout
-        try:
-            current_submodule_hash = str(
-                current_submodule_hash.decode("utf-8")).split()[0]
-        except IndexError:
-            current_submodule_hash = ""
-        return current_submodule_hash
-
-    @staticmethod
-    def get_cached_tools():
-        subprocess.run(
-            ["git", "checkout", "remotes/origin/website", "--", "cache.yaml"])
-        try:
-            with open(r'cache.yaml') as cache_file:
-                return yaml.full_load(cache_file)
-        except FileNotFoundError:
-            return {}
-
-    def is_cached(self, cached_submodules_hashes: Dict[str, str]) -> bool:
-        current_submodule_hash = Package.get_current_submodule_hash(
-            self.package_name)
-
-        return cached_submodules_hashes.get(
-            self.package_name) == current_submodule_hash and current_submodule_hash != ""
+            Packages[cls.package_name] = cls
 
 
-class SimpleRustPackage(Package):
-
+# Rust Packages insalled from crates.io using the `cargo install` command
+class RustPackage(Package):
     def build(self):
-        ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-        os.chdir(f"sources/{self.package_name}")
-        cargo_build_project()
+        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
-        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
-        Path(f'{BUILD_FOLDER}/opt/ads/bin').mkdir(parents=True, exist_ok=True)
-        for bin in self.binary_names:
-            print(f"Getting binary ⏩ [{bin}]")
-            shutil.copy(f"./target/release/{bin}",
-                        Path(f'{BUILD_FOLDER}/opt/ads/bin'))
+        # cargo-install
+        commands = ["cargo", "install", "--locked", "--quiet", f"{self.package_name}@{self.version}", "--root", "temp/cargo-install"]
+
+        # sources from a git repository
+        if self.git:
+            commands = ["cargo", "install", "--locked", "--quiet", "--git", self.git, "--root", "temp/cargo-install", *self.binaries]
+            pass
+
+        # let's gooo
+        subprocess.run(commands)
+
+        # Create Target Directories
+        target_folder = Path(f'{BUILD_FOLDER}/opt/ads/bin')
+        target_folder.mkdir(parents=True, exist_ok=True)
+
+        # Write out binaries
+        print(f"[*] Copying binaries - [{", ".join(self.binaries)}]")
+        for bin in self.binaries:
+            path = f"temp/cargo-install/bin/{bin}"
+            shutil.copy(path, target_folder)
+
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
-        write_control_file(BUILD_FOLDER, self,  ubuntu_version)
+        write_control_file(BUILD_FOLDER, self)
         create_deb_package(f"{BUILD_FOLDER}")
-        os.chdir('../../')
-
 
 class Release(Package):
-
     def build(self):
-        ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-        os.chdir(f"sources/bat")
-        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
+        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # add path to bins
         Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
@@ -139,24 +118,19 @@ class Release(Package):
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
             release_file.write("""
-curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://appcove.github.io/developer-software/ubuntu/dists/jammy/appcove-developer-software.list\"""")
+curl -s --compressed "https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
+sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/dists/jammy/appcove-developer-software.list\"""")
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
-        write_control_file(BUILD_FOLDER, self,  ubuntu_version)
+        write_control_file(BUILD_FOLDER, self)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
         create_deb_package(f"{BUILD_FOLDER}")
-        os.chdir('../../')
-
 
 class InstallAll(Package):
-
     def build(self):
-        ubuntu_version = lsb_release.get_distro_information()["RELEASE"]
-        os.chdir(f"sources/bat")
-        BUILD_FOLDER = f"../../temp/ads-{self.package_name}_{self.version}custom{ubuntu_version}_{self.arch}"
+        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
@@ -164,37 +138,23 @@ class InstallAll(Package):
 echo "HI there, all AppCove Inc. tools have been installed :)"
 """)
 
-        Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         os.chdir(f'{BUILD_FOLDER}')
         if len(self.depends) != 0:
             self.depends += ", "
 
         self.depends += ", ".join(
-            [f"ads-{package_name}" for package_name in PackageMap.keys()])
+            [f"ads-{package_name}" for package_name in Packages.keys()])
 
-        print(self.depends)
-        write_control_file(BUILD_FOLDER, self,  ubuntu_version)
+        write_control_file(BUILD_FOLDER, self)
         os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
 
         create_deb_package(f"{BUILD_FOLDER}")
-        os.chdir('../../')
 
+def write_control_file(path, package_info: Package):
+    Path(f"{path}/DEBIAN").mkdir(parents=True, exist_ok=True)
 
-def install_rust():
-    subprocess.run("sudo apt update && sudo apt install -y curl", shell=True)
-    subprocess.run(
-        "curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y > /dev/null", shell=True)
-    subprocess.run(". $HOME/.cargo/env", shell=True)
-
-
-def cargo_build_project():
-    subprocess.check_output(["cargo", "build", "--release", "--quiet"])
-
-
-def write_control_file(path, package_info: Package, UBUNTU_VERSION):
-    print(f"{path}/DEBIAN/control")
-
-    with open(f"{path}/DEBIAN/control", 'w') as f:
+    print(f"[*] Writing Control File - {path}/DEBIAN/control")
+    with open(f"{path}/DEBIAN/control", 'x') as f:
         f.write(f'Package: ads-{package_info.package_name}\n')
         f.write(f'Version: {package_info.version}custom{UBUNTU_VERSION}\n')
         f.write(f'Maintainer: {package_info.maintainer}\n')
@@ -214,11 +174,30 @@ def create_deb_package(path):
         raise exc
 
 
+# creates a temp folder in which to be built Debian packages are compiled and build
+def build_packages():
+    # Create `temp` directory
+    temp = Path(f'temp')
+    temp.mkdir(parents=True, exist_ok=True)
+
+    # Build All
+    for package_class in Packages.values():
+        # Create instance
+        package = package_class()
+
+        # Build
+        print(f"[🔨] Building Package: {package.package_name}")
+        package.build()
+
+    # Delete Temp Folder
+    shutil.rmtree(temp)
+
+
 # creates the structure used by APT to work
 def init_ubuntu_folder():
 
     # if __name__ == "__main__":
-    Path(f'ubuntu/dists/jammy/main/binary-amd64').mkdir(parents=True, exist_ok=True)
+    Path(f'ubuntu/dists/{UBUNTU_CODENAME}/main/binary-amd64').mkdir(parents=True, exist_ok=True)
 
     with open("ubuntu/KEY.gpg", 'wb') as key_file:
         key = subprocess.check_output(
@@ -226,16 +205,16 @@ def init_ubuntu_folder():
         key_file.write(key)
 
     for deb_file in glob.glob(r'temp/*.deb'):
-        shutil.move(deb_file, "ubuntu/dists/jammy/main/binary-amd64")
+        shutil.move(deb_file, f"ubuntu/dists/{UBUNTU_CODENAME}/main/binary-amd64")
 
     os.chdir("ubuntu")
 
-    with open("dists/jammy/main/binary-amd64/Packages", 'wb') as package_file:
+    with open(f"dists/{UBUNTU_CODENAME}/main/binary-amd64/Packages", 'wb') as package_file:
         packages = subprocess.check_output(
-            "dpkg-scanpackages --multiversion dists/jammy/main/binary-amd64", shell=True)
+            f"dpkg-scanpackages --multiversion dists/{UBUNTU_CODENAME}/main/binary-amd64", shell=True)
         package_file.write(packages)
 
-    os.chdir("dists/jammy")
+    os.chdir(f"dists/{UBUNTU_CODENAME}")
 
     with open("main/binary-amd64/Packages.gz", 'wb') as file:
         output = subprocess.check_output(
@@ -244,11 +223,11 @@ def init_ubuntu_folder():
 
     with open("main/binary-amd64/Release", 'w') as file:
         file.write(
-            "Archive: jammy\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64")
+            f"Archive: {UBUNTU_CODENAME}\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64")
 
     with open("ftp_release.conf", 'w') as file:
         file.write(
-            "APT::FTPArchive::Release{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"jammy\";\nCodename \"jammy\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu Jammy 22.04\";\n};")
+            f"APT::FTPArchive::Release{{\nOrigin \"ubuntu\";\nLabel \"ubuntu\";\nSuite \"{UBUNTU_CODENAME}\";\nCodename \"{UBUNTU_CODENAME}\";\nArchitectures \"amd64\";\nComponents \"main\";\nDescription \"Ubuntu {UBUNTU_CODENAME} {UBUNTU_VERSION}\";\n}};")
 
     with open("Release", 'wb') as file:
         output = subprocess.check_output(
@@ -268,29 +247,4 @@ def init_ubuntu_folder():
 
     with open("appcove-developer-software.list", 'w') as file:
         file.write(
-            "deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu jammy main")
-
-
-# creates a temp folder in which to be built dep packages are compiled and built
-# a package is built only if it is not cached, and the cache is a file in
-# the website branch with the already built packages and their related SHA.
-def BuildAll():
-    Path(f'temp').mkdir(parents=True, exist_ok=True)
-    cached_submodules_hashes = Package.get_cached_tools()
-    for package_class in PackageMap.values():
-        # Create instance
-        package = package_class()
-        if package.is_cached(cached_submodules_hashes):
-            print(f"########## [✅] - {package.package_name} from cache")
-            subprocess.check_output(
-                f"git checkout remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 -- $(git ls-tree --name-only -r remotes/origin/website:ubuntu/dists/jammy/main/binary-amd64 | egrep -e '^.*{package.package_name}.*.deb$')", shell=True)
-            for deb_file in glob.glob(r'*.deb'):
-                shutil.move(deb_file, "temp")
-        else:
-            print(f"########## [🔨] - {package.package_name} Building...")
-            cached_submodules_hashes[package.package_name] = Package.get_current_submodule_hash(
-                package.package_name)
-            package.build()
-
-    with open(r'cache.yaml', 'w+', encoding='utf8') as cache_file:
-        yaml.dump(cached_submodules_hashes, cache_file)
+            f"deb [arch=amd64, signed-by=/usr/share/keyrings/appcove-developer-software.gpg] https://appcove.github.io/developer-software/ubuntu {UBUNTU_CODENAME} main")
