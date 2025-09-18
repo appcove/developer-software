@@ -16,7 +16,7 @@ Packages = {}
 
 # Ubuntu Version Constants
 UBUNTU_VERSION = "24.04"
-UBUNTU_CODENAME = "noble"
+UBUNTU_CODENAME = "stable"
 
 class Package(object):
     package_name = None
@@ -104,31 +104,14 @@ class RustPackage(Package):
         write_control_file(BUILD_FOLDER, self)
         create_deb_package(f"{BUILD_FOLDER}")
 
-class Release(Package):
+class InstallAll(Package):
     def build(self):
         BUILD_FOLDER = f"build/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # add path to bins
         Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
-        with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
+        with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-path-modify.sh', "w") as release_file:
             release_file.write("export PATH=\"$PATH:/opt/ads/bin\"")
-
-        # add key and list file
-        Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-        with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
-            release_file.write("""
-curl -s --compressed "https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
-sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list \"https://raw.githubusercontent.com/appcove/developer-software/refs/heads/website/ubuntu/dists/jammy/appcove-developer-software.list\"""")
-
-        Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
-        write_control_file(BUILD_FOLDER, self)
-        os.chmod(f'{BUILD_FOLDER}/DEBIAN/postinst', 0o775)
-
-        create_deb_package(f"{BUILD_FOLDER}")
-
-class InstallAll(Package):
-    def build(self):
-        BUILD_FOLDER = f"build/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
@@ -213,7 +196,7 @@ def init_ubuntu_folder():
 
     with open("main/binary-amd64/Release", 'w') as file:
         file.write(
-            f"Archive: {UBUNTU_CODENAME}\nVersion: 22.04\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64")
+            f"Archive: {UBUNTU_CODENAME}\nVersion: {UBUNTU_VERSION}\nComponent: main\nOrigin: Ubuntu\nLabel: Ubuntu\nArchitecture: amd64")
 
     with open("ftp_release.conf", 'w') as file:
         file.write(

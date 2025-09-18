@@ -1,4 +1,10 @@
-from common import RustPackage, InstallAll, Release, Tool
+from common import RustPackage, InstallAll, Tool
+
+class everything(InstallAll, Tool):
+    version = "1.1.0"
+    depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
+    homepage = "https://github.com/appcove/developer-software"
+    description = "This package install all the available tools in AppcoveDevSoftware"
 
 # Tool Packages
 class bat(RustPackage, Tool):
@@ -89,17 +95,3 @@ class jaq(RustPackage, Tool):
     version = "2.3.0"
     homepage = "https://github.com/01mf02/jaq"
     description = "Just another JSON query tool "
-
-
-# Meta-Pacakges
-class everything(InstallAll, Tool):
-    version = "1.1.0"
-    depends = "fzf, jq, tig, git, git-lfs, sshfs, vim, rsync, curl, tree"
-    homepage = "https://github.com/appcove/developer-software"
-    description = "This package install all the available tools in AppcoveDevSoftware"
-
-class release(Release, Tool):
-    package_name = 'release'
-    version = "1.1.0"
-    homepage = "https://github.com/appcove/developer-software"
-    description = "This package install neccesary files for AppcoveDevSoftware"

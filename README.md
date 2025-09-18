@@ -11,16 +11,19 @@ Install needed programs
 sudo apt install -y curl gpg
 ```
 
-Download of the key and `source.list`
+Download `appcove-developer-software.list` and add to your package source. Then download and install the necessary GPG key to verify packages.
+
 ``` bash
-curl -sLO https://appcove.github.io/developer-software/ubuntu/dists/jammy/main/binary-amd64/ads-release_1.0.1custom22.04_amd64.deb
-sudo dpkg -i ads-release_1.0.1custom22.04_amd64.deb
+sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/stable/appcove-developer-software.list"
+
+curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/appcove-developer-software.gpg
+
 sudo apt update
 ```
+
 ❗**Log out and log back in for systemwide changes to be applied**, then try to install one of our tools: `sudo apt install git-excess`
 
-
-Install everything: 
+Install everything:
 ```
 sudo apt install ads-everything
 ```
@@ -30,7 +33,7 @@ sudo apt install ads-everything
 sudo apt list "ads-*"
 ```
 Should output
-- ads-release - This package installs the needed files for the PPA to work correctly
+- [ads-everything] - Meta-package that adds `/opt/ads/bin` to $PATH and installs all other `ads-*` packages as dependencies.
 - [ads-git-excess](https://github.com/appcove/git-excess)
 - [ads-pastel](https://github.com/sharkdp/pastel)
 - [ads-fd](https://github.com/sharkdp/fd)
@@ -47,7 +50,7 @@ Should output
 - [ads-et](https://github.com/solidiquis/erdtree) - A modern, vibrant, and multi-threaded file-tree visualizer and disk usage analyzer
 - [ads-delta](https://github.com/dandavison/delta) - Modern CLI git diff analizer (requires manual setup LOOK BELOW)
 
-# Examples 
+# Examples
 <details><summary>fd</summary>
 
 ![fd-example](doc/fd-example.svg)
@@ -58,7 +61,7 @@ Should output
 
 ![bat-example](doc/bat-example.png)
 
-``` bash 
+``` bash
 bat src/*.rs # show multiple files at once
 bat header.md content.md footer.md > document.md
 bat -n main.rs  # show line numbers (only)
@@ -70,7 +73,7 @@ bat -n main.rs  # show line numbers (only)
 <details><summary>procs</summary>
 
 
-``` bash 
+``` bash
 procs # list all processes
 procs <executable>  # `procs chrome` list all processes of application
 procs --tree
@@ -110,7 +113,7 @@ procs --tree
 
 ![dust example](doc/dust-example.png)
 
-``` shell 
+``` shell
 Usage: dust
 Usage: dust <dir>
 Usage: dust <dir>  <another_dir> <and_more>
@@ -160,7 +163,7 @@ Install it and then add this to your `~/.gitconfig`:
 ```
 
 </details>
-   
-   
+
+
 
 
