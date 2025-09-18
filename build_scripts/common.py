@@ -77,14 +77,14 @@ class Package(object):
 # Rust Packages insalled from crates.io using the `cargo install` command
 class RustPackage(Package):
     def build(self):
-        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
+        BUILD_FOLDER = f"build/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # cargo-install
-        commands = ["cargo", "install", "--locked", "--quiet", f"{self.package_name}@{self.version}", "--root", "temp/cargo-install"]
+        commands = ["cargo", "install", "--locked", "--quiet", f"{self.package_name}@{self.version}", "--root", "build/cargo-install"]
 
         # sources from a git repository
         if self.git:
-            commands = ["cargo", "install", "--locked", "--quiet", "--git", self.git, "--root", "temp/cargo-install", *self.binaries]
+            commands = ["cargo", "install", "--locked", "--quiet", "--git", self.git, "--root", "build/cargo-install", *self.binaries]
             pass
 
         # let's gooo
@@ -97,7 +97,7 @@ class RustPackage(Package):
         # Write out binaries
         print(f"[*] Copying binaries - [{", ".join(self.binaries)}]")
         for bin in self.binaries:
-            path = f"temp/cargo-install/bin/{bin}"
+            path = f"build/cargo-install/bin/{bin}"
             shutil.copy(path, target_folder)
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
@@ -106,14 +106,14 @@ class RustPackage(Package):
 
 class Release(Package):
     def build(self):
-        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
+        BUILD_FOLDER = f"build/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         # add path to bins
         Path(f'./{BUILD_FOLDER}/etc/profile.d').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/etc/profile.d/10-ads-release.sh', "w") as release_file:
             release_file.write("export PATH=\"$PATH:/opt/ads/bin\"")
 
-            # add key and list file
+        # add key and list file
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
             release_file.write("""
@@ -128,7 +128,7 @@ sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.
 
 class InstallAll(Package):
     def build(self):
-        BUILD_FOLDER = f"temp/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
+        BUILD_FOLDER = f"build/ads-{self.package_name}_{self.version}custom{UBUNTU_VERSION}_{self.arch}"
 
         Path(f'{BUILD_FOLDER}/DEBIAN').mkdir(parents=True, exist_ok=True)
         with open(f'{BUILD_FOLDER}/DEBIAN/postinst', "w") as release_file:
@@ -149,7 +149,7 @@ def write_control_file(path, package_info: Package):
     Path(f"{path}/DEBIAN").mkdir(parents=True, exist_ok=True)
 
     print(f"[*] Writing Control File - {path}/DEBIAN/control")
-    with open(f"{path}/DEBIAN/control", 'x') as f:
+    with open(f"{path}/DEBIAN/control", 'w') as f:
         f.write(f'Package: ads-{package_info.package_name}\n')
         f.write(f'Version: {package_info.version}custom{UBUNTU_VERSION}\n')
         f.write(f'Maintainer: {package_info.maintainer}\n')
@@ -162,18 +162,17 @@ def write_control_file(path, package_info: Package):
 # after creating all the neccessary folder stucture this command build a deb package from the path
 def create_deb_package(path):
     try:
-        subprocess.check_output(
-            f"dpkg --build {path}", shell=True, stderr=STDOUT)
+        print(f"[*] Creating .deb package - {path}")
+        subprocess.check_output(f"dpkg --build {path}", shell=True, stderr=STDOUT)
     except CalledProcessError as exc:
         print(exc.output)
         raise exc
 
 
-# creates a temp folder in which to be built Debian packages are compiled and build
+# create build folder and compile packages into it
 def build_packages():
-    # Create `temp` directory
-    temp = Path(f'temp')
-    temp.mkdir(parents=True, exist_ok=True)
+    # Create `build` directory
+    Path(f'build').mkdir(parents=True, exist_ok=True)
 
     # Build All
     for package_class in Packages.values():
@@ -183,10 +182,6 @@ def build_packages():
         # Build
         print(f"[🔨] Building Package: {package.package_name}")
         package.build()
-
-    # Delete Temp Folder
-    shutil.rmtree(temp)
-
 
 # creates the structure used by APT to work
 def init_ubuntu_folder():
@@ -199,7 +194,7 @@ def init_ubuntu_folder():
             "gpg --armor --export \"developer-software@appcove.com\"", shell=True)
         key_file.write(key)
 
-    for deb_file in glob.glob(r'temp/*.deb'):
+    for deb_file in glob.glob(r'build/*.deb'):
         shutil.move(deb_file, f"ubuntu/dists/{UBUNTU_CODENAME}/main/binary-amd64")
 
     os.chdir("ubuntu")

@@ -30,7 +30,7 @@ jobs:
       - name: Execute Python Package Builder
         run: |
           python3 -u build_scripts/main.py
-          tree .
+          pwd && tree .
 
       - name: Commit files
         run: |
