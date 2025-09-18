@@ -27,11 +27,20 @@ Install everything:
 ```
 sudo apt install ads-everything
 ```
+
+To Uninstall the packages, and remove the repository:
+
+```
+sudo apt-get purge --auto-remove ads-everything
+sudo rm /etc/apt/sources.list.d/appcove-developer-software.list /usr/share/keyrings/appcove-developer-software.gpg
+```
+
 ### List of available Packages after installation
 
 ``` bash
 sudo apt list "ads-*"
 ```
+
 Should output
 - [ads-everything] - Meta-package that adds `/opt/ads/bin` to $PATH and installs all other `ads-*` packages as dependencies.
 - [ads-git-excess](https://github.com/appcove/git-excess)
