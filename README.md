@@ -1,17 +1,26 @@
-![Build status](https://img.shields.io/github/workflow/status/appcove/developer-software/Build%20the%20sources/master?style=for-the-badge)
-![Licence](https://img.shields.io/github/license/appcove/developer-software?style=for-the-badge)
-# Appcove Developer Software
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/appcove/developer-software/build_sources.yml)
+
+## Appcove Developer Software
+
 This custom Debian PPA is used by AppCove to build and share all the in-house built power tools
---
 
-## Installation
+### 📥 Installation
 
-Install needed programs
+Install `curl` and `gpg` as pre-requisites:
+
 ``` bash
 sudo apt install -y curl gpg
 ```
 
-Download `appcove-developer-software.list` and add to your package source. Then download and install the necessary GPG key to verify packages.
+Skip this step if this is your first time installing any `ads-*` software. Otherwise, you'll need to uninstall any packages you had installed previously. This is to avoid conflicts with recently renamed packages, as they'd point to the same file path as old packages:
+
+```
+sudo apt remove ads-everything ads-release
+```
+
+---
+
+Download `appcove-developer-software.list` and add to your package sources, then download and install the necessary GPG key to verify packages.
 
 ``` bash
 sudo curl -s --compressed -o /etc/apt/sources.list.d/appcove-developer-software.list "https://appcove.github.io/developer-software/ubuntu/dists/stable/appcove-developer-software.list"
@@ -21,21 +30,33 @@ curl -s --compressed "https://appcove.github.io/developer-software/ubuntu/KEY.gp
 sudo apt update
 ```
 
-❗**Log out and log back in for systemwide changes to be applied**, then try to install one of our tools: `sudo apt install git-excess`
+**Log out** and log back in for any system changes to be applied, then install any tools you need:
 
-Install everything:
+```
+sudo apt install git-excess
+```
+
+To install everything:
+
 ```
 sudo apt install ads-everything
 ```
 
-To Uninstall the packages, and remove the repository:
+### 📤 Package uninstallation and Repository Removal
+
+Simply invoke `apt` to remove any un-needed packages. To remove the repository, execute the following commands"
 
 ```
-sudo apt-get purge --auto-remove ads-everything
 sudo rm /etc/apt/sources.list.d/appcove-developer-software.list /usr/share/keyrings/appcove-developer-software.gpg
 ```
 
-### List of available Packages after installation
+To remove everything:
+
+```
+sudo apt-get purge --auto-remove ads-everything
+```
+
+### 📃 List of available Packages after installation
 
 ``` bash
 sudo apt list "ads-*"
@@ -43,10 +64,10 @@ sudo apt list "ads-*"
 
 Should output
 - [ads-everything] - Meta-package that adds `/opt/ads/bin` to $PATH and installs all other `ads-*` packages as dependencies.
-- [ads-git-excess](https://github.com/appcove/git-excess)
-- [ads-pastel](https://github.com/sharkdp/pastel)
-- [ads-fd](https://github.com/sharkdp/fd)
-- [ads-bat](https://github.com/sharkdp/bat)
+- [ads-git-excess](https://github.com/appcove/git-excess): Extra git tooling, developer by Appcove.
+- [ads-pastel](https://github.com/sharkdp/pastel):  A command-line tool to generate, analyze, convert and manipulate colors.
+- [ads-fd](https://github.com/sharkdp/fd):  A simple, fast and user-friendly alternative to 'find'.
+- [ads-bat](https://github.com/sharkdp/bat): A `cat` clone with wings.
 - [ads-procs](https://github.com/dalance/procs) - Replacement for `ps` written in Rust.
 - [ads-grex](https://github.com/pemistahl/grex) - An intuitive regex generator meant to create expression based on user's input.
 - [ads-broot](https://github.com/Canop/broot) - Navigate directories and list content in a tree, with a lot of additional features.
