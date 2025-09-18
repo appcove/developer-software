@@ -1,0 +1,28 @@
+Architectures: amd64
+Codename: stable
+Components: main
+Date: Thu, 18 Sep 2025 18:34:37 +0000
+Description: Ubuntu stable 24.04
+Label: ubuntu
+Origin: ubuntu
+Suite: stable
+MD5Sum:
+ d41d8cd98f00b204e9800998ecf8427e                0 Release
+ a48158d8532b5771a5b6fabf51317367             8569 main/binary-amd64/Packages
+ 5d7736c74dc9c4e2e74a37ad3554e532             3200 main/binary-amd64/Packages.gz
+ 2670813280c84a6fcae0ed79dc829cd1               95 main/binary-amd64/Release
+SHA1:
+ da39a3ee5e6b4b0d3255bfef95601890afd80709                0 Release
+ 832626882fcef126b59d17f5e08d4bd254de6158             8569 main/binary-amd64/Packages
+ 3a15bd6ddf9c7a5dbf80f62181310001fdfd17ae             3200 main/binary-amd64/Packages.gz
+ 5e359e689e93c6e17799ff168505cafd7e5c27ff               95 main/binary-amd64/Release
+SHA256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855                0 Release
+ eddea9d34fc5112fd9e55fc7688576a6cd3e69175972dda753e50e5eb35912a1             8569 main/binary-amd64/Packages
+ 9fe0c3aaa77aafa0838bd970a3a79c89e6beb730cb8297674547c5ac19fc8838             3200 main/binary-amd64/Packages.gz
+ 6ab12ebe941146f1eec6d016bc3314321ea09d84bd1ea32d4990480e7860e182               95 main/binary-amd64/Release
+SHA512:
+ cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e                0 Release
+ 151cfce24ec549ccca622f565e9d8f53151e648be1cf038ce23824d4ebf8f20fedc3087716534b4abc32615a53e24e9966f244d4e3f816dd41ac71b855171984             8569 main/binary-amd64/Packages
+ 5c72bba122029efd2f1d59742639fe425474f1795a9888ffb0ed3e2cd4a54272879c3831543b8ae7ded2a9591538b4ae1440955253081fbdc65ffb2e6b3a4d82             3200 main/binary-amd64/Packages.gz
+ 86d1f29a6d8a3ea86cf83f4daecbe58cd6035a03dbc6a90a78f4c7e80dd3198f9fdc686c031460c71547d05adca8c03e8c1f87338db5f338f3d7296b34f7718d               95 main/binary-amd64/Release
